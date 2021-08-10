@@ -65,7 +65,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
              <?php include "include/counter.php"; ?>
          </div>
          <div id="iContent" class="col-md-9 col-sm-12 mt-2 pr-0">         
-         <div class="card-body p-2"><?php include "include/menuslide.php"; ?></div>
+         <div class="card-body p-0"><?php include "include/menuslide.php"; ?></div>
             <div class="card">
             <?php include "include/trangchu.php"; ?>
             </div>
