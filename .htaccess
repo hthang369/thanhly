@@ -1,0 +1,23 @@
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule thong-tin-san-pham$ /index.php?b=ttsanpham [L]
+RewriteRule khuyen-mai$ /index.php?b= [L]
+RewriteRule thanh-vien$ /index.php?b= [L]
+RewriteRule gioi-thieu$ /index.php?b=gt [L]
+RewriteRule bao-gia$ /index.php?b=bgia [L]
+RewriteRule lien-he$ /index.php?b=lh [L]
+RewriteRule tin-tuc/(.*)$ /index.php?b=tintuc&idtt=$1 [L]
+RewriteRule tin-tuc$ /index.php?b=dstin [L]
+RewriteRule danh-muc/(.*).html$ /index.php?b=lsp&idl=$1 [L]
+RewriteRule san-pham/(.*).html$ /index.php?b=ctsp&idsp=$1 [L]
+RewriteRule tim-kiem$ /index.php?b=tkiem [L]
+RewriteRule dich-vu/(.*).html$ /index.php?b=bv&idbv=$1 [L]
+
+ErrorDocument 404 /notfound.php
+ErrorDocument 403 /forbidden.php
+ErrorDocument 500 /error.php
+
+

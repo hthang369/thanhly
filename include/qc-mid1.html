@@ -1,0 +1,91 @@
+<script type="text/javascript" src="js/jqueryqc.js"></script>
+
+<style type="text/css">
+#floating
+{
+z-index: 450;
+position: absolute;
+width: 750px;
+height: 400px;
+}
+#overPage
+{
+background: black;
+z-index: 350;
+position: absolute;
+left: 0;
+top: 0;
+}
+</style>
+
+<div id="ctl00_ContentPlaceHolder1_Adv_Popup_pnAdv">
+<div id="overPage">
+</div>
+<div id="floating">
+<img src="images/quangcao/chuctet2014.jpg" width="750" height="400" usemap="#offline"
+border="0" style="cursor: pointer" /></div>
+<map name="offline">
+<area shape="rect" coords="420,0,490,30" onclick="javascript:closeMe();" alt="Close"
+style="cursor: pointer" />
+<area shape="rect" coords="0,30,490,330" href="link trỏ đến " target="_blank" onclick="javascript:closeMe();" style="cursor: pointer" />
+</map>
+<script language="javascript" type="text/javascript">
+var lastScroll;
+var delay = 30;
+var speed = 500;
+var img_w = 750;
+var img_h = 400;
+function centerIt() {
+$("#overPage").css("width", $(window).width());
+$("#overPage").css("height", $(document).height());
+$("#floating").css("left", $(window).width() / 2 - img_w / 2);
+$("#floating").css("top", $(window).height() / 2 - img_h / 2 + $(document).scrollTop());
+}
+$(document).ready(function() {
+$("#overPage").css("opacity", 0.7);
+$("#overPage,#floating").show();
+centerIt();
+});
+$(window).scroll(function() {
+setTimeout(function() { ani(); }, delay);
+lastScroll = new Date().getTime();
+});
+$(window).resize(function() {
+centerIt();
+});
+function ani() {
+if ((new Date().getTime() - lastScroll) >= (delay - 20)) {
+$("#floating").animate({ top: ($(window).height() / 2 - img_h / 2 + $(document).scrollTop()) }, speed);
+}
+}
+function closeMe() {
+$("#overPage,#floating").hide();
+}
+</script>
+</div>
+</div>
+
+<div id="quangcaochan" style="width:0px;height:0px;position:fixed;background-color:white;z-index:100">
+<script>      
+  var cookie_quangcaochan = SVIT_ADS_GetCookie('dj247net_quangcaochan_info');      
+  if (cookie_quangcaochan != '')         
+{           
+ $("#quangcaochan").css('display','none');           
+ $("#quangcaochan").html('');        
+}   
+ </script>    
+<a id='tatquangcaochan' style="float:right;color:grey;cursor:pointer">Tắt quảng cáo (X)</a>   
+ <a href="http://domain lick baner sẽ đến" target="_blank"><img src="http://doamin/banner.png" width="440px" height="280px"/></a>   
+<script>        
+var w = $(window).width()/2 - 320;       
+ var h = $(window).height()/2 - 240;      
+  $("#quangcaochan").css({'top':h,'left':w,'width':'640px','height':'480px','z-index':'100000'});        $("#tatquangcaochan").click(function()
+{           
+ $("#quangcaochan").html('');            
+$("#quangcaochan").css('display','none');           
+ var Time_expires = 60*60*10*1000;           
+ SVIT_ADS_SetCookie('dj247net_quangcaochan_info','true',Time_expires);       
+ });   
+ </script>    
+</div> 
+</div>
