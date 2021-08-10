@@ -57,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
    </nav>
    <content class="d-block container">
       <div class="row">
-      <div id="iLeftmenu" class="col-3 d-none d-sm-block p-0 mt-2">
+      <div id="iLeftmenu" class="col-3 d-none d-sm-block p-0 mt-2 text-light">
             <?php include "include/menuleft.php"; ?>   
             <?php include "include/menusp.php"; ?>
             <?php include "include/menu-sptb.php"; ?>

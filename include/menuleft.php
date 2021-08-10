@@ -8,7 +8,7 @@
 	while($bv=mysql_fetch_array($result))
 	{
    ?>
-    <li class="nav-item">
+    <li class="nav-item border">
       <a class="nav-link Width 25%" href="dich-vu/<?=khongdau($bv[1]);?>-<?php echo $bv[0]?>.html"><?php echo $bv[1];?></a>
     </li>
     <?php } ?>
