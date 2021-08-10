@@ -4,9 +4,9 @@ class DBConnect
 {
     private $conn;
     private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dataabase = 'suamaytinhvnn';
+    private $user = 'u845651399_thanhly';
+    private $pass = 'c[8J3UbfRK*l';
+    private $dataabase = 'u845651399_thumua';
     private $charset = 'utf8';
 
     public function __construct()
