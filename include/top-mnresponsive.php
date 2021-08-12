@@ -42,7 +42,10 @@ $result = mysql_query("select * from baiviet") or die ("lỗi bài viết");
       <li class="nav-item ">
         <a class="nav-link <?php echo $activeLH; ?> " href="lien-he">LIÊN HỆ VỚI CHÚNG TÔI </a>
       </li>
-     
-    </ul>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
   </div>
 </nav>
