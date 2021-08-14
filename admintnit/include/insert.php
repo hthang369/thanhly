@@ -9,7 +9,7 @@ $('#nhomsp').change(function(){
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="ckeditor/ckeditor.js"></script>
-<div class="inserttop">Thêm sản phẩm</div>
+<div class="inserttop">THÊM SẢN PHẨM</div>
 <div class="insertcen">
 <form action="include/xl_insert.php?act=insp" method="post" enctype="multipart/form-data" name="form1" id="form1">
 <table>

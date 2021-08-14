@@ -1,10 +1,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<div id="inserttop">Thêm nhóm sp</div>
+<div id="inserttop">THÊM NHÓM SẢN PHẨM</div>
 <div id="insertcen">
 <form action="include/xl_insert.php?act=innsp" method="post" enctype="multipart/form-data" name="form1" target="_blank" id="form1">
 <table>
   <tr>
-    <td>Nhóm sản phẩm:</td>
+    <td>TÊN NHÓM SẢN PHẨM</td>
     <td><input type="text" name="nhomsp" /></td>
   </tr>
   

@@ -1,5 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php  include "../connect.php";
+<?php  include "../../connect.php";
 function insert_sp()
 {
 	$loaisp=$_POST["loaisp"];

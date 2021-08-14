@@ -13,7 +13,7 @@
 	});
 
 	</script> 
-<div class="inserttop">Thêm tin tức</div>
+<div class="inserttop">THÊM TIN TỨC</div>
 <div class="insertcen">
 <form name="form1" method="post" action="include/xl_insert.php?act=intt" enctype="multipart/form-data">
   <table width="80%" align="center" cellpadding="0" cellspacing="0">

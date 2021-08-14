@@ -12,7 +12,7 @@
 	});
 	</script> 
 <script src="ckeditor/ckeditor.js"></script>    
-<div class="inserttop">Thêm bài viết cho danh mục</div>
+<div class="inserttop">THÊM BÀI VIẾT</div>
 <div class="insertcen">
 <form action="include/xl_insert.php?act=insanphamhome" method="post" enctype="multipart/form-data" name="form1" id="form1" target="_blank">
 <table>

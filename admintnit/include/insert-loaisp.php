@@ -1,4 +1,4 @@
-<?php include"connect.php";?>
+<?php include"../connect.php";?>
 <div class="inserttop">Thêm loại sản phẩm</div>
 <div class="insertcen">
 <form action="include/xl_insert.php?act=inlsp" method="post" enctype="multipart/form-data" name="form1" target="_blank" id="form1">
