@@ -1,0 +1,24 @@
+<div id="quangcaochan" style="width:0px;height:0px;position:fixed; z-index:100">
+<script>      
+  var cookie_quangcaochan = SVIT_ADS_GetCookie('dj247net_quangcaochan_info');      
+  if (cookie_quangcaochan != '')         
+{           
+ $("#quangcaochan").css('display','none');           
+ $("#quangcaochan").html('');        
+}   
+ </script>    
+<a id='tatquangcaochan' style="float:right; color:#F00; background-color:#9F0; cursor:pointer">Tắt(X)</a>   
+ <a href="http://suamayvitinh.net"><img src="images/quangcao/chuctet2014.jpg" width="760px" height="450px"/></a>   
+<script>        
+var w = $(window).width()/2 - 360;       
+ var h = $(window).height()/2 - 240;      
+  $("#quangcaochan").css({'top':h,'left':w,'width':'640px','height':'480px','z-index':'100000'});        
+  $("#tatquangcaochan").click(function()
+{           
+ $("#quangcaochan").html('');            
+$("#quangcaochan").css('display','none');           
+ var Time_expires = 60*60*10*1000;           
+ SVIT_ADS_SetCookie('dj247net_quangcaochan_info','true',Time_expires);       
+ });   
+ </script>    
+</div> 

@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+#ibanner {
+	width: 100%;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+#iLeftmenu .card-header {
+	/* background-image: url(''); */
+}
+#iLeftmenu {
+	max-width: 22% !important;
+}
+#iContent {
+	max-width: 78% !important;
+	flex-basis: 78% !important;
+}
+/*#ilogo{
+	background-color:#3FF !important;
+	}*/

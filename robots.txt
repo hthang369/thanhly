@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admintnit/
+Disallow: /cgi-bin/
+
+Sitemap: http://suamaytinhvnn.com/sitemap.xml
