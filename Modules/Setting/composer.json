@@ -1,0 +1,23 @@
+{
+    "name": "lampart/setting",
+    "description": "",
+    "authors": [
+        {
+            "name": "lampart",
+            "email": "admin@lampart-vn.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Setting\\": ""
+        }
+    }
+}

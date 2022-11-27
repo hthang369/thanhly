@@ -1,0 +1,101 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+$header-height: 55px;
+/*!
+* Extra small devices (portrait phones, less than 576px)
+*/
+@include media-breakpoint-down('sm') {
+    .table-action {
+        width: 20%;
+    }
+}
+/*!
+* Small devices (landscape phones, 576px and up)
+*/
+@include media-breakpoint-between('sm', 'md') {
+    .table-action {
+        width: 20%;
+    }
+}
+
+/*!
+* Medium devices (tablets, 768px and up)
+* Large devices (desktops, 992px and up)
+*/
+@include media-breakpoint-between('md', 'xl') {
+    .table-action {
+        width: 17%;
+    }
+}
+/*!
+* Extra large devices (large desktops, 1200px and up)
+*/
+@include media-breakpoint-up('xl') {
+    .table-action {
+        width: 12%;
+    }
+}
+
+/*!
+* Common
+*/
+.menu-struct {
+    ol {
+        list-style: none;
+    }
+    .ui-sortable {
+        padding-left: 2rem;
+        .nav-link {
+            border: 1px solid #898989;
+            background-color: rgba($color: #333839, $alpha: 0.5);
+            span {
+                cursor: move;
+            }
+        }
+        .highlight {
+            outline: 1px dashed #898989;
+        }
+    }
+}
+#popupToast {
+    left: inherit;
+    z-index: 9999;
+}
+.wather {
+    background: url('/storage/images/tp-ho-chi-minh.jpg');
+    background-size: contain;
+    height: 225px;
+    color: #000 !important;
+    .avatar {
+        width: 35px;
+    }
+}
+
+.table-wrapper {
+    .sticky-table {
+      top: $header-height;
+      overflow-x: hidden;
+      z-index: 1;
+      table {
+        margin-bottom: 0;
+        background-color: #fff;
+      }
+    }
+    .content-table {
+      margin-bottom: 0;
+      thead {
+        tr {
+          &:first-child {
+            visibility: collapse;
+          }
+        }
+      }
+      td {
+        padding: 0.5rem;
+      }
+      .table-index {
+        width: 4%;
+    }
+    }
+}

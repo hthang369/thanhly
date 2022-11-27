@@ -1,0 +1,1 @@
+require('devextreme/dist/js/dx.all');

@@ -1,0 +1,50 @@
+/*!
+* Template Name: MyBiz - v2.2.1
+* Template URL: https://bootstrapmade.com/mybiz-free-business-bootstrap-theme/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*!
+* --------------------------------------------------------------
+* # General
+* --------------------------------------------------------------
+*/body{font-family:Open Sans,sans-serif;color:#444;font-size:.89rem}h1,h2,h3,h4,h5,h6{font-family:Raleway,sans-serif}a{color:#01b1d7}a:hover{color:#0dd3fe;text-decoration:none}@media (min-width:768px){#iLeftmenu{max-width:22%!important}#iContent{max-width:78%!important;flex-basis:78%!important}.container-lg{max-width:calc(85% + 30px)}}@media (max-width:767.98px){#cont img{width:100%!important}}
+
+/*!
+* --------------------------------------------------------------
+* # Back to top button
+* --------------------------------------------------------------
+*/.back-to-bottom,.back-to-top{position:fixed;visibility:hidden;opacity:0;right:15px;z-index:99999}.back-to-bottom.active,.back-to-top.active{visibility:visible;opacity:1}.back-to-bottom i,.back-to-top i{display:flex;align-items:center;justify-content:center;font-size:24px;width:40px;height:40px;border-radius:4px;background:#01b1d7;color:#fff;transition:all .4s}.back-to-bottom i:hover,.back-to-top i:hover{background:#03d1fe;color:#fff}.back-to-top{bottom:65px}.back-to-bottom{bottom:15px}
+
+/*!
+* --------------------------------------------------------------
+* # Header
+* --------------------------------------------------------------
+*/#ibanner{width:100%;background-repeat:no-repeat;background-size:100% 100%}.sticky-top{position:-webkit-sticky;position:sticky;top:0;z-index:1020}
+
+/*!
+* --------------------------------------------------------------
+* # Navigation Menu
+* --------------------------------------------------------------
+*/
+
+/*! Desktop Navigation */.nav-menu .drop-down ul a{padding:10px 20px;font-size:14px;font-weight:500;text-transform:none;color:#354144}@media (max-width:1366px){.nav-menu .drop-down .drop-down ul{left:-90%}.nav-menu .drop-down .drop-down:hover>ul{left:-100%}.nav-menu .drop-down .drop-down>a:after{content:"\EA9D"}}
+
+/*!
+* --------------------------------------------------------------
+* # Contact
+* --------------------------------------------------------------
+*/.contact .info-wrap{box-shadow:0 2px 15px rgba(0,0,0,.1);padding:30px}.contact .info{background:#fff}.contact .info i{font-size:24px;color:#01b1d7;float:left;width:48px;height:48px;background:#e2faff;display:flex;justify-content:center;align-items:center;border-radius:50px;transition:all .3s ease-in-out}.contact .info h4{padding:0 0 0 60px;font-size:22px;font-weight:600;margin-bottom:5px;color:#354144}.contact .info p{padding:0 0 0 60px;margin-bottom:0;font-size:14px;color:#62787d}.contact .info:hover i{background:#01b1d7;color:#fff}.contact .php-email-form{width:100%;box-shadow:0 0 24px 0 rgba(0,0,0,.12);padding:30px;background:#fff}.contact .php-email-form .form-group{padding-bottom:8px}.contact .php-email-form .validate{display:none;color:red;margin:0 0 15px;font-weight:400;font-size:13px}.contact .php-email-form .error-message{display:none;color:#fff;background:#ed3c0d;text-align:left;padding:15px}.contact .php-email-form .error-message br+br{margin-top:25px}.contact .php-email-form .sent-message{display:none;color:#fff;background:#18d26e;text-align:center;padding:15px;font-weight:600}.contact .php-email-form .loading{display:none;background:#fff;text-align:center;padding:15px}.contact .php-email-form .loading:before{content:"";display:inline-block;border-radius:50%;width:24px;height:24px;margin:0 10px -6px 0;border:3px solid #18d26e;border-top-color:#eee;-webkit-animation:animate-loading 1s linear infinite;animation:animate-loading 1s linear infinite}.contact .php-email-form input,.contact .php-email-form textarea{border-radius:0;box-shadow:none;font-size:14px}.contact .php-email-form input{height:44px}.contact .php-email-form textarea{padding:10px 12px}.contact .php-email-form button[type=submit]{background:#01b1d7;border:0;padding:10px 24px;color:#fff;transition:.4s;border-radius:4px}.contact .php-email-form button[type=submit]:hover{background:#0dd3fe}@-webkit-keyframes animate-loading{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes animate-loading{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+
+/*!
+* --------------------------------------------------------------
+* # Footer
+* --------------------------------------------------------------
+*/#footer{background:#1f2627;padding:0 0 30px;color:#fff;font-size:14px}#footer .footer-top{background:#2a3336;border-bottom:1px solid #354144;padding:60px 0 30px}#footer .footer-top .footer-info{margin-bottom:30px}#footer .footer-top .footer-info h3{font-size:24px;margin:0 0 20px;padding:2px 0;line-height:1;font-weight:700}#footer .footer-top .footer-info p{font-size:14px;line-height:24px;margin-bottom:0;font-family:Raleway,sans-serif;color:#fff}#footer .footer-top .social-links a{font-size:18px;display:inline-block;background:#354144;color:#fff;line-height:1;padding:8px 0;margin-right:4px;border-radius:5px;text-align:center;width:36px;height:36px;transition:.3s}#footer .footer-top .social-links a:hover{background:#01b1d7;color:#fff;text-decoration:none}#footer .footer-top h4{font-size:16px;font-weight:600;color:#fff;position:relative;padding-bottom:12px}#footer .footer-top .footer-links{margin-bottom:30px}#footer .footer-top .footer-links ul{list-style:none;padding:0;margin:0}#footer .footer-top .footer-links ul i{padding-right:2px;color:#40dcfe;font-size:18px;line-height:1}#footer .footer-top .footer-links ul li{display:flex;align-items:center}#footer .footer-top .footer-links ul li:first-child{padding-top:0}#footer .footer-top .footer-links ul li .active a{color:#27d8fe}#footer .footer-top .footer-links ul a{color:#fff;transition:.3s;display:inline-block;line-height:1}#footer .footer-top .footer-links ul a:hover{color:#27d8fe}#footer .footer-top .footer-newsletter form{margin-top:30px;background:#fff;padding:6px 10px;position:relative;border-radius:4px}#footer .footer-top .footer-newsletter form input[type=email]{border:0;padding:4px;width:calc(100% - 110px)}#footer .footer-top .footer-newsletter form input[type=submit]{position:absolute;top:0;right:-2px;bottom:0;border:0;background:none;font-size:16px;padding:0 20px;background:#01b1d7;color:#fff;transition:.3s;border-radius:0 5px 5px 0}#footer .footer-top .footer-newsletter form input[type=submit]:hover{background:#0187a4}#footer .copyright{text-align:center;padding-top:30px}#footer .credits{padding-top:10px;text-align:center;font-size:13px;color:#fff}
+
+/*!
+* --------------------------------------------------------------
+* # Content
+* --------------------------------------------------------------
+*/.img-wrapper{max-height:300px;overflow:hidden}.text-decoration-line{text-decoration:line-through}

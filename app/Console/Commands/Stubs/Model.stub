@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models\$FOLDERNAME$;
+
+use Laka\Core\Entities\BaseModel;
+
+class $NAME$ extends BaseModel
+{
+    protected $table = '$TABLENAME$';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'description', 'status'
+    ];
+
+    protected $fillableColumns = [
+        'id',
+        'name',
+        'description',
+        'status'
+    ];
+}

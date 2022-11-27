@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers\$FOLDERNAME$;
+
+use App\Http\Controllers\Core\CoreController;
+use App\Repositories\$FOLDERNAME$\$NAME$Repository;
+use App\Validators\$FOLDERNAME$\$NAME$Validator;
+
+/**
+ * Class $NAME$Controller
+ * @package App\Http\Controllers\$FOLDERNAME$
+ * @property $NAME$Repository $LOWER_NAME$Repository
+ */
+class $NAME$Controller extends CoreController
+{
+    protected $listViewName = [];
+
+    public function __construct($NAME$Validator $validator) {
+        parent::__construct($validator);
+
+        $this->repository = $this->factory->makeRepository($NAME$Repository::class);
+    }
+}

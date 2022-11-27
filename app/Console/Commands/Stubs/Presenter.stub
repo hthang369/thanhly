@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Presenters\$FOLDERNAME$;
+
+use App\Presenters\CoreGridPresenter;
+
+class $NAME$GridPresenter extends CoreGridPresenter
+{
+    protected function setColumns()
+    {
+        return [
+        ];
+    }
+}

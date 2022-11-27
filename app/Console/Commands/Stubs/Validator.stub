@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Validators\$FOLDERNAME$;
+
+use Laka\Core\Validators\BaseValidator;
+
+class $NAME$Validator extends BaseValidator
+{
+
+}

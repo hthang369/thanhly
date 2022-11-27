@@ -1,0 +1,14 @@
+.login-wrap .icon {
+  width: 5rem;
+  height: 5rem;
+}
+.login-wrap .icon span.fa {
+  font-size: 2rem;
+}
+.bg-dark .form-control {
+  background-color: #222;
+  caret-color: #fff;
+}
+.bg-dark input:-internal-autofill-selected {
+  caret-color: #222;
+}

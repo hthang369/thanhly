@@ -1,0 +1,20 @@
+/*!
+* Extra small devices (portrait phones, less than 576px)
+*/@media (max-width:575.98px){.table-action{width:20%}}
+
+/*!
+* Small devices (landscape phones, 576px and up)
+*/@media (min-width:576px) and (max-width:767.98px){.table-action{width:20%}}
+
+/*!
+* Medium devices (tablets, 768px and up)
+* Large devices (desktops, 992px and up)
+*/@media (min-width:768px) and (max-width:1199.98px){.table-action{width:17%}}
+
+/*!
+* Extra large devices (large desktops, 1200px and up)
+*/@media (min-width:1200px){.table-action{width:12%}}
+
+/*!
+* Common
+*/.menu-struct ol{list-style:none}.menu-struct .ui-sortable{padding-left:2rem}.menu-struct .ui-sortable .nav-link{border:1px solid #898989;background-color:rgba(51,56,57,.5)}.menu-struct .ui-sortable .nav-link span{cursor:move}.menu-struct .ui-sortable .highlight{outline:1px dashed #898989}#popupToast{left:inherit;z-index:9999}.wather{background:url(/storage/images/tp-ho-chi-minh.jpg);background-size:contain;height:225px;color:#000!important}.wather .avatar{width:35px}.table-wrapper .sticky-table{top:55px;overflow-x:hidden;z-index:1}.table-wrapper .sticky-table table{margin-bottom:0;background-color:#fff}.table-wrapper .content-table{margin-bottom:0}.table-wrapper .content-table thead tr:first-child{visibility:collapse}.table-wrapper .content-table td{padding:.5rem}.table-wrapper .content-table .table-index{width:4%}

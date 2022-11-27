@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Repositories\Filters;
+
+use Illuminate\Database\Eloquent\Builder;
+use Lampart\Hito\Core\Repositories\FilterQueryString\Filters\BaseClause;
+
+class Where$NAME$Clause extends BaseClause
+{
+    protected function apply($query): Builder
+    {
+        return $query;
+    }
+
+    protected function validate($value): bool
+    {
+        return !is_null($value);
+    }
+}
