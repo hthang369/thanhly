@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/forms";
 $header-height: 55px;
 /*!
 * Extra small devices (portrait phones, less than 576px)
@@ -76,7 +77,6 @@ $header-height: 55px;
     .sticky-table {
       top: $header-height;
       overflow-x: hidden;
-      z-index: 1;
       table {
         margin-bottom: 0;
         background-color: #fff;
@@ -99,3 +99,29 @@ $header-height: 55px;
     }
     }
 }
+@media (pointer: fine) {
+    :root {
+      --scrollbar-color: #8b8e92;
+      --scrollbar-bg: #ddd;
+    }
+  
+    @supports (scrollbar-width: thin) {
+      * {
+        scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg);
+        scrollbar-width: thin;
+      }
+    }
+  
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-color);
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-bg);
+      border-radius: 5px;
+    }
+  }

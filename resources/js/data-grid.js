@@ -79,10 +79,6 @@ function downloadFilePath(filePath) {
         return o;
     };
 
-    $.fn.modal = function (options) {
-        return new bootstrap.Modal(this, options);
-    }
-
     var toastr = {
         renderTitle: function renderTitle(title) {
             var $titleToast = $('<b />', { class: 'mr-auto toast-title' }).text(title);
@@ -341,7 +337,7 @@ function downloadFilePath(filePath) {
                     includeSelectAllOption: true,
                     numberDisplayed: _.get(params, 'numberDisplay'),
                     onInitialized: function (select, container) {
-                        $(container).find('.form-check-label').addClass('custom-control-label').removeClass('form-check-label');
+                        // $(container).find('.form-check-label').addClass('custom-control-label').removeClass('form-check-label');
                         if (_.has(params, 'onInitialized')) {
                             params.onInitialized.call(select, container);
                         }
@@ -353,6 +349,24 @@ function downloadFilePath(filePath) {
                     ];
                     callDoActionQuery(_.get(params, 'routeLink'), elelemts)
                 });
+            });
+        },
+        initMultiSelect: function (element, params, options) {
+            if (element.length < 1) return;
+
+            element.each(function (i, obj) {
+                $(obj).multiselect(_.merge({
+                    nonSelectedText: _.get(params, 'nonSelectedText'),
+                    selectAllText: _.get(params, 'selectAllText'),
+                    includeSelectAllOption: true,
+                    numberDisplayed: _.get(params, 'numberDisplay'),
+                    onInitialized: function (select, container) {
+                        // $(container).find('.form-check-label').addClass('custom-control-label').removeClass('form-check-label');
+                        if (_.has(params, 'onInitialized')) {
+                            params.onInitialized.call(select, container);
+                        }
+                    }
+                }, options));
             });
         }
     }
@@ -666,17 +680,18 @@ function downloadFilePath(filePath) {
         showFormValidationErrors: function showFormValidationErrors(response) {
             this.clearFormValidationErrors();
             $.each(response, function (key, value) {
-                let form = $('[name="'+key+'"]').parents('form');
+                let form = $('#modal_form');
                 let element = form.addClass('was-validated').find('[name="'+key+'"]:visible');
                 if (element.length > 0) {
                     let elementTarget = element[0].tagName == 'INPUT' ? element[0] : (element.find('input:visible')[0] || element.find('select')[0]);
-                    elementTarget.setCustomValidity(value);
+                    if (elementTarget)
+                        elementTarget.setCustomValidity(value);
                     $(element).addClass('is-invalid').next().html(value);
                 }
             });
         },
         clearFormValidationErrors: function clearFormValidationErrors() {
-            let formValid = $('.needs-validation');
+            let formValid = $('#modal_form');
             formValid.find('.form-control').each(function(key, item) {
                 $(item).removeClass('is-invalid').next().html('');
                 if (item.tagName == 'INPUT' || item.tagName == 'SELECT')
@@ -695,7 +710,7 @@ function downloadFilePath(filePath) {
             var data = new FormData(document.getElementById(formId));
             var textEditor = form.find('textarea');
             if (textEditor && typeof CKEDITOR != 'undefined') {
-                var ckeditorElement = CKEDITOR.instances[textEditor.attr('id')];
+                var ckeditorElement = CKEDITOR.instances[textEditor.attr('name')];
                 if (ckeditorElement) {
                     var textEditorData = ckeditorElement.getData();
                     data.set(textEditor.attr('name'), textEditorData);
@@ -800,7 +815,7 @@ function downloadFilePath(filePath) {
                             location.href = res.redirect;
                         }
                         // show the modal
-                        $('#bootstrap_modal').modal({ show: true });
+                        $('#bootstrap_modal').modal('show');
                         $('.modal-content').parent('div').addClass('modal-dialog-centered');
                         // alter size
                         if (modalSize) {
@@ -811,6 +826,7 @@ function downloadFilePath(filePath) {
                     // revert button to original content, once the modal is shown
                     modalDialog.on('shown.bs.modal', function (e) {
                         $(btn).html(btnHtml).removeAttr('disabled').removeClass('disabled');
+                        _grids.utils.initMultiSelect($('[data-toggle="multiple"]'))
                     });
 
                     // destroy the modal
@@ -887,8 +903,10 @@ function downloadFilePath(filePath) {
 
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
+            $('.header-logo').css('height', '80px');
             $('.back-to-top').addClass('active');
         } else {
+            $('.header-logo').css('height', '');
             $('.back-to-top').removeClass('active');
         }
     });
@@ -916,6 +934,8 @@ function downloadFilePath(filePath) {
         let filePath = $(this).data('file');
         downloadFilePath(filePath);
     });
+    
+    _grids.utils.initMultiSelect($('[data-toggle="multiple"]'))
 
     return _grids;
 })(jQuery);

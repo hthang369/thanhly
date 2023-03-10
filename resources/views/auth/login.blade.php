@@ -63,7 +63,7 @@
                             <div class="d-flex justify-content-between">
                                 <div class="custom-control custom-checkbox d-flex align-items-center">
                                     <input type="checkbox" class="custom-control-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="custom-control-label text-white" for="remember">{{ __('Remember Me') }}</label>
+                                    <label class="custom-control-label" for="remember">{{ __('Remember Me') }}</label>
                                 </div>
 
                                 @if (Route::has('password.request'))
