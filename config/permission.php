@@ -25,6 +25,9 @@ return [
         ['name'=> 'users', 'code' => 'users', 'url' => '', 'api' => 'users'],
         ['name'=> 'widget', 'code' => 'widget', 'url' => '', 'api' => 'widget'],
         ['name'=> 'contact', 'code' => 'contact', 'url' => '', 'api' => 'contact'],
+        ['name'=> 'tags', 'code' => 'tags', 'url' => '', 'api' => 'tags'],
+        ['name'=> 'attribute', 'code' => 'attribute', 'url' => '', 'api' => 'attribute'],
+        ['name'=> 'uoms', 'code' => 'uoms', 'url' => '', 'api' => 'uoms'],
     ],
     /*
      * permission actions
@@ -53,6 +56,10 @@ return [
         'role_has_permissions'     => ['view', 'add', 'edit', 'delete'],
         'users'                    => ['view', 'add', 'edit', 'delete'],
         'widget'                   => ['view', 'add', 'edit'],
+        'tags'                     => ['view', 'add', 'edit', 'delete'],
+        'attribute'                => ['view', 'add', 'edit', 'delete'],
+        'contact'                  => ['view', 'add', 'edit', 'delete'],
+        'uoms'                     => ['view', 'add', 'edit', 'delete'],
     ],
 
     'custom_section_action' => [
@@ -71,7 +78,8 @@ return [
         'destroy'   => 'delete',
         'download'  => 'download',
         'upload'    => 'upload',
-        'print'     => 'print'
+        'print'     => 'print',
+        'sort'      => 'edit'
     ],
     /*
      * Roles default

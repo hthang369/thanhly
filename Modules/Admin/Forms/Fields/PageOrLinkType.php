@@ -2,8 +2,7 @@
 
 namespace Modules\Admin\Forms\Fields;
 
-use Kris\LaravelFormBuilder\Fields\FormField;
-
+use Laka\Core\Forms\Fields\FormField;
 class PageOrLinkType extends FormField
 {
     protected function getTemplate()
@@ -11,6 +10,13 @@ class PageOrLinkType extends FormField
         // At first it tries to load config variable,
         // and if fails falls back to loading view
         // resources/views/fields/datetime.blade.php
-        return 'fields.page_or_link';
+        return 'admin::fields.page_or_link';
+    }
+
+    protected function getAttributes(array $options = [])
+    {
+        return [
+            'class' => 'form-control',
+        ];
     }
 }

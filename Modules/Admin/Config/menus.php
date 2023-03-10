@@ -32,6 +32,16 @@ return [
                 'children' => []
             ],
             [
+                'menu_title' => 'admin::menus.tags',
+                'menu_name' => 'tags.*',
+                'menu_link' => 'tags.index',
+                'menu_icon' => 'nav-icon fa fa-list-alt',
+                'actived' => '',
+                'section' => 'tags',
+                'visiable' => false,
+                'children' => []
+            ],
+            [
                 'menu_title' => 'admin::menus.posts',
                 'menu_name' => 'posts.*',
                 'menu_link' => 'posts.index',
@@ -104,6 +114,15 @@ return [
                 'visiable' => false,
             ],
             [
+                'menu_title' => 'admin::menus.uoms',
+                'menu_name' => 'uoms.*',
+                'menu_link' => 'uoms.index',
+                'menu_icon' => 'nav-icon fa fa-list-alt',
+                'actived' => '',
+                'section' => 'uoms',
+                'visiable' => false,
+            ],
+            [
                 'menu_title' => 'admin::menus.products',
                 'menu_name' => 'products.*',
                 'menu_link' => 'products.index',
@@ -141,6 +160,16 @@ return [
         'menu_icon' => 'nav-icon fa fa-cogs',
         'actived' => '',
         'section' => 'setting',
+        'visiable' => false,
+        'children' => []
+    ],
+    [
+        'menu_title' => 'admin::menus.attribute',
+        'menu_name' => 'attribute.*',
+        'menu_link' => 'attribute.index',
+        'menu_icon' => 'nav-icon fa fa-cogs',
+        'actived' => '',
+        'section' => 'attribute',
         'visiable' => false,
         'children' => []
     ],

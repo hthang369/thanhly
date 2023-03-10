@@ -31,16 +31,32 @@ if (!function_exists('rand_string')) {
     }
 }
 
-if (!function_exists('form')) {
-
-    function form(Form $form, array $options = [])
+if (!function_exists('image_asset')) {
+    function image_asset($path) 
     {
-        return $form->renderForm($options);
+        return vnn_asset("storage/images/{$path}");
     }
 }
 
-if (!function_exists('vnn_asset')) {
-    function vnn_asset($path) {
-        return asset($path);
+if (!function_exists('vnn_data_get')) {
+    function vnn_data_get($data, $key, $defaultKey = null, $defaultValue = null) {
+        $newValue = data_get($data, $key);
+        if (blank($newValue))
+            $newValue = data_get($data, $defaultKey, $defaultValue);
+
+        return $newValue;
+    }
+}
+
+if (!function_exists('domain_is')) {
+    function domain_is($domain) {
+        return str_is(request()->getHost(), $domain);
+    }
+}
+
+if (!function_exists('currency_format')) {
+    function currency_format($value, $currency) {
+        $numf = NumberFormatter::create('vi_VN', NumberFormatter::CURRENCY);
+        return $numf->formatCurrency($value, $currency);
     }
 }

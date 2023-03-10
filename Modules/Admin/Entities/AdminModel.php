@@ -2,7 +2,9 @@
 
 namespace Modules\Admin\Entities;
 
-class AdminModel extends AdminBaseModel
+use Laka\Core\Entities\BaseModel;
+
+class AdminModel extends BaseModel
 {
     protected $table = 'admin';
 

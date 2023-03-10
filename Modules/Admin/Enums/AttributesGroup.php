@@ -5,7 +5,8 @@ use Laka\Core\Enums\BaseEnum;
 
 class AttributesGroup extends BaseEnum
 {
-    const GROUP_IMAGE = 'images';
-    const GROUP_ATTRIBUTE = 'attributes';
-    const GROUP_VARIANT = 'variants';
+    const GROUP_IMAGE = 'group_images';
+    const GROUP_ATTRIBUTE = 'group_attributes';
+    const GROUP_VARIANT = 'group_variants';
+    const GROUP_PREVIEW = 'group_preview';
 }

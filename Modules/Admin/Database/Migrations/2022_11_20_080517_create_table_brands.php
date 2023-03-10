@@ -17,7 +17,8 @@ class CreateTableBrands extends Migration
             $table->id();
             $table->string('brand_name', 150);
             $table->string('brand_image');
-            $table->string('brand_slug', 150);
+            $table->string('brand_link', 150);
+            $table->seoMeta();
             $table->timestamps();
         });
     }

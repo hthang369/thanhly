@@ -20,7 +20,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \Modules\Core\Http\Middleware\ValidateFileSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Illuminate\Session\Middleware\StartSession::class,
@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'permission' => CheckPermissionByRole::class,
         'admin' => \App\Http\Middleware\AdminPage::class,
         'info-web' => \Modules\Admin\Http\Middleware\InfoWeb::class,
+        'access-home' => \Modules\Home\Http\Middleware\AccessHomeMiddleware::class
     ];
 }

@@ -15,10 +15,10 @@ return [
         'external'  => 'external_link'
     ],
     'partial_table' => [
-        'page' => \Modules\Admin\Repositories\PagesRepository::class,
-        'post' => \Modules\Admin\Repositories\PostsRepository::class,
-        'news' => \Modules\Admin\Repositories\NewsRepository::class,
-        'category' => \Modules\Admin\Repositories\CategoriesRepository::class,
+        'page' => \Modules\Admin\Repositories\Pages\PagesRepository::class,
+        'post' => \Modules\Admin\Repositories\Posts\PostsRepository::class,
+        'news' => \Modules\Admin\Repositories\News\NewsRepository::class,
+        'category' => \Modules\Admin\Repositories\Categories\CategoriesRepository::class,
     ],
     'breadcrumb' => [
         'admin' => [

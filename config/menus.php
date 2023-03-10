@@ -13,6 +13,7 @@ return [
         'zurbmenu' => \Nwidart\Menus\Presenters\Foundation\ZurbMenuPresenter::class,
 
         'navbar_bt4' => \Modules\Home\Presenters\NavbarBootstrap4Presenter::class,
+        'navmenu_bt4' => \Modules\Home\Presenters\NavMenuBootstrap4Presenter::class,
         'slidebar_bt4' => \Modules\Admin\Presenters\SlideBarBootstrap4Presenter::class,
         'nested_sortable_bt4' => \Modules\Admin\Presenters\NestedSortableBootstrap4Presenter::class
     ],

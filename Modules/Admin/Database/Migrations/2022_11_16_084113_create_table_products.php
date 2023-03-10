@@ -21,6 +21,7 @@ class CreateTableProducts extends Migration
             $table->decimal('price', 8, 2, true);
             $table->unsignedInteger('quantity')->default(0);
             $table->unsignedInteger('uom_id')->nullable();
+            $table->string('except', 150)->nullable();
             $table->text('content');
             $table->enum('status', ActionStatus::listConstains())->default(ActionStatus::ACTIVE);
             $table->timestamps();
