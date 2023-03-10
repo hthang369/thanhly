@@ -13,6 +13,7 @@
     $widgetText = data_get($data, 'data.text');
     $widgetGroup = data_get($data, 'data.group');
     $dataGroup = $widgetText->keyBy('key');
+    // dd($data);
 @endphp
 {{-- <div class="card">
     <h4 class="card-header bg-primary">Preview</h4>
@@ -42,7 +43,7 @@
         {!! Form::button('Preview', ['class' => 'btn btn-primary btn-sm']) !!}
     </div>
 </div> --}}
-<x-card-group size="md" size-cols="3">
+<x-card-group :cols="[1, 'md-3']">
     @foreach ($widgetText as $header => $item)
     <div class="col">
     <div class="card widgets-group-card">

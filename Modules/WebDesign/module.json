@@ -1,0 +1,13 @@
+{
+    "name": "WebDesign",
+    "alias": "webdesign",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\WebDesign\\Providers\\WebDesignServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

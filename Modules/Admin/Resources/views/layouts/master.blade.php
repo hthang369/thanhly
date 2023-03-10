@@ -12,8 +12,8 @@
        <link rel="stylesheet" href="{{ vnn_asset('css/adminlte.min.css') }}">
        <link rel="stylesheet" href="{{ vnn_asset('css/font-awesome.min.css') }}">
        <link rel="stylesheet" href="{{ vnn_asset('css/admin.css') }}">
-       <link rel="stylesheet" href="{{ vnn_asset('css/multiple-select.min.css') }}">
-       <link rel="stylesheet" href="{{ vnn_asset('css/multiple-select-bootstrap.min.css') }}">
+       <link rel="stylesheet" href="{{ vnn_asset('css/coreui.css') }}">
+       <link rel="stylesheet" href="{{ vnn_asset('css/bootstrap-multiselect.min.css') }}">
         @stack('styles')
     </head>
     <body class="hold-transition sidebar-mini layout-fixed dark-mode">
@@ -37,7 +37,8 @@
         </section>
 
         <script src="{{ vnn_asset('js/app.js') }}"></script>
-        <script src="{{ vnn_asset('js/multiple-select.min.js') }}"></script>
+        <script src="{{ vnn_asset('js/coreui.js') }}"></script>
+        <script src="{{ vnn_asset('js/bootstrap-multiselect.min.js') }}"></script>
         <script src="{{ vnn_asset('js/adminlte.min.js') }}"></script>
         <script src="{{ vnn_asset('js/data-grid.js') }}"></script>
         @stack('scripts')

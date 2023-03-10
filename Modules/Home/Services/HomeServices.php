@@ -4,9 +4,9 @@ namespace Modules\Home\Services;
 
 use Illuminate\Support\Facades\Request;
 use Laka\Core\Facades\Common;
-use Modules\Admin\Repositories\CategoriesRepository;
-use Modules\Admin\Repositories\MenusRepository;
-use Modules\Admin\Repositories\SlidesRepository;
+use Modules\Admin\Repositories\Advertises\SlidesRepository;
+use Modules\Admin\Repositories\Categories\CategoriesRepository;
+use Modules\Admin\Repositories\Menus\MenusRepository;
 use Modules\Home\Repositories\CounterOnlineRepository;
 use Modules\Home\Repositories\TotalOnlineRepository;
 use Modules\Home\Repositories\UserOnlineRepository;
@@ -15,7 +15,11 @@ class HomeServices
 {
     public function getHeaderMenus()
     {
-        return $this->getNavbarMenus('main', 'navbar_bt4');
+        return $this->getNavbarMenus('main', 'navbar_bt4', function($item) {
+            return Request::is($item['link']) || str_is($item['route_name'], get_route_name());
+            // dd(get_route_name());
+            // dd($item);
+        });
     }
 
     public function getFooterMenus()
@@ -30,29 +34,35 @@ class HomeServices
         return Common::renderMenus($dataTree, 'navbar', '', true, function ($item) {
             return [
                 'class' => 'text-uppercase',
-                'link' => route('page.show-post', $item['link'])
+                'link' => route('page.show', $item['link'])
             ];
         });
     }
 
-    private function getNavbarMenus($type, $menu_style = '')
+    private function getNavbarMenus($type, $menu_style = '', $callback = null)
     {
         $dataTree = resolve(MenusRepository::class)->getDataByType($type);
-        return Common::renderMenus($dataTree, 'navbar', $menu_style, true, function ($item) {
+        return Common::renderMenus($dataTree, 'navbar', $menu_style, true, function ($item) use($callback) {
             return [
                 'class' => 'text-uppercase nav-link',
-                'active' => Request::is($item['link'])
+                'active' => function() use($item, $callback) {
+                    if (!blank($callback) && is_callable($callback)) {
+                        return with($item, $callback);
+                    }
+                    return Request::is($item['link']);
+                }
             ];
         });
     }
 
-    public function getCategoriesMenus()
+    public function getCategoriesMenus($type)
     {
-        $dataTree = resolve(CategoriesRepository::class)->getDataTreeByType('post');
-        return Common::renderMenus($dataTree, 'navbar', 'sidebar_bt4', true, function ($item) {
+        $dataTree = resolve(CategoriesRepository::class)->getDataTreeByType($type);
+        return Common::renderMenus($dataTree, 'navbar', 'navmenu_bt4', true, function ($item) {
             return [
                 'class' => 'text-uppercase nav-link',
-                'link' => route('page.show-post', $item['link'])
+                'link' => route('page.show-service', $item['link']),
+                'link_name' => $item['link']
             ];
         });
     }
@@ -62,7 +72,7 @@ class HomeServices
         $results = resolve(SlidesRepository::class)->all();
         return $results->map(function ($item) {
             return [
-                'image' => ['src' => asset('public/storage/images/' . $item->advertise_image), 'lazyload' => false, 'height' => 280]
+                'image' => ['src' => vnn_asset('storage/images/' . $item->advertise_image), 'lazyload' => false, 'height' => 280]
             ];
         })->all();
     }

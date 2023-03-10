@@ -7,14 +7,14 @@
 </div>
 <div class="menu-struct row">
     <div class="col-6">
-        {!! $grid !!}
+        {!! $data['menus'] !!}
     </div>
 </div>
 @endsection
 
 @push('scripts')
-<script src="{{ vnn_asset('js/jquery-ui.min.js') }}"></script>
-<script src="{{ vnn_asset('js/jquery.mjs.nestedSortable.js') }}"></script>
+{{-- <script src="{{ vnn_asset('js/jquery-ui-sortable.min.js') }}"></script> --}}
+<script src="{{ vnn_asset('js/jquery.nestedSortable.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('ol.sortable').nestedSortable({
@@ -28,7 +28,7 @@
 
         $('#btn-save-menu').click(function() {
             let data = JSON.stringify($('ol.sortable').nestedSortable('toArray', {startDepthCount: 0}))
-            $api.put('{{route("menus.sort-update", $data)}}', data, {
+            $api.put('{{route("menus.sort-update", $data["menu"])}}', data, {
                 'targetLoading': '#btn-save-menu',
                 'pjaxContainer': '.ui-sortable'
             });

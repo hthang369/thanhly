@@ -2,72 +2,57 @@
 
 namespace Modules\Admin\Repositories;
 
-use Laka\Core\Repositories\CoreRepository;
+use Closure;
+use Illuminate\Support\Facades\DB;
 use Laka\Core\Support\FileManagementService;
+use Modules\Admin\Enums\AttributesField;
+use Modules\Core\Repositories\CoreRepository;
+use Modules\Setting\Entities\AttributeModel;
+use ZipArchive;
 
 abstract class AdminBaseRepository extends CoreRepository
 {
     protected $imageColumnName = '';
+    protected $depthColumnName = 'depth';
+    protected $attributeRelationClass;
 
     public function create(array $attributes)
     {
-        if (isset($attributes[$this->imageColumnName])) {
-            $imageNewName = $this->uploadFile($attributes, $this->imageColumnName);
-            data_set($attributes, $this->imageColumnName, $imageNewName);
-        }
-        return parent::create($attributes);
+        return $this->upsert($attributes, null, function($result) use($attributes) {
+            if (!blank($this->attributeRelationClass)) {
+                $this->upsertAttributes($this->attributeRelationClass, $attributes, $result->id);
+            }
+        });
     }
 
     public function update(array $attributes, $id)
     {
-        if (isset($attributes[$this->imageColumnName])) {
-            $imageName = $attributes[$this->imageColumnName];
-            $imageNewName = $this->uploadFile($attributes, $this->imageColumnName, $imageName);
-            data_set($attributes, $this->imageColumnName, $imageNewName);
-        }
-        return parent::update($attributes, $id);
+        return $this->upsert($attributes, $id, function($result) use($attributes) {
+            if (!blank($this->attributeRelationClass)) {
+                $this->upsertAttributes($this->attributeRelationClass, $attributes, $result->id);
+            }
+        });
     }
 
-    public function createNestedTree(array $attributes)
+    protected function upsert(array $attributes, $id = null, Closure $callback = null)
     {
-        $model = $this->model->newInstance($attributes);
+        return DB::transaction(function () use($attributes, $id, $callback) {
+            if (isset($attributes[$this->imageColumnName])) {
+                $imageName = $attributes[$this->imageColumnName];
+                $imageNewName = $this->uploadFile($attributes, $this->imageColumnName, $imageName);
+                data_set($attributes, $this->imageColumnName, $imageNewName);
+            }
+            if (!is_null($id))
+                $result = parent::update($attributes, $id);
+            else
+                $result = parent::create($attributes);
 
-        if ($this->model->count() == 0 || is_null(data_get($attributes, $this->model->getParentIdName(), null))) {
-            $model->saveAsRoot();
-        } else {
-            $parent_id = $attributes[$this->model->getParentIdName()];
+            if (!is_null($callback) && is_callable($callback)) {
+                $callback($result);
+            }
 
-            $parentNode = $this->find($parent_id);
-
-            $parentNode->appendNode($model);
-        }
-
-        $this->resetModel();
-
-        return $this->parserResult($model);
-    }
-
-    public function updateNestedTree(array $attributes, $id)
-    {
-        $this->applyScope();
-
-        $model = $this->model->findOrFail($id);
-
-        $model->fill($attributes);
-
-        if (is_null(data_get($attributes, $this->model->getParentIdName(), null))) {
-            $model->saveAsRoot();
-        } else {
-            $parent_id = $attributes[$this->model->getParentIdName()];
-
-            $parentNode = $this->find($parent_id);
-
-            $parentNode->appendNode($model);
-        }
-
-        $this->resetModel();
-
-        return $this->parserResult($model);
+            return $result;
+        });
     }
 
     protected function uploadFile($attributes, $imageName, $imageOld = null, $isDone = true)
@@ -112,30 +97,6 @@ abstract class AdminBaseRepository extends CoreRepository
         }
     }
 
-    public function paginateNestedTree($limit = null, $columns = [], $method = "paginateNestedTree")
-    {
-        $this->applyScope();
-        $this->applyCriteria();
-
-        $columns = $this->getColumns($columns);
-
-        $limit = is_null($limit) ? $this->getLimitForPagination() : $limit;
-        $results = $this->model->{$method}($limit, $columns);
-        $results->appends(request()->except($this->except));
-        $this->resetQuery();
-
-        return $this->parserResult($results);
-    }
-
-    public function allNestedDataGrid()
-    {
-        if ($this->presenterGrid) {
-            $data = $this->paginateNestedTree();
-            return [$this->presenterGrid, $data];
-        }
-        return [];
-    }
-
     public function updateOrCreateForenignCategories($repository, $datas, $foreign_id)
     {
         return $this->updateOrCreateForenignColumn($repository, $datas, $foreign_id, 'category_id');
@@ -154,5 +115,47 @@ abstract class AdminBaseRepository extends CoreRepository
             data_set($attributes, $column_name, $cat_id);
             $repository->updateOrCreate($attributes, array_except($attributes, [$column_name]));
         }
+    }
+
+    public function upsertForenignCategories($repository, $datas, $foreign_id)
+    {
+        return $this->upsertForenignColumn($repository, $datas, $foreign_id, 'category_id');
+    }
+
+    protected function upsertForenignColumn($repository, $datas, $foreign_id, $column_name)
+    {
+        if (!is_object($repository)) $repository = resolve($repository);
+        $data = $repository->model->getFillable();
+        $attributes = array_combine($data, array_fill(0, count($data), $foreign_id));
+        $newListData = array_map(function($id) use($attributes, $column_name) {
+            return data_set($attributes, $column_name, $id);
+        }, $datas);
+        return $repository->model->query()->upsert($newListData, array_keys($attributes), [$column_name]);
+    }
+
+    public function upsertAttributes($model, $attributes, $foreign_id)
+    {
+        if (!is_object($model)) $model = resolve($model);
+        $data = $model->getFillable();
+        $attributeData = array_combine($data, array_fill(0, count($data), $foreign_id));
+        $attrDatas = array_only($attributes, AttributesField::listConstains());
+        $listKey = array_only(AttributesField::$FIELDS_MAP, array_keys($attrDatas));
+        $listAttribute = AttributeModel::whereIn('key', $listKey)->pluck('id', 'key');
+        $newListData = [];
+        foreach($attrDatas as $key => $item) {
+            $newValue = $item;
+            if (is_object($item)) {
+                $info = $this->service->uploadFiles([$item]);
+                $this->service->unzipFile($info['path']);
+                $newValue = pathinfo($info['path'], PATHINFO_FILENAME);
+            }
+            array_push($newListData, array_merge($attributeData, [
+                'attribute_id' => $listAttribute->get(data_get(AttributesField::$FIELDS_MAP, $key)),
+                'value' => $newValue
+            ]));
+        }
+        $lstPrimaryKey = array_keys($attributeData);
+        array_forget($lstPrimaryKey, 'value');
+        return $model->query()->upsert($newListData, $lstPrimaryKey, ['attribute_id', 'value']);
     }
 }

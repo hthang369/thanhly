@@ -45,10 +45,14 @@ class AdminServiceProvider extends BaseServiceProvider
         $this->registerCommands();
 
         App::setlocale('vi');
-        Blueprint::macro('seoMeta', function () {
-            $this->string('ob_title', 65);
-            $this->string('ob_keyword', 160);
-            $this->string('ob_description', 250);
+        Blueprint::macro('seoMeta', function ($column = null) {
+            $listColumn = ['ob_title' => 65, 'ob_keyword' => 160, 'ob_description' => 250];
+            if (!blank($column)) {
+                $listColumn = array_reverse($listColumn);
+            }
+            foreach($listColumn as $col => $val) {
+                $this->string($col, $val)->after($column);
+            }
         });
     }
 

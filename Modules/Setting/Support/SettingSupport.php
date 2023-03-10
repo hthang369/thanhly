@@ -2,7 +2,6 @@
 
 namespace Modules\Setting\Support;
 
-use Modules\Setting\Repositories\SettingBaseRepository;
 use Modules\Setting\Repositories\SettingRepository;
 
 class SettingSupport
@@ -10,9 +9,9 @@ class SettingSupport
     public function get($setting, $settingDetail = null, $default = null)
     {
         if ($settingDetail) {
-            return SettingBaseRepository::getDetail($setting, $settingDetail, $default);
+            return SettingRepository::getDetail($setting, $settingDetail, $default);
         } else {
-            return SettingBaseRepository::getSetting($setting);
+            return SettingRepository::getSetting($setting);
         }
     }
 

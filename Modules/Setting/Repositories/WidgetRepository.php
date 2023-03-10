@@ -16,20 +16,32 @@ class WidgetRepository extends WidgetBaseRepository
      */
     public function model()
     {
-        return SettingDetailModel::class;
+        return SettingModel::class;
     }
 
     public function getWidgetList()
     {
-        $table = resolve(SettingModel::class)->getTable();
-        $detail = $this->model->getTable();
-        return $this->model::join($table, "$detail.setting_id", '=', "$table.id")
-            ->select(["$detail.*"])
-            ->where("$table.name", 'widget')
-            ->get()
-            ->groupBy(function ($item) {
-                return str_before($item->key, '_');
-            });
+        $builder = $this->model->newQuery();
+        $lft = $this->model->getLftName();
+        $domainColumn = $this->model->getDomainColumn();
+        $subQuery = $this->model->newQuery()
+            ->withoutDomain()
+            ->toBase()
+            ->select('_n.'.$lft)
+            ->from($this->model->getTable().' as _n')
+            ->where('_n.key', '=', 'widget')
+            ->where("_n.{$domainColumn}", $this->model->getDomainId());
+
+        $value = '('.$subQuery->toSql().')';
+        
+        $builder->mergeBindings($subQuery);
+        
+        $result = $builder->whereRaw("{$lft} >= {$value}", [ ], 'and')->get()->toTree();
+        $resultWidget = $result->where('key', 'widget')->first();
+        
+        return $resultWidget->children->groupBy(function($item) {
+            return str_before($item->key, '_');
+        });
     }
 
     public static function getWidget($name)
@@ -80,26 +92,29 @@ class WidgetRepository extends WidgetBaseRepository
 
     public function update($attributes, $id)
     {
-        $attrData = array_except($attributes, ['widget_group', '_token']);
-        $widget_group = data_get($attributes, 'widget_group');
-        $data = collect();
-        DB::transaction(function () use ($attrData, $id, $widget_group, &$data) {
+        $widget_group = data_get($attributes, 'group');
+        // $attrData = array_except($attributes, ['widget_group', '_token']);
+        // $widget_group = data_get($attributes, 'widget_group');
+        // $data = collect();
+        // DB::transaction(function () use ($id, $widget_group, &$data) {
+            $groupObject = static::getDetail('widget', $widget_group);
             $group = json_decode(static::getDetail('widget', $widget_group), true);
-            if (!is_null($group)) {
-                $group = array_map(function ($item) use ($id) {
-                    return starts_with($item, 'slot') ? $id : $item;
-                }, $group);
-            }
-            $data->push(parent::update([
-                $id => json_encode($attrData)
-            ], 'widget'));
-            if (!is_null($group)) {
-                $data->push(parent::update([
-                    $widget_group => json_encode($group)
-                ], 'widget'));
-            }
-        });
-        return $data;
+            dd($group);
+        //     if (!is_null($group)) {
+        //         $group = array_map(function ($item) use ($id) {
+        //             return starts_with($item, 'slot') ? $id : $item;
+        //         }, $group);
+        //     }
+        //     $data->push(parent::update([
+        //         $id => json_encode($attrData)
+        //     ], 'widget'));
+        //     if (!is_null($group)) {
+        //         $data->push(parent::update([
+        //             $widget_group => json_encode($group)
+        //         ], 'widget'));
+        //     }
+        // });
+        // return $data;
     }
 
     public function delete($id)
@@ -111,5 +126,10 @@ class WidgetRepository extends WidgetBaseRepository
             $item->save();
         }
         return parent::deleteKey($id);
+    }
+
+    public function updateSort(array $attributes, $id)
+    {
+        return $this->updateSortNestedTree($attributes);
     }
 }

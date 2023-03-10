@@ -3,10 +3,10 @@
 namespace Modules\Setting\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Modules\Core\Http\Controllers\CoreController;
 use Modules\Setting\Repositories\SettingRepository;
 use Modules\Setting\Responses\SettingResponse;
 use Modules\Setting\Validators\SettingValidator;
-use Laka\Core\Http\Controllers\CoreController;
 
 class SettingController extends CoreController
 {
@@ -15,20 +15,20 @@ class SettingController extends CoreController
     ];
 
     protected $listViewName = [
-        'index'     => 'setting::index',
+        'index'     => 'setting::setting.index',
+        'edit'     => 'setting::setting.setting_modal',
+        'sort'     => 'setting::setting.sort',
         'create'    => 'kbankapp::customer.generate-url',
         'showSentEmail' => 'kbankapp::customer.sent-email'
+    ];
+
+    protected $permissionActions = [
+        'update' => 'public'
     ];
 
     public function __construct(SettingRepository $repository, SettingValidator $validator, SettingResponse $response)
     {
         parent::__construct($repository, $validator, $response);
-        // $this->setPathView([
-        //     'edit'  => 'setting::index',
-        //     'update' => 'setting.index',
-        //     // 'create' => 'admin::configs.slide_modal',
-        //     // 'show' => 'admin::configs.slide_modal'
-        // ]);
     }
 
     /**
@@ -46,8 +46,8 @@ class SettingController extends CoreController
 
     private function generateSetting($name, $action = 'edit', $dataBidding = [])
     {
-        list($configs, $formData) = $this->repository->formGenerateConfig($name, route("setting.$action", $name));
-
+        list($configs, $formData) = $this->repository->formGenerateConfig($name, ["setting.$action", $name], $action);
+        
         $configs['method'] = $action == 'edit' ? 'GET' : 'PUT';
 
         return $this->formBuilder->create($formData, $configs, $dataBidding);
@@ -62,31 +62,14 @@ class SettingController extends CoreController
      */
     public function edit(Request $request, $id)
     {
-        $action = 'edit';
-        $actionMap = 'edit';
-        $actionHome = 'edit';
+        $action = 'update';
+        $methodAct = ['action' => 'edit'];
 
-        $methodAct = [];
-        $methodActMap = [];
-        $methodActHome = [];
+        $formField = $this->generateSetting($id, $action, $methodAct);
 
-        if ($id == 'info') {
-            $action = 'update';
-            $methodAct = ['action' => 'edit'];
-        }
-        if ($id == 'map') {
-            $actionMap = 'update';
-            $methodActMap = ['action' => 'edit'];
-        }
-        if ($id == 'home') {
-            $actionHome = 'update';
-            $methodActHome = ['action' => 'edit'];
-        }
-
-        $form = $this->generateSetting('info', $action, $methodAct);
-        $formMap = $this->generateSetting('map', $actionMap, $methodActMap);
-        $formHome = $this->generateSetting('home', $actionHome, $methodActHome);
-
-        return $this->renderViewData(compact('form', 'formMap', 'formHome'), __FUNCTION__);
+        $modal = $formField->getFormOptions();
+        $form = $formField->renderForm([], false, true, false);
+    
+        return $this->renderView($request, compact('modal', 'form'), __FUNCTION__);
     }
 }

@@ -33,9 +33,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        if (str_is(request()->getHost(), env('FIRST_DOMAIN'))) {
+            $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
+            $this->mapWebRoutes();
+        }
     }
 
     /**
@@ -48,6 +50,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
+            ->domain(env('FIRST_DOMAIN'))
             ->namespace($this->moduleNamespace)
             ->group(module_path('Home', '/Routes/web.php'));
     }
@@ -62,6 +65,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
+            ->domain(env('FIRST_DOMAIN'))
             ->middleware('api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Home', '/Routes/api.php'));

@@ -19,7 +19,7 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
+        if (domain_is(env('FIRST_DOMAIN')) && isset($_SERVER['REQUEST_URI'])) {
             $moduleName = head(array_filter(explode('/',$_SERVER['REQUEST_URI'])));
             if (!in_array($moduleName, ['admin', 'login', 'register'])) {
                 $service = resolve(HomeServices::class);

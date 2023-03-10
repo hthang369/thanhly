@@ -18,9 +18,12 @@ return [
     'sort' => 'Sắp xếp menu',
     'role_has_permissions' => 'Cấp quyền',
     'contact' => 'Liên hệ',
+    'tags' => 'Từ khóa',
     'manager_posts' => 'Quản lý bài viết',
     'manager_news' => 'Quản lý tin tức',
     'manager_products' => 'Quản lý sản phẩm',
+    'attribute' => 'Thuộc tính',
+    'uoms' => 'Đơn vị tính',
 
     'menu_name' => 'Tên menu',
     'menu_link' => 'Link menu',
@@ -30,6 +33,10 @@ return [
     'footer_menu' => 'Menu phụ',
     'footer_our_menu' => 'Menu dịch vụ',
     'menu_struct' => 'Cấu trúc menu',
+    'form_title' => [
+        'create' => 'Thêm menu',
+        'update' => 'Cập nhật menu'
+    ],
 
     'partial' => [
         'page_link' => 'Page Link',
@@ -54,5 +61,9 @@ return [
         'role_has_permissions' => 'Cấp quyền',
         'contact' => 'Liên hệ',
         'products' => 'Sản phẩm',
+        'tags' => 'Danh sách từ khóa',
+        'brands' => 'Danh sách thương hiệu',
+        'attribute' => 'Danh sách thuộc tính',
+        'uoms' => 'Đơn vị tính',
     ]
 ];

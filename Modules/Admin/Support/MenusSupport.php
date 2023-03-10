@@ -23,4 +23,20 @@ class MenusSupport extends MenuService
     {
         return data_get(config('admin.menu_type'), $name);
     }
+
+    public function getDataSourceTabPartialTypes()
+    {
+        $partialTypes = $this->getPartialTypes();
+        return collect($partialTypes)->map(function($item, $key) {
+            return [
+                'value' => $key,
+                'text' => $item,
+                'data-bs-toggle' => 'tab',
+                'data-bs-target' => "#{$key}_tab",
+                'role' => 'tab',
+                'aria-controls' => "{$key}_tab",
+                'aria-selected' => false
+            ];
+        })->values();
+    }
 }

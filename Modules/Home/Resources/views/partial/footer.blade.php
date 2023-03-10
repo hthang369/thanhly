@@ -10,8 +10,8 @@
 
                     @widget('text_copyright')
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    @widget('text_ournews')
+                <div class="col-md-4 col-sm-12">
+                    @include('home::partial.counter')
                 </div>
             </div>
         </div>

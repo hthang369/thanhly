@@ -4,7 +4,7 @@ namespace Modules\Admin\Services;
 
 use Illuminate\Support\Facades\Route;
 use Laka\Core\Facades\Common;
-use Modules\Admin\Entities\MenusModel;
+use Modules\Admin\Entities\Menus\MenusModel;
 
 class MenuService
 {

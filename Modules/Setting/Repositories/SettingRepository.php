@@ -3,7 +3,7 @@
 
 namespace Modules\Setting\Repositories;
 
-
+use Modules\Admin\Facades\Menus;
 use Modules\Setting\Entities\SettingDetailModel;
 use Modules\Setting\Entities\SettingModel;
 use Modules\Setting\Forms\SettingsForm;
@@ -29,18 +29,19 @@ class SettingRepository extends SettingBaseRepository
         return SettingModel::class;
     }
 
-    public function formGenerateConfig($id, $route)
+    public function formGenerateConfig($id, $route, $action)
     {
-        $config = [
-            'url' => $route,
-            'model' => $this->getDataConfig($id)
-        ];
-        return [$config, $this->listFormData[$id]];
+        list($options, ) = parent::formGenerate($route, $action);
+        data_set($options, 'model', $this->getDataConfig($id));
+
+        return [$options, $this->listFormData[$id]];
     }
 
     protected function getDataConfig($id)
     {
-        return $this->getQuery()->where('key', $id)->first()->children;
+        return optional($this->getQuery()->where('key', $id)->first()->children, function($item) {
+            return $item->pluck('value', 'key')->toArray();
+        });
     }
 
     /**
@@ -52,5 +53,17 @@ class SettingRepository extends SettingBaseRepository
     public function getSettingByKey($key, $before = '%', $after = '%')
     {
         return $this->model::where('key', 'like', $before . $key . $after)->get()->toArray();
+    }
+
+    public function getAllSetting()
+    {
+        $data = $this->model->defaultOrder()->get([
+            'id',
+            'key as title',
+            'parent_id',
+            'setting_lft',
+            'setting_rgt',
+        ])->toTree();
+        return Menus::getSortableMenus($data);
     }
 }

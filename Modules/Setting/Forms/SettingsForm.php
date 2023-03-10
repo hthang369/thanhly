@@ -17,16 +17,8 @@ class SettingsForm extends Form
             $this->add('web_phone', Field::TEXT);
             $this->add('web_email', Field::EMAIL);
             $this->add('ob_title', Field::TEXT);
-            $this->add('ob_desception', Field::TEXT);
+            $this->add('ob_description', Field::TEXT);
             $this->add('ob_keyword', Field::TEXT);
-            $this->add('save_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.save_info'),
-                'attr' => ['class' => 'btn btn-success']
-            ]);
-            $this->add('cancel_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.cancel_info'),
-                'attr' => ['class' => 'btn btn-secondary', 'formaction' => route('setting.index'), 'formmethod' => 'get']
-            ]);
         } else {
             $this->add('web_name', Field::STATIC, [
                 'wrapper' => ['inline' => true],
@@ -48,7 +40,7 @@ class SettingsForm extends Form
                 'label_attr' => ['class' => ['col-3']],
                 'attr' => ['class' => ['col-9', 'text-white']]
             ]);
-            $this->add('ob_desception', Field::STATIC, [
+            $this->add('ob_description', Field::STATIC, [
                 'wrapper' => ['inline' => true],
                 'label_attr' => ['class' => ['col-3']],
                 'attr' => ['class' => ['col-9', 'text-white']]
@@ -58,9 +50,10 @@ class SettingsForm extends Form
                 'label_attr' => ['class' => ['col-3']],
                 'attr' => ['class' => ['col-9', 'text-white']]
             ]);
-            $this->add('edit', Field::BUTTON_SUBMIT, [
+            $this->add('edit', Field::BUTTON_LINK, [
                 'label' => trans('admin::common.edit'),
-                'attr' => ['class' => 'btn btn-primary']
+                'variant' => 'primary',
+                'attr' => ['href' => route(...$this->getFormOption('route')), 'class' => ['show_modal_form' => true]]
             ]);
         }
     }

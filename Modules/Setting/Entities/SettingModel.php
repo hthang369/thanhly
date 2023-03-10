@@ -2,10 +2,10 @@
 
 namespace Modules\Setting\Entities;
 
-use Laka\Core\Entities\BaseModel;
+use Modules\Core\Entities\CoreModel;
 use Modules\Setting\Traits\NestedSetSettingTrait;
 
-class SettingModel extends BaseModel
+class SettingModel extends CoreModel
 {
     use NestedSetSettingTrait;
 
@@ -15,6 +15,14 @@ class SettingModel extends BaseModel
         'key',
         'language',
         'value',
+        'parent_id',
+        'setting_lft',
+        'setting_rgt'
+    ];
+
+    protected $dataSortColumns = [
+        'id',
+        'key as title',
         'parent_id',
         'setting_lft',
         'setting_rgt'

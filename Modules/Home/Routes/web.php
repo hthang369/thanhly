@@ -13,9 +13,11 @@
 
 Route::group(['prefix' => ''], function() {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/dich-vu/{title}', 'PostController@show')->name('page.show-post');
+    Route::get('/service/{title}', 'CategoryController@show')->name('page.show-service');
+    Route::get('/product/{title}', 'CategoryController@show')->name('page.show-product');
+    Route::get('/news/{title}', 'CategoryController@show')->name('page.show-news');
     Route::post('/send-mail', 'HomeController@sendMail')->name('page.send-mail');
-    // Route::get('/detail/{title}', 'HomeController@showPostDetail')->name('page.show-detail');
+    Route::get('/post/{title}', 'PostController@show')->name('page.show-detail');
 
     Route::get('/{title}', 'HomeController@show')->name('page.show');
 });

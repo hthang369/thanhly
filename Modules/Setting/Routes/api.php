@@ -16,3 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/setting', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'v1'], function() {
+    Route::group(['prefix' => 'setting'], function() {
+        Route::put('{id}/edit', 'SettingController@update')->name('setting.update');
+        Route::put('sort', 'SettingController@updateSort')->name('setting.sort-update');
+    });
+
+    Route::group(['prefix' => 'widget'], function() {
+        Route::post('save-widget/{id}', 'WidgetController@update')->name('widget.save');
+        Route::delete('delete-widget/{id}', 'WidgetController@delete')->name('widget.delete');
+    });
+});

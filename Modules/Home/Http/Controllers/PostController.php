@@ -2,13 +2,17 @@
 
 namespace Modules\Home\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Modules\Home\Repositories\PostRepository;
 use Modules\Home\Validators\PostValidator;
 use Laka\Core\Http\Controllers\CoreController;
 use Laka\Core\Responses\BaseResponse;
+use Modules\Home\Traits\HomeTrait;
 
 class PostController extends CoreController
 {
+    use HomeTrait;
+    
     protected $permissionActions = [
         'index' => 'public',
         'show' => 'public'
@@ -24,10 +28,14 @@ class PostController extends CoreController
      * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $result = $this->repository->findByField('post_link', $id, ['post_title', 'post_image', 'post_content'])->first();
-        $viewName = 'index';
-        return $this->response->data(request(), compact('result'), 'home::posts.'.$viewName);
+        $base = $this->repository->show($id);
+        $result = $base['data'];
+        $result->header_title = $result->post_title;
+        $viewName = $base['view'];
+        $type = $base['data']->category_id->pluck('category_type')->unique()->first();
+        $this->shareDataView($type, 'listPopular', $base['listPopular']);
+        return $this->response->data(request(), compact('result'), module_view_name("posts.{$viewName}"));
     }
 }

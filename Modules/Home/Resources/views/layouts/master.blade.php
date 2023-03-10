@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         @include('home::partial.google')
-        <title>@yield('header_title', data_get($infoSettings, 'info.web_name'))</title>
+        <title>{{$pageTitle}}</title>
         @include('home::partial.seo-meta')
         @include('home::partial.link')
         @stack('styles')
@@ -25,9 +25,9 @@
             @include('home::partial.back_to_top')
         </section>
 
-        <script src="{{ asset('public/js/app.js') }}"></script>
-        <script src="{{ asset('public/js/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('public/js/main.js') }}"></script>
+        <script src="{{ vnn_asset('js/app.js') }}"></script>
+        <script src="{{ vnn_asset('js/jquery.validate.min.js') }}"></script>
+        <script src="{{ vnn_asset('js/main.js') }}"></script>
         @stack('scripts')
     </body>
 </html>

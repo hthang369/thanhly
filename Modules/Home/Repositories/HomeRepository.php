@@ -2,13 +2,15 @@
 
 namespace Modules\Home\Repositories;
 
-use Modules\Admin\Entities\CategoriesModel;
-use Modules\Admin\Entities\MenusModel;
-use Modules\Admin\Entities\PostsModel;
-use Modules\Admin\Repositories\ContactsRepository;
-use Modules\Admin\Repositories\PostsRepository;
-use Modules\Home\Entities\HomeModel;
 use Laka\Core\Repositories\BaseRepository;
+use Modules\Admin\Enums\CategoryType;
+use Modules\Admin\Repositories\Contacts\ContactsRepository;
+use Modules\Core\Entities\Categories\CategoriesModel;
+use Modules\Core\Entities\Menus\MenusModel;
+use Modules\Core\Entities\Posts\PostsModel;
+use Modules\Core\Entities\Products\ProductsModel;
+use Modules\Home\Entities\HomeModel;
+use Modules\Home\Entities\ServiceCategoryModel;
 
 class HomeRepository extends BaseRepository
 {
@@ -29,17 +31,18 @@ class HomeRepository extends BaseRepository
         switch(data_get($menu, 'partial_table')) {
             case 'page':
                 $data = PostsModel::find(data_get($menu, 'partial_id'));
-                $results = $data->toArray();
+                $data['header_title'] = $data->post_title;
+                $results = $data;
                 break;
             case 'category':
-                $data = CategoriesModel::find(data_get($menu, 'partial_id'));
-                $results = $data->toArray();
-                $results['data_list'] = $this->getProductsData($data->id, $data->category_type);
+                $results = CategoriesModel::find(data_get($menu, 'partial_id'));
+                $results['header_title'] = $results->category_name;
+                $method = str_is($results->category_type, CategoryType::PRODUCT) ? 'products' : 'posts';
+                $results->setRelation('pagination_'.$method, $results->{$method}()->paginate(15));
+                $results['children'] = CategoriesModel::whereIsAfter(data_get($menu, 'partial_id'))->defaultOrder()->with($method)->get()->toTree();
                 break;
-            case 'news':
-                $data = CategoriesModel::find(data_get($menu, 'partial_id'));
-                $results = $data->toArray();
-                $results['post_list'] = resolve(PostsRepository::class)->getAllDataByCategory($data->id, 'news')->toArray();
+            default:
+                $results = $this->getDataHome();
                 break;
         }
         return [
@@ -48,8 +51,26 @@ class HomeRepository extends BaseRepository
         ];
     }
 
+    public function showCategory($id)
+    {
+        
+    }
+
     public function sendMail($attributes)
     {
         return resolve(ContactsRepository::class)->create($attributes);
+    }
+
+    public function getDataHome()
+    {
+        $data = ServiceCategoryModel::whereIsHot('category_ishot')->defaultOrder()->with('home_posts')->get();
+        $dataPost = PostsModel::whereIsHot('post_ishot')->whereIsPost()->whereActive('post_status')->limit(4)->get();
+        $dataProduct = ProductsModel::whereIsHot('ishot')->whereActive('status')->with('images')->limit(12)->get();
+        
+        return [
+            'list_post' => $dataPost,
+            'list_categories' => $data,
+            'list_products' => $dataProduct
+        ];
     }
 }

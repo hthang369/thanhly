@@ -9,7 +9,7 @@
 * --------------------------------------------------------------
 * # General
 * --------------------------------------------------------------
-*/body{font-family:Open Sans,sans-serif;color:#444;font-size:.89rem}h1,h2,h3,h4,h5,h6{font-family:Raleway,sans-serif}a{color:#01b1d7}a:hover{color:#0dd3fe;text-decoration:none}@media (min-width:768px){#iLeftmenu{max-width:22%!important}#iContent{max-width:78%!important;flex-basis:78%!important}.container-lg{max-width:calc(85% + 30px)}}@media (max-width:767.98px){#cont img{width:100%!important}}
+*/body{font-family:Open Sans,sans-serif;color:#444;font-size:.89rem}h1,h2,h3,h4,h5,h6{font-family:Raleway,sans-serif}a{color:#01b1d7}a:hover{color:#0dd3fe;text-decoration:none}@media (min-width:768px){#iLeftmenu{max-width:22%!important}#iContent{max-width:78%!important;flex-basis:78%!important}.container-lg{max-width:calc(80% + 30px)}}@media (max-width:991.98px){#cont img{width:100%!important}}
 
 /*!
 * --------------------------------------------------------------
@@ -47,4 +47,4 @@
 * --------------------------------------------------------------
 * # Content
 * --------------------------------------------------------------
-*/.img-wrapper{max-height:300px;overflow:hidden}.text-decoration-line{text-decoration:line-through}
+*/.img-wrapper{max-height:300px;overflow:hidden}.text-decoration-line{text-decoration:line-through}.content .item-product img{width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;margin:auto;display:block}.section-box .section-title{text-align:center;padding:1.5rem 0;background-color:#f2fdff}.section-box .section-title h2{position:relative;padding-bottom:1rem}.section-box .section-title h2:before{content:"";position:absolute;display:block;width:120px;height:1px;background:#ddd;bottom:1px;left:calc(50% - 60px)}.section-box .section-title h2:after{content:"";position:absolute;display:block;width:40px;height:3px;background:#3498db;bottom:0;left:calc(50% - 20px)}.section-box .section-body .bg-primary a{color:#fff}.section-box .section-body .img-wrapper img{height:200px;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;margin:auto;display:block}.section-box .section-body .card .bg-primary{color:#fff}.section-box .section-body .tab-content img{max-width:100%!important}

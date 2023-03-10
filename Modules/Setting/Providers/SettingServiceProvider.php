@@ -2,11 +2,10 @@
 
 namespace Modules\Setting\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Laka\Core\BaseServiceProvider;
 use Modules\Setting\Support\SettingSupport;
 
-class SettingServiceProvider extends ServiceProvider
+class SettingServiceProvider extends BaseServiceProvider
 {
     /**
      * @var string $moduleName
@@ -18,6 +17,8 @@ class SettingServiceProvider extends ServiceProvider
      */
     protected $moduleNameLower = 'setting';
 
+    protected $moduleNamespace = 'Modules\\Setting\\';
+
     /**
      * Boot the application events.
      *
@@ -28,6 +29,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerCommands();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 
@@ -42,6 +44,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->app->bind('setting', function () {
             return new SettingSupport();
         });
+        parent::register();
     }
 
     /**

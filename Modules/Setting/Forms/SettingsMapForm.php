@@ -13,22 +13,15 @@ class SettingsMapForm extends Form
             $this->add('web_map', Field::TEXTAREA, [
                 'label' => trans('setting::configs.web_map'),
             ]);
-            $this->add('save_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.save_info'),
-                'attr' => ['class' => 'btn btn-success']
-            ]);
-            $this->add('cancel_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.cancel_info'),
-                'attr' => ['class' => 'btn btn-secondary', 'formaction' => route('setting.index'), 'formmethod' => 'get']
-            ]);
         } else {
             $this->add('web_map', Field::MAP, [
                 'tag' => 'div',
                 'label' => trans('setting::configs.web_map'),
             ]);
-            $this->add('edit', Field::BUTTON_SUBMIT, [
+            $this->add('edit', Field::BUTTON_LINK, [
                 'label' => trans('admin::common.edit'),
-                'attr' => ['class' => 'btn btn-primary']
+                'variant' => 'primary',
+                'attr' => ['href' => route(...$this->getFormOption('route')), 'class' => ['show_modal_form' => true]]
             ]);
         }
     }

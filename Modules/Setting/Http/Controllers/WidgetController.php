@@ -2,7 +2,7 @@
 
 namespace Modules\Setting\Http\Controllers;
 
-use Modules\Setting\Repositories\WidgetCriteria;
+use Illuminate\Http\Request;
 use Modules\Setting\Repositories\WidgetRepository;
 use Modules\Setting\Responses\WidgetResponse;
 use Modules\Setting\Validators\WidgetValidator;
@@ -16,28 +16,28 @@ class WidgetController extends CoreController
         'error' => 'setting.index'
     ];
 
-    public function __construct(WidgetRepository $repository, WidgetValidator $validator, WidgetResponse $response, WidgetCriteria $criteria)
+    protected $listViewName = [
+        'index'     => 'setting::widgets.widget',
+    ];
+
+    protected $permissionActions = [
+        'update' => 'public'
+    ];
+
+    public function __construct(WidgetRepository $repository, WidgetValidator $validator, WidgetResponse $response)
     {
         parent::__construct($repository, $validator, $response);
-        $this->setDefaultView('setting::');
-        $this->setRouteName('widget');
-        $this->setPathView([
-            'index' => 'setting::widgets.widget',
-            'edit'  => 'setting::widget',
-            'create' => 'setting::widgets.create',
-            // 'show' => 'admin::configs.slide_modal'
-        ]);
     }
 
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = $this->repository->getWidgetList();
-
-        return $this->renderViewData(compact('data'), __FUNCTION__);
+        
+        return $this->renderView($request, compact('data'), __FUNCTION__);
     }
 
     public function create($id = null)

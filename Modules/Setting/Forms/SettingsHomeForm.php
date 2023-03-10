@@ -19,14 +19,6 @@ class SettingsHomeForm extends Form
             $this->add('web_banner', Field::FILE, [
                 'label' => trans('setting::configs.web_banner'),
             ]);
-            $this->add('save_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.save_info'),
-                'attr' => ['class' => 'btn btn-success']
-            ]);
-            $this->add('cancel_info', Field::BUTTON_SUBMIT, [
-                'label' => trans('setting::configs.cancel_info'),
-                'attr' => ['class' => 'btn btn-secondary', 'formaction' => route('setting.index'), 'formmethod' => 'get']
-            ]);
         } else {
             $this->add('web_favicon', Field::PICTURE, [
                 'label' => trans('setting::configs.web_favicon'),
@@ -52,9 +44,10 @@ class SettingsHomeForm extends Form
                 'label_attr' => ['class' => ['col-4']],
                 'field_attr' => ['class' => ['col-8']]
             ]);
-            $this->add('edit', Field::BUTTON_SUBMIT, [
+            $this->add('edit', Field::BUTTON_LINK, [
                 'label' => trans('admin::common.edit'),
-                'attr' => ['class' => 'btn btn-primary']
+                'variant' => 'primary',
+                'attr' => ['href' => route(...$this->getFormOption('route')), 'class' => ['show_modal_form' => true]]
             ]);
         }
     }

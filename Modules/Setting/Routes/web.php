@@ -14,8 +14,10 @@
 Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], function() {
     Route::group(['prefix' => 'setting'], function() {
         Route::get('{id}', 'SettingController@view')->name('setting.view');
+        Route::get('view/sort', 'SettingController@sort')->name('setting.sort');
     });
     Route::resource('setting', 'SettingController');
+    Route::resource('attribute', 'AttributeController');
     Route::resource('widget', 'WidgetController');
     Route::group(['prefix' => 'widget'], function() {
         Route::get('create/{id}', 'WidgetController@create')->name('widget.new');

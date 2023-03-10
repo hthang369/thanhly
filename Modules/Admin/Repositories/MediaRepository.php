@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Repositories;
 
-use Modules\Admin\Entities\SlidesModel;
+use Modules\Core\Entities\SlidesModel;
 
 class MediaRepository extends AdminBaseRepository
 {

@@ -5,17 +5,14 @@ namespace Modules\Setting\Repositories;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Setting\Entities\SettingBaseModel;
 use Modules\Setting\Entities\SettingDetailModel;
-use Modules\Setting\Entities\SettingModel;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection as SupportCollection;
-use Laka\Core\Facades\FileManagement;
-use Laka\Core\Repositories\CoreRepository;
+use Modules\Admin\Repositories\AdminBaseRepository;
 
 /**
  * @property SettingBaseModel model
  */
-abstract class SettingBaseRepository extends CoreRepository
+abstract class SettingBaseRepository extends AdminBaseRepository
 {
     protected static $cache = [];
 
@@ -23,36 +20,42 @@ abstract class SettingBaseRepository extends CoreRepository
     {
         $result = [];
         $updateData = array_diff_key($settings, array_flip(['_method', '_token', 'save_info']));
-
+    
         foreach ($updateData as $key => $value) {
             $itemValue = $value;
-            if ($value instanceof UploadedFile) {
-                list($fileInfo) = FileManagement::uploadFileImages([$value]);
-                $itemValue = $fileInfo['file_name'];
-            }
+            // if ($value instanceof UploadedFile) {
+            //     list($fileInfo) = FileManagement::uploadFileImages([$value]);
+            //     $itemValue = $fileInfo['file_name'];
+            // }
 
-            $model = $this->updateSettingDetail($this->model::getSettingId($id), $key, $itemValue);
+            $model = $this->updateSettingDetail($key, $itemValue);
             $result[$model->key] = $model->value;
         }
 
         return $result;
     }
 
-    protected function updateSettingDetail($settingId, $key, $value)
+    protected function updateSettingDetail($key, $value)
     {
         try {
             $model = $this->model::where([
-                'setting_id' => $settingId,
                 'key'        => $key
             ])->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            throw new ModelNotFoundException("Setting '$key' of setting_id $settingId not found");
+            throw new ModelNotFoundException("Setting '$key' of not found");
         }
 
+        // DB::table($this->model->getTable())->where(
+        //     'key22222', $key
+        // )->update(['value1222222' => $value]);
+        // dd('okkk');
+        // dd($this->model::where([
+        //     'key'        => $key
+        // ])->firstOrFail());
         $model->update([
             'value' => $value
         ]);
-
+        // dd($model);
         return $model;
     }
 
@@ -75,13 +78,7 @@ abstract class SettingBaseRepository extends CoreRepository
             return static::$cache[$setting];
         }
 
-        $settings = SettingDetailModel::whereHas('setting', function ($query) use ($setting) {
-            $query->where('name', $setting);
-        })
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['key'] => $item['value']];
-            });
+        $settings = collect((new static)->allSettings()->get($setting));
 
         static::$cache[$setting] = $settings;
 

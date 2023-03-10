@@ -2,10 +2,10 @@
 
 namespace Modules\Home\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Laka\Core\BaseServiceProvider;
+use Modules\Home\Support\PortfolioSupport;
 
-class HomeServiceProvider extends ServiceProvider
+class HomeServiceProvider extends BaseServiceProvider
 {
     /**
      * @var string $moduleName
@@ -16,6 +16,10 @@ class HomeServiceProvider extends ServiceProvider
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'home';
+
+    protected $facades = [
+        'portfolio-support' => PortfolioSupport::class,
+    ];
 
     /**
      * Boot the application events.

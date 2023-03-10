@@ -82,7 +82,7 @@ class SlideBarBootstrap4Presenter extends Presenter
     public function getMenuWithDropDownWrapper($item)
     {
         return '<li class="nav-item dropdown' . $this->getActiveStateOnChild($item, ' active') . '">
-		          <a href="#'.$item->attributes['id'].'" class="nav-link dropdown-toggle" data-bs-toggle="collapse">
+		          <a href="#'.$item->attributes['id'].'" class="nav-link dropdown-toggle" data-toggle="collapse">
 					' . $item->getIcon() . ' <p class="d-inline">' . $item->title . '</p>
 			      	<b class="caret"></b>
 			      </a>
