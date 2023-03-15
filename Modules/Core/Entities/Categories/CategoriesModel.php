@@ -3,6 +3,7 @@
 namespace Modules\Core\Entities\Categories;
 
 use Modules\Core\Entities\CoreModel;
+use Modules\Core\Entities\News\NewsModel;
 use Modules\Core\Entities\Posts\PostsModel;
 use Modules\Core\Entities\Products\ProductsModel;
 use Modules\Core\Traits\ActionScopeTrait;
@@ -55,9 +56,9 @@ class CategoriesModel extends CoreModel
         return $this->belongsToMany(PostsModel::class, 'post_categories', 'category_id', 'post_id');
     }
 
-    public function home_posts()
+    public function news()
     {
-        return $this->posts()->whereIsPost();
+        return $this->belongsToMany(NewsModel::class, 'post_categories', 'category_id', 'post_id');
     }
 
     public function products()

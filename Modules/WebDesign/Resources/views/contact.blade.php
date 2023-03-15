@@ -35,7 +35,3 @@
     </x-section-box>
 </main>
 @endsection
-
-@push('scripts')
-@livewireScripts
-@endpush

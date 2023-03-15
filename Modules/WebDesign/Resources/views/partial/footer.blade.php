@@ -10,7 +10,7 @@
                 <strong>Email:</strong> {{ data_get($infoSettings, 'info.web_email') }}<br>
               </p>
               <div class="social-links mt-3">
-                {!! $footerSocial->text !!}
+                @widget('text_footer_social')
               </div>
             </div>
           </div>
@@ -26,7 +26,6 @@
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>@widget('text_ournews', 'title')</h4>
             <div class="widget_content">@widget('text_ournews')</div>
           </div>
 

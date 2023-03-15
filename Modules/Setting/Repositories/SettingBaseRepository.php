@@ -45,13 +45,6 @@ abstract class SettingBaseRepository extends AdminBaseRepository
             throw new ModelNotFoundException("Setting '$key' of not found");
         }
 
-        // DB::table($this->model->getTable())->where(
-        //     'key22222', $key
-        // )->update(['value1222222' => $value]);
-        // dd('okkk');
-        // dd($this->model::where([
-        //     'key'        => $key
-        // ])->firstOrFail());
         $model->update([
             'value' => $value
         ]);

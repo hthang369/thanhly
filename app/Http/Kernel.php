@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'permission' => CheckPermissionByRole::class,
         'admin' => \App\Http\Middleware\AdminPage::class,
         'info-web' => \Modules\Admin\Http\Middleware\InfoWeb::class,
-        'access-home' => \Modules\Home\Http\Middleware\AccessHomeMiddleware::class
+        'access-home' => \Modules\Home\Http\Middleware\AccessHomeMiddleware::class,
+        'global-admin' => \Modules\Core\Http\Middleware\GlobalAdmin::class
     ];
 }

@@ -1,5 +1,8 @@
 {
     "Admin": true,
     "Setting": true,
-    "Home": true
+    "Home": true,
+    "Core": true,
+    "WebDesign": true,
+    "Api": true
 }

@@ -24,6 +24,7 @@ Route::group(['prefix' => 'v1'], function() {
     });
 
     Route::group(['prefix' => 'widget'], function() {
+        Route::get('/', 'WidgetController@index')->name('widget.index');
         Route::post('save-widget/{id}', 'WidgetController@update')->name('widget.save');
         Route::delete('delete-widget/{id}', 'WidgetController@delete')->name('widget.delete');
     });

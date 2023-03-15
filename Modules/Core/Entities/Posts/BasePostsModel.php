@@ -2,7 +2,9 @@
 
 namespace Modules\Core\Entities\Posts;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Entities\CoreModel;
+use Modules\Core\Enums\PostType;
 use Modules\Core\Traits\ActionScopeTrait;
 
 abstract class BasePostsModel extends CoreModel
@@ -34,4 +36,11 @@ abstract class BasePostsModel extends CoreModel
     protected $seoMetaColumn = [
         'ob_title' => 'post_title'
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('doc_type', function(Builder $builder) {
+            $builder->whereDocType('post_type', static::$type ?? PostType::PAGE);
+        });
+    }
 }

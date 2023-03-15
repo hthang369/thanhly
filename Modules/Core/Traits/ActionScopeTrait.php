@@ -5,9 +5,60 @@ namespace Modules\Core\Traits;
 use Laka\Core\Enums\ActionStatus;
 use Modules\Core\Enums\ActionHot;
 use Modules\Core\Enums\PostType;
+use Modules\Core\Traits\Scopes\ActionStatusScope;
 
 trait ActionScopeTrait 
 {
+    public static function bootActionScopeTrait()
+    {
+        static::addGlobalScope(new ActionStatusScope);
+    }
+
+    public function initializeActionScopeTrait()
+    {
+        $this->mergeFillable([$this->getIsStatusColumn(), $this->getIsHotColumn()]);
+    }
+
+    /**
+     * Get the name of the "is status" column.
+     *
+     * @return string
+     */
+    public function getIsStatusColumn()
+    {
+        return defined('static::IS_STATUS') ? static::IS_STATUS : 'is_status';
+    }
+
+    /**
+     * Get the name of the "is hot" column.
+     *
+     * @return string
+     */
+    public function getIsHotColumn()
+    {
+        return defined('static::IS_HOT') ? static::IS_HOT : 'is_hot';
+    }
+
+    /**
+     * Get the fully qualified "is status" column.
+     *
+     * @return string
+     */
+    public function getQualifiedIsStatusColumn()
+    {
+        return $this->qualifyColumn($this->getIsStatusColumn());
+    }
+
+    /**
+     * Get the fully qualified "is hot" column.
+     *
+     * @return string
+     */
+    public function getQualifiedIsHotColumn()
+    {
+        return $this->qualifyColumn($this->getIsHotColumn());
+    }
+
     public function scopeWhereActive($query, $columnName)
     {
         return $query->where($columnName, ActionStatus::ACTIVE);

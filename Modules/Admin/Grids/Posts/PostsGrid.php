@@ -50,8 +50,8 @@ class PostsGrid extends BaseGrid
                 'label' => trans('admin::posts.post_date'),
             ],
             [
-                'key' => 'post_status',
-                'label' => trans('admin::posts.post_status'),
+                'key' => 'is_status',
+                'label' => trans('admin::posts.is_status'),
                 'dataType' => DataType::STATUS
             ],
         ];

@@ -36,7 +36,8 @@ class ComposerServiceProvider extends ServiceProvider
                     $view->with('webLogo', data_get($allSetting, 'home.web_logo'));
                 });
                 View::composer('webdesign::partial.footer', function ($view) use($service, $allSetting) {
-                    $view->with('footerMenu', $service->getFooterOurMenus());
+                    $view->with('footerMenu', $service->getFooterMenus());
+                    $view->with('footerOurMenu', $service->getFooterOurMenus());
                     $view->with('infoSettings', $allSetting->only(['info', 'home']));
                 });
                 View::composer('webdesign::partial.left', function ($view) use($service) {

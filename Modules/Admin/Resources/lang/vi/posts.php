@@ -5,6 +5,6 @@ return [
     'category_id' => 'Danh mục',
     'post_excerpt' => 'Tóm tắt',
     'post_date' => 'Ngày đăng',
-    'post_status' => 'Trạng thái',
+    'is_status' => 'Trạng thái',
     'form_title' => ''
 ];

@@ -34,8 +34,8 @@ class CategoriesGrid extends BaseGrid
                 'label' => trans('admin::categories.category_link')
             ],
             [
-                'key' => 'category_status',
-                'label' => trans('admin::categories.category_status'),
+                'key' => 'is_status',
+                'label' => trans('admin::categories.is_status'),
                 'dataType' => DataType::STATUS
             ]
 		];

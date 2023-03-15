@@ -22,14 +22,14 @@ class WebDesignServices
 
     public function getFooterOurMenus()
     {
-        // return $this->getNavbarMenus('footer_our');
-        $dataTree = resolve(CategoriesRepository::class)->getDataTreeByType('post');
-        return Common::renderMenus($dataTree, 'navbar', '', true, function ($item) {
-            return [
-                'class' => 'text-uppercase',
-                'link' => route('page.show-post', $item['link'])
-            ];
-        });
+        return $this->getNavbarMenus('footerOur');
+        // $dataTree = resolve(CategoriesRepository::class)->getDataTreeByType('post');
+        // return Common::renderMenus($dataTree, 'navbar', '', true, function ($item) {
+        //     return [
+        //         'class' => 'text-uppercase',
+        //         'link' => route('page.show-post', $item['link'])
+        //     ];
+        // });
     }
 
     private function getNavbarMenus($type, $menu_style = '')

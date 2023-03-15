@@ -5,6 +5,7 @@ namespace Modules\Setting\Repositories;
 use Illuminate\Support\Facades\DB;
 use Modules\Setting\Entities\SettingDetailModel;
 use Modules\Setting\Entities\SettingModel;
+use Modules\Setting\Enums\SettingGroup;
 
 class WidgetRepository extends WidgetBaseRepository
 {
@@ -37,10 +38,10 @@ class WidgetRepository extends WidgetBaseRepository
         $builder->mergeBindings($subQuery);
         
         $result = $builder->whereRaw("{$lft} >= {$value}", [ ], 'and')->get()->toTree();
-        $resultWidget = $result->where('key', 'widget')->first();
-        
-        return $resultWidget->children->groupBy(function($item) {
-            return str_before($item->key, '_');
+        return $result->keyBy('key')->map(function($obj) {
+            return $obj->children->groupBy(function($item) {
+                return str_before($item->key, '_');
+            });
         });
     }
 
@@ -93,28 +94,31 @@ class WidgetRepository extends WidgetBaseRepository
     public function update($attributes, $id)
     {
         $widget_group = data_get($attributes, 'group');
-        // $attrData = array_except($attributes, ['widget_group', '_token']);
-        // $widget_group = data_get($attributes, 'widget_group');
-        // $data = collect();
-        // DB::transaction(function () use ($id, $widget_group, &$data) {
-            $groupObject = static::getDetail('widget', $widget_group);
-            $group = json_decode(static::getDetail('widget', $widget_group), true);
-            dd($group);
-        //     if (!is_null($group)) {
-        //         $group = array_map(function ($item) use ($id) {
-        //             return starts_with($item, 'slot') ? $id : $item;
-        //         }, $group);
-        //     }
-        //     $data->push(parent::update([
-        //         $id => json_encode($attrData)
-        //     ], 'widget'));
-        //     if (!is_null($group)) {
-        //         $data->push(parent::update([
-        //             $widget_group => json_encode($group)
-        //         ], 'widget'));
-        //     }
-        // });
-        // return $data;
+        $data = collect();
+        DB::transaction(function () use ($id, $widget_group, &$data, $attributes) {
+            $group = static::getDetail(SettingGroup::WIDGET_CONFIG, $widget_group);
+            if (!is_array($group))
+                $group = json_decode($group, true);
+            
+            if (!blank($group)) {
+                foreach($group as $key => $item) {
+                    if (blank($item)) {
+                        data_set($group, $key, $id);
+                        break;
+                    }
+                }
+            }
+            
+            $data->push(parent::update([
+                $id => json_encode(array_only($attributes, ['title', 'text']))
+            ], SettingGroup::WIDGET));
+            if (!blank($group)) {
+                $data->push(parent::update([
+                    $widget_group => json_encode($group)
+                ], SettingGroup::WIDGET_CONFIG));
+            }
+        });
+        return $data;
     }
 
     public function delete($id)

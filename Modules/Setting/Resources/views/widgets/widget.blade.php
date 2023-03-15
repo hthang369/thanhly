@@ -9,85 +9,13 @@
 </div>
 @endsection
 @section('content')
-@php
-    $widgetText = data_get($data, 'data.text');
-    $widgetGroup = data_get($data, 'data.group');
-    $dataGroup = $widgetText->keyBy('key');
-    // dd($data);
-@endphp
-{{-- <div class="card">
-    <h4 class="card-header bg-primary">Preview</h4>
-    <div class="card-body px-1">
-        @foreach ($widgetGroup as $item)
-        <div class="card">
-            <h5 class="card-header bg-info">{{$item->header}}</h5>
-            <div class="card-body">
-                <div class="row">
-                @foreach (json_decode($item->value) as $text)
-                <div class="col">
-                <div class="alert alert-secondary m-0" role="alert">
-                    @if ($dataGroup->has($text))
-                    {!! $dataGroup->get($text)->text !!}
-                    @else
-                    {{$text}}
-                    @endif
-                </div>
-                </div>
-                @endforeach
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-    <div class="card-footer">
-        {!! Form::button('Preview', ['class' => 'btn btn-primary btn-sm']) !!}
-    </div>
-</div> --}}
-<x-card-group :cols="[1, 'md-3']">
-    @foreach ($widgetText as $header => $item)
-    <div class="col">
-    <div class="card widgets-group-card">
-        <form method="POST" action="{{route('widget.update', $item->key)}}" id="{{$item->key}}">
-        <h4 class="card-header">
-            <div class="d-flex justify-content-between">
-                <span>{{$item->header}}</span>
-                <div class="btn-group btn-group-sm" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Group
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <a class="dropdown-item btn-select" href="#" data-key="group">Group</a>
-                        @foreach ($widgetGroup as $group)
-                        <a class="dropdown-item btn-select {{in_array($item->key, json_decode($group->value, true)) ? 'active' : ''}}" href="#" data-key="{{$group->key}}">{{$group->header}}</a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </h4>
-        <div class="card-body card-widgets">
-            {!! Form::hidden('widget_group', null, ['class' => 'widget_group']) !!}
-            @csrf
-            <div class="form-group">
-                {!! Form::label($item->key, 'Title', []) !!}
-                {!! Form::text('title', $item->title, ['class' => 'form-control']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label($item->key, 'Text', []) !!}
-                {!! Form::textarea('text', $item->text, ['class' => 'form-control', 'rows' => 5]) !!}
-            </div>
-        </div>
-        <div class="card-footer">
-            {!! Form::btButton('Save', 'primary', ['class' => 'btn-sm btn-save', 'data-loading' => __('admin::common.loading')], 'edit', 'widget') !!}
-            {!! Form::btButton('Delete', 'danger', ['class' => 'btn-sm btn-remove', 'data-loading' => __('admin::common.loading')], 'edit', 'widget') !!}
-        </div>
-        </form>
-    </div>
-    </div>
-    @endforeach
-</x-card-group>
+<div id="app">
+<widget-group base-url="http://thietkewebvnnit.com/api/v1/"></widget-group>
+</div>
 @endsection
 
 @push('scripts')
+<script src="{{ vnn_asset('js/app_admin.js') }}"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script>

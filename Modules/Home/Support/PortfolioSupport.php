@@ -18,7 +18,7 @@ class PortfolioSupport
             $pro = PromotionFormular::calcalulator($item);
             return [
                 'title' => data_get($pro, 'name'),
-                'link' => route('page.show-detail', data_get($pro, 'link')),
+                'link' => route('page.show-product', data_get($pro, 'link')),
                 'excerpt' => data_get($pro, 'excerpt'),
                 'price' => data_get($pro, 'price'),
                 'promotion_price' => data_get($pro, 'promotion_price'),
@@ -28,7 +28,8 @@ class PortfolioSupport
                 'content' => data_get($pro, 'content'),
                 'images' => [
                     'name' => data_get($pro, 'name'),
-                    'src' => image_asset(data_get($pro, 'product_image'))
+                    'src' => image_asset(data_get($pro, 'product_image')),
+                    'class' => 'img-fluid'
                 ]
             ];
         });
@@ -42,7 +43,8 @@ class PortfolioSupport
             'excerpt' => data_get($item, 'post_excerpt'),
             'images' => [
                 'name' => data_get($item, 'post_title'),
-                'src' => image_asset(data_get($item, 'post_image'))
+                'src' => image_asset(data_get($item, 'post_image')),
+                'class' => 'img-fluid'
             ]
         ];
     }

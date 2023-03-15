@@ -8,6 +8,7 @@ use Modules\Core\Entities\Promotions\ProductPromotions;
 use Modules\Core\Entities\Promotions\PromotionsModel;
 use Modules\Core\Entities\Uoms\UomsModel;
 use Modules\Core\Traits\ActionScopeTrait;
+use Modules\Setting\Entities\AttributeModel;
 
 class ProductsModel extends CoreModel
 {
@@ -56,5 +57,11 @@ class ProductsModel extends CoreModel
     public function uom()
     {
         return $this->belongsTo(UomsModel::class);
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(AttributeModel::class, 'product_attributes', 'product_id', 'attribute_id')
+            ->select(['attributes.key', 'attributes.language', 'product_attributes.value as pivot_value']);
     }
 }

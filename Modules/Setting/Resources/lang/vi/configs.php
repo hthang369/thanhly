@@ -13,4 +13,16 @@ return [
     'web_card_map' => 'Thông tin bản đồ',
     'web_map' => 'Bản đồ',
     'cancel_info' => 'Hủy',
+    'widget' => [
+        'text_copyright' => 'Text copyright',
+        'text_footer' => 'Text footer',
+        'text_ournews' => 'Text ournews',
+        'text_top_herder' => 'Text top header',
+        'text_header_social' => 'Text header social',
+        'text_footer_social' => 'Text footer social',
+        'group_navbar_top' => 'Group navbar top',
+        'group_navbar_bottom' => 'Group navbar bottom',
+        'group_footer' => 'Group footer',
+    ]
+    
 ];

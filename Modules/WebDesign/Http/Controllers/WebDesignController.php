@@ -80,9 +80,18 @@ class WebDesignController extends CoreController
         return $this->response->data($request, ['result' => $base], "webdesign::$viewName");
     }
 
+    public function showProductDetail(Request $request, $id)
+    {
+        $base = $this->repository->findProduct($id);
+        $this->sharePageTitle(data_get($base, 'ob_title'));
+        $viewName = 'show_product';
+
+        return $this->response->data($request, ['result' => $base], "webdesign::$viewName");
+    }
+
     public function preview(Request $request, $id)
     {
-        $info = $this->repository->findPost($id);
+        $info = $this->repository->findProduct($id);
         $folder = data_get($info->attributes->first(), 'pivot.value');
         return $this->response->data($request, ['result' => $folder], module_view_name('preview'));
     }

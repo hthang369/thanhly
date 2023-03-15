@@ -9,9 +9,12 @@ use Modules\Setting\Validators\WidgetValidator;
 use Modules\Setting\Forms\WidgetGroupForm;
 use Modules\Setting\Forms\WidgetTextForm;
 use Laka\Core\Http\Controllers\CoreController;
+use Modules\Setting\Services\WidgetService;
 
 class WidgetController extends CoreController
 {
+    protected $service;
+
     protected $redirectRoute = [
         'error' => 'setting.index'
     ];
@@ -21,12 +24,14 @@ class WidgetController extends CoreController
     ];
 
     protected $permissionActions = [
+        'index' => 'public',
         'update' => 'public'
     ];
 
-    public function __construct(WidgetRepository $repository, WidgetValidator $validator, WidgetResponse $response)
+    public function __construct(WidgetRepository $repository, WidgetValidator $validator, WidgetResponse $response, WidgetService $service)
     {
         parent::__construct($repository, $validator, $response);
+        $this->service = $service;
     }
 
     /**
@@ -36,8 +41,8 @@ class WidgetController extends CoreController
     public function index(Request $request)
     {
         $data = $this->repository->getWidgetList();
-        
-        return $this->renderView($request, compact('data'), __FUNCTION__);
+        $data = $this->service->parseResultApi($data);
+        return $this->renderView($request, $data, __FUNCTION__);
     }
 
     public function create($id = null)

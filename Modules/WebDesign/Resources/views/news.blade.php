@@ -2,7 +2,7 @@
 
 @section('content')
 <main id="main">
-    @php($post_list = $data['pagination_posts'])
+    @php($post_list = $data['pagination_news'])
     <x-section-box id="news" class="news" :title="$data['category_name']" title-class="container-fluid container-lg">
         <div class="container-fluid container-lg">
             <ul class="list-unstyled">
