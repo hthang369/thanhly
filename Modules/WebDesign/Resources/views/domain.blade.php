@@ -2,7 +2,7 @@
 
 @section('content')
 <main id="app">
-    <x-section-box id="about" class="about" :title="$data['post_title']" title-class="container-fluid container-lg">
+    <x-section-box id="about" class="about" :title="data_get($data, 'data.post_title')" title-class="container-fluid container-lg">
         <div class="container-fluid container-lg mt-4">
             <p class="h2 text-center">Mua tên miền tốt nhất</p>
             <p class="text-center">Kiểm tra tên miền đăng ký được không ngay bây giờ.</p>
@@ -13,7 +13,7 @@
             <domain-search base-url="{{$baseUrl}}"></domain-search>
 
             <div class="text-center">
-            {!! $data['post_content'] !!}
+            {!! data_get($data, 'data.post_content') !!}
             </div>
         </div>
     </x-section-box>

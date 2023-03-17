@@ -4,17 +4,15 @@ namespace Modules\WebDesign\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Laka\Core\Http\Controllers\CoreController;
 use Laka\Core\Responses\BaseResponse;
+use Modules\Core\Http\Controllers\HomeCoreController;
 use Modules\Setting\Facade\Setting;
 use Modules\WebDesign\Repositories\WebDesignRepository;
 use Modules\WebDesign\Traits\WebDesignTrait;
 use Modules\WebDesign\Validators\WebDesignValidator;
 
-class WebDesignController extends CoreController
+class WebDesignController extends HomeCoreController
 {
-    use WebDesignTrait;
-
     protected $permissionActions = [
         'index' => 'public',
         'show' => 'public',
@@ -35,23 +33,7 @@ class WebDesignController extends CoreController
         $infoSetting = Setting::getAllSetting()->get('info');
         $this->sharePageTitle(data_get($infoSetting, 'ob_title'));
         $data = $this->repository->show('/');
-        return view('webdesign::index', $data['data']);
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show(Request $request, $id)
-    {
-        $base = $this->repository->show($id);
-        $this->sharePageTitle(data_get($base, 'data.ob_title'));
-        
-        $viewName = $base['view_name'];
-        if (blank($viewName)) $viewName = 'show';
-
-        return $this->response->data(request(), ['result' => $base['data']], "webdesign::{$viewName}");
+        return view(module_view_name(__FUNCTION__), $data['data']);
     }
 
     public function sendMail(Request $request)

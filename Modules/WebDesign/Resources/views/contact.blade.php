@@ -2,7 +2,7 @@
 
 @section('content')
 <main id="main">
-    <x-section-box id="contact" class="contact" :title="$data['post_title']">
+    <x-section-box id="contact" class="contact" :title="data_get($data, 'data.post_title')">
         <div class="map">
             {!! data_get($infoSettings, 'map.web_map') !!}
         </div>

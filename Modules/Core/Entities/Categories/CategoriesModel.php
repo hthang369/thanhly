@@ -2,6 +2,8 @@
 
 namespace Modules\Core\Entities\Categories;
 
+use Illuminate\Database\Eloquent\Builder;
+use Modules\Admin\Enums\CategoryType;
 use Modules\Core\Entities\CoreModel;
 use Modules\Core\Entities\News\NewsModel;
 use Modules\Core\Entities\Posts\PostsModel;
@@ -63,7 +65,39 @@ class CategoriesModel extends CoreModel
 
     public function products()
     {
-        return $this->belongsToMany(ProductsModel::class, 'product_categories', 'category_id', 'product_id');
+        return $this->belongsToMany(ProductsModel::class, 'product_categories', 'category_id', 'product_id'); //->with(['images', 'category_id', 'promotions']);
+    }
+
+    public function scopeWithLimitPosts($query, $limit = null, $relations = [])
+    {
+        return $this->withLimitRelations($query, 'posts', $limit, $relations);
+    }
+
+    public function scopeWithLimitProducts($query, $limit = null, $relations = [])
+    {
+        return $this->withLimitRelations($query, 'products', $limit, $relations);
+    }
+
+    public function scopeWithLimitNews($query, $limit = null, $relations = [])
+    {
+        return $this->withLimitRelations($query, 'news', $limit, $relations);
+    }
+
+    protected function withLimitRelations($query, $name, $limit = null, $relations = [])
+    {
+        return $query->with($name, function($query) use($limit, $relations) {
+            return $query->with($relations)->limit($limit);
+        });
+    }
+
+    public function scopeWithCategoryNews($query)
+    {
+        return $this->scopeWithCategoryType($query, CategoryType::NEWS);
+    }
+
+    public function scopeWithCategoryType($query, $type)
+    {
+        return $query->where($this->qualifyColumn('category_type'), $type);
     }
 
     // public function getPostListAttribute()

@@ -2,13 +2,12 @@
 
 @section('content')
 <main id="main">
-    <x-section-box id="about" class="about" :title="$data['category_name']" title-class="container-fluid container-lg">
+    <x-section-box id="about" class="about" :title="data_get($data, 'data.category_name')" title-class="container-fluid container-lg">
         <div class="container-fluid container-lg mt-4">
-            {{-- @dd($data) --}}
             <p class="text-center h2 mb-4">Bảng giá hosting</p>
-            @php($listProduct = data_get($data, 'pagination_products'))
+            @php($listProduct = data_get($data, 'data.products'))
             <x-card-group :cols="[1, 'md-3']">
-            @foreach (Modules\Home\Facades\Portfolio::convertProduct($listProduct['data']) as $pro)
+            @foreach (Modules\Home\Facades\Portfolio::convertProduct($listProduct->items()) as $pro)
                 <x-card class="card-hosting">
                     <x-slot name="header">
                         <p class="text-center mb-2">{{data_get($pro, 'title')}}</p>

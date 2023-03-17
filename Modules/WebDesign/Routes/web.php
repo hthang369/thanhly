@@ -13,9 +13,13 @@
 
 Route::prefix('')->group(function() {
     Route::get('/', 'WebDesignController@index')->name('page.index');
-    Route::get('/category/{title}', 'WebDesignController@showPost')->name('page.show-post');
-    Route::get('/post/{title}', 'WebDesignController@showPostDetail')->name('page.show-detail');
-    Route::get('/product/{title}', 'WebDesignController@showProductDetail')->name('page.show-product');
-    Route::get('/preview/{title}', 'WebDesignController@preview')->name('page.preview');
-    Route::get('/{title}', 'WebDesignController@show')->name('page.show');
+
+    Route::get('/category/{title}', 'CategoryController@show')->name('page.show-post');
+
+    Route::get('/post/{title}', 'PostController@show')->name('page.show-detail');
+
+    Route::get('/product/{title}', 'ProductController@show')->name('page.show-product');
+    Route::get('/preview/{title}', 'ProductController@preview')->name('page.preview');
+
+    Route::get('/{title}', 'PageController@show')->name('page.show');
 });

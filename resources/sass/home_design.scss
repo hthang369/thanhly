@@ -153,11 +153,6 @@ a {
         }
     }
 }
-.sticky-top {
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-}
 /*!
 * --------------------------------------------------------------
 * # Navigation Menu
@@ -359,6 +354,16 @@ a {
         height: 150vh;
         .carousel-item {
             height: 150vh;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    #header {
+        .navbar {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
         }
     }
 }

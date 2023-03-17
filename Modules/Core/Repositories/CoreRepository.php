@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Laka\Core\Facades\Common;
 use Laka\Core\Repositories\CoreRepository as BaseCoreRepository;
 use Laka\Core\Plugins\Nestedset\NodeTrait;
+use Modules\Core\Traits\Scopes\ActionStatusScope;
 
 abstract class CoreRepository extends BaseCoreRepository
 {
@@ -90,6 +91,11 @@ abstract class CoreRepository extends BaseCoreRepository
         return $this->parserResult($model);
     }
 
+    protected function paginateData($data = null, string $method = "paginate", int $limit = null, array $columns = [])
+    {
+        return call_user_func([$this->model->withoutGlobalScope(ActionStatusScope::class), $method], ...array_filter([$data, $limit, $columns]));
+    }
+
     public function allDataGrid()
     {
         if (array_search(NodeTrait::class, class_uses_recursive($this->model))) {
@@ -106,7 +112,7 @@ abstract class CoreRepository extends BaseCoreRepository
         $columns = $this->getColumns($columns);
 
         $limit = is_null($limit) ? $this->getLimitForPagination() : $limit;
-        $results = $this->model->{$method}($limit, $columns);
+        $results = $this->model->withoutGlobalScope(ActionStatusScope::class)->{$method}($limit, $columns);
         $results->appends(request()->except($this->except));
         $this->resetQuery();
 

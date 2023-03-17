@@ -24,10 +24,12 @@ return [
         //     'web_map' => ''
         // ],
         SettingGroup::WIDGET => [
-            // 'text_copyright' => '',
-            // 'text_footer' => '',
-            // 'text_ournews' => '',
-            // 'text_footer_info' => '',
+            'text_copyright' => '',
+            'text_footer' => '',
+            'text_ournews' => '',
+            'text_top_herder' => '',
+            'text_header_social' => '',
+            'text_footer_social' => '',
             'group_navbar_top' => '<div class="d-flex justify-content-between">
             <div>[slot_1]</div>
             <div>[slot_2]</div>
@@ -41,9 +43,9 @@ return [
           </div>',
         ],
         SettingGroup::WIDGET_CONFIG => [
-            'group_navbar_top' => json_encode(['slot_1' => '', 'slot_2' => '']),
-            'group_navbar_bottom' => json_encode(['slot_1' => '']),
-            'group_footer' => json_encode(['slot_1' => '', 'slot_2' => '', 'slot_3' => '', 'slot_4' => '']),
+            'group_navbar_top' => json_encode(['[slot_1]' => '', '[slot_2]' => '']),
+            'group_navbar_bottom' => json_encode(['[slot_1]' => '']),
+            'group_footer' => json_encode(['[slot_1]' => '', '[slot_2]' => '', '[slot_3]' => '', '[slot_4]' => '']),
         ],
     ]
 ];

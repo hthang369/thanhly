@@ -2,11 +2,11 @@
 
 @section('content')
 <main id="main">
-    @php($post_list = $data['pagination_news'])
-    <x-section-box id="news" class="news" :title="$data['category_name']" title-class="container-fluid container-lg">
+    @php($post_list = data_get($data, 'data.news'))
+    <x-section-box id="news" class="news" :title="data_get($data, 'data.category_name')" title-class="container-fluid container-lg">
         <div class="container-fluid container-lg">
             <ul class="list-unstyled">
-                @foreach($post_list['data'] as $post)
+                @foreach($post_list->items() as $post)
                     <x-media tag="li" class="mb-3">
                         <x-slot name="object">
                             @php($post_image = $post['post_image'])
@@ -18,7 +18,7 @@
                     </x-media>
                 @endforeach
             </ul>
-            <x-pagination :total="$post_list['total']" :current="$post_list['current_page']" :pages="$post_list['last_page']" />
+            {!! $post_list->links() !!}
         </div>
     </x-section-box>
 </main>
