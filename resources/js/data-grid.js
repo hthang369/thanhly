@@ -332,6 +332,7 @@ function downloadFilePath(filePath) {
 
             element.each(function (i, obj) {
                 $(obj).multiselect(_.merge({
+                    buttonTextAlignment: 'left',
                     nonSelectedText: _.get(params, 'nonSelectedText'),
                     selectAllText: _.get(params, 'selectAllText'),
                     includeSelectAllOption: true,
@@ -356,6 +357,7 @@ function downloadFilePath(filePath) {
 
             element.each(function (i, obj) {
                 $(obj).multiselect(_.merge({
+                    buttonTextAlignment: 'left',
                     nonSelectedText: _.get(params, 'nonSelectedText'),
                     selectAllText: _.get(params, 'selectAllText'),
                     includeSelectAllOption: true,
@@ -367,6 +369,35 @@ function downloadFilePath(filePath) {
                         }
                     }
                 }, options));
+            });
+        },
+        initCustomDatalist: function (element) {
+            if (element.length < 1) return;
+
+            element.each(function (i, obj) {
+                let elementInput = $(obj);
+                let elementDatalist = $(obj).next();
+                $(obj).attr('list', '').attr('data-toggle', 'dropdown');
+                $(elementDatalist).addClass('dropdown-menu');
+                
+                $(elementInput).on('focus', function() {
+                    $(elementDatalist).find('option').css('display', 'block')
+                }).on('input', function() {
+                    let inputVal = $(this).val().toLowerCase();
+                    $(elementDatalist).find('option').each(function(key, item) {
+                        if (item.value.toLowerCase().indexOf(inputVal) > -1) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    })
+                })
+                $(elementDatalist).find('option').each(function(key, item) {
+                    item.onclick = function() {
+                        $(obj).val(item.value);
+                        $(elementInput).dropdown('hide');   
+                    }
+                });
             });
         }
     }
@@ -827,6 +858,7 @@ function downloadFilePath(filePath) {
                     modalDialog.on('shown.bs.modal', function (e) {
                         $(btn).html(btnHtml).removeAttr('disabled').removeClass('disabled');
                         _grids.utils.initMultiSelect($('[data-toggle="multiple"]'))
+                        _grids.utils.initCustomDatalist($('input[list="data-choices"]'))
                     });
 
                     // destroy the modal
@@ -936,6 +968,7 @@ function downloadFilePath(filePath) {
     });
     
     _grids.utils.initMultiSelect($('[data-toggle="multiple"]'))
+    _grids.utils.initCustomDatalist($('input[list="data-choices"]'))
 
     return _grids;
 })(jQuery);

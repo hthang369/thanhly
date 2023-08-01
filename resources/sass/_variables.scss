@@ -3,7 +3,9 @@
 // Body
 $body-bg: #f8fafc;
 $body-color: #606266 !default;
+$font-base: 16 !default;
 $font-family-sans-serif: "Roboto" !default;
+$enable-responsive-font-sizes:                true !default;
 
 $gutters: (
   0: 0,
@@ -13,3 +15,7 @@ $gutters: (
   4: $spacer * 1.5,
   5: $spacer * 3,
 );
+
+$text-truncate: (
+  2: 2,
+  3: 3) !default;

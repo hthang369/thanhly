@@ -10,11 +10,14 @@ return array (
     'service' => 'Dịch vụ',
     'products' => 'Sản phẩm',
     'typical_products' => 'Sản phẩm tiêu biểu',
-    'support' => 'Hỗ trợ online'
   ],
   'counter' => [
     'title' => 'Lượt truy cập'
   ],
   'pages' => 'Trang',
-  'total' => 'Tổng'
+  'total' => 'Tổng',
+  'support' => [
+    'title' => 'Hỗ trợ online',
+    'sub_title' => 'Hổ trợ kỹ thuật'
+  ]
 );
