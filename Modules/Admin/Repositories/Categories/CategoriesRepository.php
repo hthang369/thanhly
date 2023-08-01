@@ -8,6 +8,7 @@ use Laka\Core\Repositories\FilterQueryString\Filters\WhereClause;
 use Modules\Admin\Forms\Categories\CategoriesForm;
 use Modules\Admin\Grids\Categories\CategoriesGrid;
 use Modules\Admin\Repositories\AdminBaseRepository;
+use Modules\Core\Entities\Categories\CategoriesBrandsModel;
 use Modules\Core\Entities\Categories\CategoriesModel;
 
 class CategoriesRepository extends AdminBaseRepository
@@ -26,18 +27,24 @@ class CategoriesRepository extends AdminBaseRepository
 
     public function create(array $attributes)
     {
-        if (!isset($attributes['category_status']))
-            $attributes['category_status'] = ActionStatus::ACTIVE;
-
-        return parent::createNestedTree($attributes);
+        return DB::transaction(function() use($attributes) {
+            $model = parent::createNestedTree($attributes);
+            if (isset($attributes['brands'])) {
+                $this->upsertForenignColumn(CategoriesBrandsModel::class, $attributes['brands'], $model->id, 'brand_id');
+            }
+            return $model;
+        });
     }
 
     public function update(array $attributes, $id)
     {
-        if (!isset($attributes['category_status']))
-            $attributes['category_status'] = ActionStatus::ACTIVE;
-
-        return parent::updateNestedTree($attributes, $id);
+        return DB::transaction(function() use($attributes, $id) {
+            $model = parent::updateNestedTree($attributes, $id);
+            if (isset($attributes['brands'])) {
+                $this->upsertForenignColumn(CategoriesBrandsModel::class, $attributes['brands'], $model->id, 'brand_id');
+            }
+            return $model;
+        });
     }
 
     public function getListOfLink()
@@ -61,5 +68,12 @@ class CategoriesRepository extends AdminBaseRepository
             'category_lft',
             'category_rgt'
         ])->toTree();
+    }
+
+    public function getDataByType($type)
+    {
+        $results = $this->model->where('category_type', $type)
+            ->defaultDepthNestedTree()->addSelect('categories.category_name as name')->get();
+        return $this->parseSelectedNestedList($results);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\Core\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Laka\Core\Enums\ActionStatus;
 use Modules\Core\Enums\ActionHot;
 use Modules\Core\Enums\PostType;
@@ -12,6 +13,9 @@ trait ActionScopeTrait
     public static function bootActionScopeTrait()
     {
         static::addGlobalScope(new ActionStatusScope);
+        static::saving(function(Model $model) {
+            $model->setAttribute($model->getQualifiedIsStatusColumn(), ActionStatus::ACTIVE);
+        });
     }
 
     public function initializeActionScopeTrait()

@@ -3,22 +3,24 @@
 namespace Modules\Home\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use Laka\Core\Repositories\CoreRepository;
 use Modules\Core\Entities\Posts\PostsModel;
 use Modules\Core\Entities\Products\ProductsModel;
+use Modules\Core\Repositories\HomeCoreRepository;
 
-class PostRepository extends CoreRepository
+class PostRepository extends HomeCoreRepository
 {
     protected $modelClass = PostsModel::class;
 
-    public function show($id, $columns = [])
+    public function showInternal($id, $viewName)
     {
-        $viewName = 'index';
         list($info, $listPopular) = $this->findPost($id);
-        if (blank($info)) {
-            list($info, $listPopular) = $this->findProduct($id);
-            $viewName = 'children';
-        }
+        $info->header_title = $info->post_title;
+    //     $viewName = 'index';
+    //     
+    //     if (blank($info)) {
+    //         list($info, $listPopular) = $this->findProduct($id);
+    //         $viewName = 'children';
+    //     }
         return ['data' => $info, 'view' => $viewName, 'listPopular' => $listPopular];
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'page_name' => 'VNNIT COMPUTER',
     'bootstrap' => 4,
     'pagination' => [
         'onEachPage' => 1, // Số trang hiển thị 2 bên trang hiện tại

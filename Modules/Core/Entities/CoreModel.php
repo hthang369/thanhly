@@ -15,9 +15,7 @@ abstract class CoreModel extends BaseModel
 
     public function listenSaving()
     {
-        $this->setAttribute($this->getQualifiedDomainColumn(), $this->getDomainId());
         $this->setSlugColumn();
-        $this->setSeoMeta();
     }
 
     private function setSlugColumn()
@@ -30,17 +28,6 @@ abstract class CoreModel extends BaseModel
                     return str_slug($this->getAttribute($column));
                 }, array_wrap($lstColumns)));
                 $this->setAttribute($slugColumnName, $slugValue);
-            }
-        }
-    }
-
-    private function setSeoMeta()
-    {
-        if (!blank($this->seoMetaColumn) && is_array($this->seoMetaColumn)) {
-            $titleColumnName = key($this->seoMetaColumn);
-            $columnName = current($this->seoMetaColumn);
-            if (blank($this->getAttribute($titleColumnName))) {
-                $this->setAttribute($titleColumnName, $this->getAttribute($columnName));
             }
         }
     }

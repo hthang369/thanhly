@@ -8,10 +8,10 @@ use Modules\Home\Repositories\HomeRepository;
 use Modules\Home\Responses\HomeResponse;
 use Modules\Home\Validators\HomeValidator;
 use Modules\Setting\Facade\Setting;
-use Laka\Core\Http\Controllers\BaseController;
+use Modules\Core\Http\Controllers\HomeCoreController;
 use Modules\Home\Traits\HomeTrait;
 
-class HomeController extends BaseController
+class HomeController extends HomeCoreController
 {
     use HomeTrait;
 
@@ -34,26 +34,7 @@ class HomeController extends BaseController
     {
         $data = $this->repository->show('/');
         $this->sharePageTitle(module_trans('common.page_title.home'));
-        return $this->response->data(request(), ['result' => $data['data']], 'home::index');
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show(Request $request, $id)
-    {
-        $base = $this->repository->show($id);
-        if (!array_has($base, 'data.ob_desception')) {
-            data_set($base, 'data.ob_desception', Setting::get('info', 'ob_desception'));
-        }
-        $viewName = $base['view_name'];
-        if (blank($viewName)) $viewName = 'show';
-        $this->sharePageTitle(data_get($base, 'data.header_title'));
-        $this->shareDataView($base['data']->category_type);
-
-        return $this->response->data(request(), ['result' => $base['data']], "home::{$viewName}");
+        return $this->response->data(request(), ['result' => $data], 'home::index');
     }
 
     public function sendMail(Request $request)
@@ -80,5 +61,10 @@ class HomeController extends BaseController
         $viewName = 'show';
 
         return $this->response->data($request, compact('postInfo', 'popularPost'), "home::$viewName");
+    }
+
+    public function test(Request $request)
+    {
+        return $this->response->data($request, null, "home::test");
     }
 }

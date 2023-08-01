@@ -12,7 +12,8 @@ use Modules\Core\Http\Controllers\CoreController;
 class CategoriesController extends CoreController
 {
     protected $permissionActions = [
-        'viewIndex' => 'view'
+        'viewIndex' => 'view',
+        'viewEdit' => 'edit'
     ];
     protected $listViewName = [
         'show' => 'admin::categories.category_modal',
@@ -51,5 +52,11 @@ class CategoriesController extends CoreController
     {
         $request->merge(['category_type' => $type]);
         return parent::create($request);
+    }
+
+    public function viewEdit(Request $request, $type, $id)
+    {
+        $request->merge(['category_type' => $type]);
+        return parent::edit($request, $id);
     }
 }

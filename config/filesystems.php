@@ -72,6 +72,10 @@ return [
         'logs' => [
             'driver' => 'local',
             'root' => storage_path('logs'),
+        ],
+        'root' => [
+            'driver' => 'local',
+            'root' => base_path(),
         ]
     ],
 

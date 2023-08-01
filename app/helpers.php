@@ -60,3 +60,18 @@ if (!function_exists('currency_format')) {
         return $numf->formatCurrency($value, $currency);
     }
 }
+
+if (!function_exists('link_to_tel')) {
+    function link_to_tel($title, $url = null, $attribute = [])
+    {
+        $newUrl = $url ?? $title;
+        return link_to("tel:{$newUrl}", $title, $attribute);
+    }
+}
+
+if (!function_exists('link_to_email')) {
+    function link_to_email($email, $title = null, $attribute = [])
+    {
+        return app('html')->mailto($email, $title ?? $email, $attribute);
+    }
+}

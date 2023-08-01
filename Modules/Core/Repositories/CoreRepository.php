@@ -18,12 +18,16 @@ abstract class CoreRepository extends BaseCoreRepository
         return $this->getSortableMenus($dataTree);
     }
 
-    protected function getSortableMenus($dataTree)
+    protected function getSortableMenus($dataTree, $callback = null)
     {
-        return Common::renderMenus($dataTree, 'nestedSortable', 'nested_sortable_bt4', false, function($item) {
-            return [
+        return Common::renderMenus($dataTree, 'nestedSortable', 'nested_sortable_bt4', false, function($item) use($callback) {
+            $data = [
                 'id' => 'item_'.data_get($item, 'id')
             ];
+            if (!blank($callback) && is_callable($callback)) {
+                $data = array_merge($data, with($item, $callback));
+            }
+            return $data;
         });
     }
 
@@ -49,19 +53,25 @@ abstract class CoreRepository extends BaseCoreRepository
         });
     }
 
-    public function createNestedTree(array $attributes)
+    public function insertNestedNode($model, $parent_id)
     {
-        $model = $this->model->newInstance($attributes);
-
-        if ($this->model->count() == 0 || is_null(data_get($attributes, $this->model->getParentIdName(), null))) {
+        if (is_null($parent_id)) {
             $model->saveAsRoot();
         } else {
-            $parent_id = $attributes[$this->model->getParentIdName()];
-
             $parentNode = $this->find($parent_id);
 
             $parentNode->appendNode($model);
         }
+        return $model;
+    }
+
+    public function createNestedTree(array $attributes)
+    {
+        $model = $this->model->newInstance($attributes);
+
+        $parent_id = data_get($attributes, $this->model->getParentIdName(), null);
+
+        $this->insertNestedNode($model, $parent_id);
 
         $this->resetModel();
 
@@ -74,16 +84,14 @@ abstract class CoreRepository extends BaseCoreRepository
 
         $model = $this->model->findOrFail($id);
 
+        $parent_id = data_get($attributes, $this->model->getParentIdName(), null);
+
         $model->fill($attributes);
 
-        if (is_null(data_get($attributes, $this->model->getParentIdName(), null))) {
-            $model->saveAsRoot();
+        if ($model->getParentId() !== intval($parent_id)) {
+            $this->insertNestedNode($model, $parent_id);
         } else {
-            $parent_id = $attributes[$this->model->getParentIdName()];
-
-            $parentNode = $this->find($parent_id);
-
-            $parentNode->appendNode($model);
+            $model->save();
         }
 
         $this->resetModel();
@@ -93,7 +101,7 @@ abstract class CoreRepository extends BaseCoreRepository
 
     protected function paginateData($data = null, string $method = "paginate", int $limit = null, array $columns = [])
     {
-        return call_user_func([$this->model->withoutGlobalScope(ActionStatusScope::class), $method], ...array_filter([$data, $limit, $columns]));
+        return call_user_func([$this->model->with($this->withs)->withoutGlobalScope(ActionStatusScope::class), $method], ...array_filter([$data, $limit, $columns]));
     }
 
     public function allDataGrid()
@@ -126,5 +134,31 @@ abstract class CoreRepository extends BaseCoreRepository
             return [$this->presenterGrid, $data];
         }
         return [];
+    }
+
+    public function getSelectedNestedList($columns = [], $callback = null)
+    {
+        $builder = $this->model->defaultDepthNestedTree();
+        if (count($columns) > 0) $builder->addSelect($columns);
+        return $this->parseSelectedNestedList($builder->get(), $callback);
+    }
+
+    public function parseSelectedNestedList($results, $callback = null)
+    {
+        return $results->mapToDictionary(function($item, $key) use($callback) {
+            $info = $item;
+            if (!is_null($callback) && is_callable($callback)) {
+                $info = with($item, $callback);
+            }
+            
+            return [data_get($info, 'id') => str_repeat('-- ', data_get($info, 'depth')).data_get($info, 'name')];
+        })->map(function($item) {
+            return head($item);
+        })->toArray();
+    }
+
+    public function deleteByField($column, $value)
+    {
+        return $this->deleteWhere([$column => $value]);
     }
 }

@@ -23,4 +23,8 @@ class MenusModel extends CoreModel
         'menu_type',
         'route_name'
     ];
+
+    protected $casts = [
+        'route_name' => 'array'
+    ];
 }

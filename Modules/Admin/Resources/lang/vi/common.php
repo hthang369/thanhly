@@ -15,5 +15,20 @@ return [
             'HANOI' => 'Hà Nội',
             'DANANG' => 'Đà Nẵng'
         ]
+    ],
+    'form_title' => [
+        'brands' => [
+            'create' => 'Tạo mới thương hiệu',
+            'update' => 'Cập nhật thương hiệu'
+        ],
+        'categories' => [
+            'create' => 'Tạo mới danh mục',
+            'update' => 'Cập nhật danh mục'
+        ],
+        'products' => [
+            'create' => 'Tạo mới sản phẩm',
+            'update' => 'Cập nhật sản phẩm'
+        ]
     ]
+    
 ];

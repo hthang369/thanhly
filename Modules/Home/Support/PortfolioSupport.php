@@ -20,7 +20,7 @@ class PortfolioSupport
                 'title' => data_get($pro, 'name'),
                 'link' => route('page.show-product', data_get($pro, 'link')),
                 'excerpt' => data_get($pro, 'excerpt'),
-                'price' => data_get($pro, 'price'),
+                'price' => currency_format(data_get($pro, 'price'), data_get($pro, 'currency.currency_no')),
                 'promotion_price' => data_get($pro, 'promotion_price'),
                 'promotion_value' => data_get($pro, 'promotion_value'),
                 'promotion_text' => data_get($pro, 'promotion_text'),
@@ -28,7 +28,7 @@ class PortfolioSupport
                 'content' => data_get($pro, 'content'),
                 'images' => [
                     'name' => data_get($pro, 'name'),
-                    'src' => image_asset(data_get($pro, 'product_image')),
+                    'src' => image_asset(data_get($pro, 'image')),
                     'class' => 'img-fluid'
                 ]
             ];
@@ -38,9 +38,15 @@ class PortfolioSupport
     public function convertItem($item)
     {
         return [
-            'title' => data_get($item, 'post_title'),
+            'title' => [
+                'text' => data_get($item, 'post_title'),
+                'class' => 'text-truncate'
+            ],
             'link' => route('page.show-detail', data_get($item, 'post_link')),
-            'excerpt' => data_get($item, 'post_excerpt'),
+            'excerpt' => [
+                'text' => data_get($item, 'post_excerpt'),
+                'class' => 'text-truncate-3'
+            ],
             'images' => [
                 'name' => data_get($item, 'post_title'),
                 'src' => image_asset(data_get($item, 'post_image')),

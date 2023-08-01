@@ -4,6 +4,7 @@ namespace Modules\Core\Entities\Categories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Admin\Enums\CategoryType;
+use Modules\Core\Entities\Brands\BrandsModel;
 use Modules\Core\Entities\CoreModel;
 use Modules\Core\Entities\News\NewsModel;
 use Modules\Core\Entities\Posts\PostsModel;
@@ -41,21 +42,9 @@ class CategoriesModel extends CoreModel
         'ob_title' => 'category_name'
     ];
 
-    public function getDataByType($type)
-    {
-        $results = $this->where('category_type', $type)->defaultDepthNestedTree()->get(['id', 'category_name', 'depth']);
-        $data = $results->mapToDictionary(function($item, $key) {
-            return [data_get($item, 'id') => str_repeat('-- ', data_get($item, 'depth')).data_get($item, 'category_name')];
-        })->map(function($item) {
-            return head($item);
-        });
-
-        return $data->toArray();
-    }
-
     public function posts()
     {
-        return $this->belongsToMany(PostsModel::class, 'post_categories', 'category_id', 'post_id');
+        return $this->belongsToMany(PostsModel::class, 'view_post_categories', 'category_id', 'post_id');
     }
 
     public function news()
@@ -65,7 +54,12 @@ class CategoriesModel extends CoreModel
 
     public function products()
     {
-        return $this->belongsToMany(ProductsModel::class, 'product_categories', 'category_id', 'product_id'); //->with(['images', 'category_id', 'promotions']);
+        return $this->belongsToMany(ProductsModel::class, 'view_product_categories', 'category_id', 'product_id'); //->with(['images', 'category_id', 'promotions']);
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany(BrandsModel::class, 'categories_brands', 'category_id', 'brand_id');
     }
 
     public function scopeWithLimitPosts($query, $limit = null, $relations = [])

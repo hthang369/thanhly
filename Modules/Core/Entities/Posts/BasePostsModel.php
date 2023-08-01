@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Entities\CoreModel;
 use Modules\Core\Enums\PostType;
 use Modules\Core\Traits\ActionScopeTrait;
+use Modules\Core\Traits\SeoMetaTrait;
 
 abstract class BasePostsModel extends CoreModel
 {
-    use ActionScopeTrait;
+    use ActionScopeTrait, SeoMetaTrait;
     
     protected $table = 'posts';
 
@@ -21,12 +22,7 @@ abstract class BasePostsModel extends CoreModel
         'post_link',
         'post_content',
         'post_image',
-        'ob_title',
-        'ob_desception',
-        'ob_keyword',
-        'post_type',
-        'post_status',
-        'post_ishot'
+        'post_type'
     ];
 
     protected $slugColumn = [

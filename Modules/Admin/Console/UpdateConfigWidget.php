@@ -3,6 +3,7 @@
 namespace Modules\Admin\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Modules\Setting\Entities\SettingModel;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,17 +41,19 @@ class UpdateConfigWidget extends Command
      */
     public function handle()
     {
-        $data = config('setting.settings');
+        // $data = config('setting.settings');
 
-        foreach($data as $key => $item) {
-            foreach($item as $subkey => $val) {
-                $model = SettingModel::withoutDomain()->where('domain_at', 2)->where('key', $subkey)->first();
-                if ($model) {
-                    $model->value = $val;
-                    $model->save();
-                }
-            }
-        }
+        // foreach($data as $key => $item) {
+        //     $parent = SettingModel::withoutDomain()->where('domain_at', 2)->where('key', $key)->first();
+        //     foreach($item as $subkey => $val) {
+        //         $model = SettingModel::withoutDomain()->where(['domain_at' => 2, 'parent_id' => $parent->id, 'key' => $subkey])->first();
+        //         if ($model) {
+        //             $model->language = "setting::configs.{$key}.{$subkey}";
+        //             $model->domain_at = 2;
+        //             $model->save();
+        //         }
+        //     }
+        // }
     }
 
     /**

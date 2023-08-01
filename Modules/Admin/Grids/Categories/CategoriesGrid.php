@@ -43,6 +43,11 @@ class CategoriesGrid extends BaseGrid
 
     protected function getCreareUrl()
     {
-        return route($this->getSectionCode().'.create', ['type' => request('category_type'),'ref' => $this->getId()]);
+        return $this->generateUrl('create', ['type' => request('category_type')]);
+    }
+
+    protected function getEditUrl($params)
+    {
+        return $params ? $this->generateUrl('edit', ['type' => request('category_type'), 'id' => $params]) : '';
     }
 }

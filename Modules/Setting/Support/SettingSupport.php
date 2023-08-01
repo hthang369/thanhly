@@ -2,7 +2,7 @@
 
 namespace Modules\Setting\Support;
 
-use Modules\Setting\Repositories\SettingRepository;
+use Modules\Setting\Repositories\Settings\SettingRepository;
 
 class SettingSupport
 {

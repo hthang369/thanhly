@@ -24,6 +24,9 @@ return [
     'manager_products' => 'Quản lý sản phẩm',
     'attribute' => 'Thuộc tính',
     'uoms' => 'Đơn vị tính',
+    'currencies' => 'Tiền tệ',
+    'promotions' => 'Khuyến mãi',
+    'variants' => 'Màu sắc',
 
     'menu_name' => 'Tên menu',
     'menu_link' => 'Link menu',

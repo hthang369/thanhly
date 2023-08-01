@@ -18,6 +18,7 @@ class NavbarBootstrap4Presenter extends Presenter
     public function getOpenTagWrapper()
     {
         return PHP_EOL .
+            link_to('/', config('laka.page_name'), ['class' => 'navbar-brand d-block d-lg-none']).
             FormFacade::button('<span class="navbar-toggler-icon"></span>', ['class' => 'navbar-toggler',
                 'data-toggle' => 'collapse', 'data-target' => '#navbarContent',
                 'aria-controls' => 'navbarContent',

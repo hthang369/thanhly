@@ -3,6 +3,7 @@
 namespace Modules\Admin\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Modules\Admin\Entities\AdminModel;
 use Laka\Core\Facades\Common;
 
@@ -61,5 +62,20 @@ class AdminRepository extends AdminBaseRepository
             ]);
         }
         return $data;
+    }
+
+    public function getDirectories() 
+    {
+        $dirs = new \DirectoryIterator(public_path());
+        $listDir = [];
+        foreach($dirs as $dir) {
+            if ($dir->isLink()) {
+                array_push($listDir, [
+                    'path' => $dir->getPathname(),
+                    'linkTarget' => $dir->getLinkTarget()
+                ]);
+            }
+        }
+        dd($listDir);
     }
 }

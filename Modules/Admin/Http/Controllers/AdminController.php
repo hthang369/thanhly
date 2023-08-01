@@ -29,6 +29,8 @@ class AdminController extends BaseController
 
     public function storageLink(Request $request)
     {
-        Artisan::call('storage:link', ['--force' => true]);
+        // Artisan::call('storage:link', ['--force' => true]);
+        $this->repository->getDirectories();
+        return $this->responseView(request(), [], 'admin::storage-link');
     }
 }

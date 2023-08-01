@@ -18,7 +18,7 @@ abstract class CoreForm extends Form
 
     private function getGroupKey($params)
     {
-        return join('.', [$this->groupModuleKey, ...$params]);
+        return join('::', [$this->groupModuleKey, join('.', $params)]);
     }
 
     public function getTitle()

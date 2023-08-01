@@ -31,17 +31,24 @@ class ProductsGrid extends BaseGrid
                 'key' => 'name'
             ],
             [
-                'key' => 'category_id',
-                'label' => trans('admin::posts.category_id'),
+                'key' => 'categories',
+                'label' => trans('admin::products.categories'),
                 'formatter' => function($value, $key, $item) {
                     return $value->pluck('category_name')->join(', ');
+                }
+            ],
+            [
+                'key' => 'brand_id',
+                'label' => trans('admin::products.brand_id'),
+                'formatter' => function($value, $key, $item) {
+                    return $item->brand->brand_name;
                 }
             ],
             [
                 'key' => 'price'
             ],
             [
-                'key' => 'except'
+                'key' => 'excerpt'
             ],
 
         ];

@@ -17,7 +17,12 @@ Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], fu
         Route::get('view/sort', 'SettingController@sort')->name('setting.sort');
     });
     Route::resource('setting', 'SettingController');
-    Route::resource('attribute', 'AttributeController');
+    Route::group(['prefix' => 'attributes'], function() {
+        Route::get('sort', 'Attributes\AttributesController@sort')->name('attributes.sort');
+        Route::put('sort', 'Attributes\AttributesController@updateSort')->name('attributes.update-sort');
+    });
+    
+    Route::resource('attributes', 'Attributes\AttributesController');
     Route::resource('widget', 'WidgetController');
     Route::group(['prefix' => 'widget'], function() {
         Route::get('create/{id}', 'WidgetController@create')->name('widget.new');

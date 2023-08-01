@@ -26,8 +26,11 @@ return [
         ['name'=> 'widget', 'code' => 'widget', 'url' => '', 'api' => 'widget'],
         ['name'=> 'contact', 'code' => 'contact', 'url' => '', 'api' => 'contact'],
         ['name'=> 'tags', 'code' => 'tags', 'url' => '', 'api' => 'tags'],
-        ['name'=> 'attribute', 'code' => 'attribute', 'url' => '', 'api' => 'attribute'],
+        ['name'=> 'attributes', 'code' => 'attributes', 'url' => '', 'api' => 'attributes'],
         ['name'=> 'uoms', 'code' => 'uoms', 'url' => '', 'api' => 'uoms'],
+        ['name'=> 'currencies', 'code' => 'currencies', 'url' => '', 'api' => 'currencies'],
+        ['name'=> 'promotions', 'code' => 'promotions', 'url' => '', 'api' => 'promotions'],
+        ['name'=> 'variants', 'code' => 'variants', 'url' => '', 'api' => 'variants'],
     ],
     /*
      * permission actions
@@ -57,9 +60,12 @@ return [
         'users'                    => ['view', 'add', 'edit', 'delete'],
         'widget'                   => ['view', 'add', 'edit'],
         'tags'                     => ['view', 'add', 'edit', 'delete'],
-        'attribute'                => ['view', 'add', 'edit', 'delete'],
+        'attributes'               => ['public', 'view', 'add', 'edit', 'delete'],
         'contact'                  => ['view', 'add', 'edit', 'delete'],
         'uoms'                     => ['view', 'add', 'edit', 'delete'],
+        'currencies'               => ['view', 'add', 'edit', 'delete'],
+        'promotions'               => ['view', 'add', 'edit', 'delete'],
+        'variants'                 => ['view', 'add', 'edit', 'delete'],
     ],
 
     'custom_section_action' => [

@@ -1,10 +1,13 @@
 {!! Modal::start($data['modal']) !!}
 <x-tabs>
     <x-tab title="Thông tin chính" active>
-        {!! $data['form'] !!}
+        {!! $data['form'][0] !!}
     </x-tab>
     <x-tab title="Thông tin chi tiết">
-        cbad
+        {!! $data['form'][1] !!}
+    </x-tab>
+    <x-tab title="Thông tin khác">
+        {!! $data['form'][2] !!}
     </x-tab>
 </x-tabs>
 {!! Modal::end() !!}

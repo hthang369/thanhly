@@ -4,6 +4,7 @@ namespace Modules\Core\Providers;
 
 use Illuminate\Database\Schema\Blueprint;
 use Laka\Core\BaseServiceProvider;
+use Modules\Core\Mixins\BlueprintMixin;
 use Modules\Core\Support\PromotionFormular;
 use Modules\Core\Support\StatusTypeHelper;
 
@@ -46,13 +47,7 @@ class CoreServiceProvider extends BaseServiceProvider
     {
         parent::register();
         $this->app->register(RouteServiceProvider::class);
-        Blueprint::macro('domain', function ($column = 'domain') {
-            $this->string($column, 100);
-        });
-
-        Blueprint::macro('dropDomain', function ($column = 'domain') {
-            $this->dropColumn($column);
-        });
+        Blueprint::mixin(new BlueprintMixin);
     }
 
     /**

@@ -24,14 +24,16 @@ class ComposerServiceProvider extends ServiceProvider
             if (!in_array($moduleName, ['admin', 'login', 'register'])) {
                 $service = resolve(HomeServices::class);
                 $allSetting = Setting::getAllSetting();
-                View::composer('*', function($view) use($allSetting) {
-                    $view->with('infoSettings', $allSetting->only(['info', 'home']));
-                });
-                View::composer('home::partial.header', function ($view) use($service) {
+                View::composer('home::partial.header', function ($view) use($service, $allSetting) {
+                    $view->with('infoSettings', $allSetting->only(['home', 'info']));
                     $view->with('menus', $service->getHeaderMenus());
                 });
-                View::composer('home::partial.footer', function ($view) use($service) {
+                View::composer('home::partial.footer', function ($view) use($service, $allSetting) {
+                    $view->with('infoSettings', $allSetting->only(['info']));
                     $view->with('footerMenu', $service->getFooterOurMenus());
+                });
+                View::composer('home::contact', function ($view) use($allSetting) {
+                    $view->with('infoSettings', $allSetting->only(['info']));
                 });
                 View::composer('home::partial.left', function ($view) use($service) {
                     $view->with('categoriesMenus', $service->getCategoriesMenus());
@@ -40,7 +42,7 @@ class ComposerServiceProvider extends ServiceProvider
                     $view->with('slides', $service->getSiderMenus());
                 });
                 View::composer('home::partial.counter', function ($view) use($service) {
-                    $view->with('visitOnline', $service->calculatorCounterAccessTime());
+                    // $view->with('visitOnline', $service->calculatorCounterAccessTime());
                 });
             }
         }

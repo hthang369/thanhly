@@ -5,38 +5,26 @@ namespace Modules\Home\Http\Controllers;
 use Illuminate\Http\Request;
 use Laka\Core\Http\Controllers\CoreController;
 use Laka\Core\Responses\BaseResponse;
+use Modules\Admin\Enums\CategoryType;
+use Modules\Core\Http\Controllers\HomeCoreController;
 use Modules\Home\Repositories\CategoryRepository;
 use Modules\Home\Traits\HomeTrait;
 use Modules\Home\Validators\CategoryValidator;
 
-class CategoryController extends CoreController
+class CategoryController extends HomeCoreController
 {
     use HomeTrait;
     
-    protected $permissionActions = [
-        'index' => 'public',
-        'show' => 'public'
-    ];
-
     public function __construct(CategoryRepository $repository, CategoryValidator $validator, BaseResponse $response)
     {
         parent::__construct($repository, $validator, $response);
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show(Request $request, $id)
+    public function showBrand(Request $request, $title, $brand)
     {
-        $info = $this->repository->show($id);
-        $result = [
-            'header_title' => $info->category_name,
-            'info' => $info
-        ];
-        $viewName = 'index';
-        $this->shareDataView($info->category_type);
-        return $this->response->data(request(), compact('result'), 'home::category.'.$viewName);
+        $base = $this->repository->showCategoryBrand($title, $brand);
+        $this->shareDataToView($base);
+        $viewName = $base['view_name'];
+        return $this->response->data($request, ['data' => $base['data']], module_view_name($viewName));
     }
 }

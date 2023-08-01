@@ -22,7 +22,7 @@ abstract class HomeCoreController extends BaseCoreController
     public function show(Request $request, $id)
     {
         $base = $this->repository->show($id);
-        $this->sharePageTitle(data_get($base, 'data.ob_title'));
+        $this->shareDataToView($base);
         
         $viewName = $base['view_name'];
         if (blank($viewName)) $viewName = 'show';

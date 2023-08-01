@@ -2,11 +2,10 @@
 
 namespace Modules\Admin\Repositories\Posts;
 
-use Closure;
-use Illuminate\Support\Facades\DB;
 use Laka\Core\Enums\ActionStatus;
 use Modules\Core\Entities\Categories\CategoriesModel;
 use Modules\Admin\Repositories\AdminBaseRepository;
+use Modules\Core\Entities\Posts\PostCategoriesModel;
 
 abstract class BasePostsRepository extends AdminBaseRepository
 {
@@ -26,7 +25,7 @@ abstract class BasePostsRepository extends AdminBaseRepository
     {
         $listCategories = $attributes['category_id'];
         return $this->upsert($attributes, $id, function($result) use($listCategories, $attributes) {
-            $this->upsertForenignCategories(PostCategoriesRepository::class, $listCategories, $result->id);
+            $this->upsertForenignCategories(PostCategoriesModel::class, $listCategories, $result->id);
             $this->upsertAttributes($this->attributeRelationClass, $attributes, $result->id);
         });
     }
@@ -35,7 +34,7 @@ abstract class BasePostsRepository extends AdminBaseRepository
     {
         $attributes['post_type'] = $this->type;
         $attributes['post_date'] = now();
-        $attributes['post_status'] = ActionStatus::ACTIVE;
+        $attributes['is_status'] = ActionStatus::ACTIVE;
         $attributes['author_id'] = user_get('id');
         if (array_has($attributes, 'category_id')) {
             return $this->upsertWithCategories($attributes);

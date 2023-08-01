@@ -7,16 +7,18 @@ use Laka\Core\Facades\Common;
 use Modules\Admin\Repositories\Advertises\SlidesRepository;
 use Modules\Admin\Repositories\Categories\CategoriesRepository;
 use Modules\Admin\Repositories\Menus\MenusRepository;
+use Modules\Core\Entities\Posts\PostsModel;
 use Modules\Home\Repositories\CounterOnlineRepository;
 use Modules\Home\Repositories\TotalOnlineRepository;
 use Modules\Home\Repositories\UserOnlineRepository;
+use Modules\Setting\Facade\Setting;
 
 class HomeServices
 {
     public function getHeaderMenus()
     {
         return $this->getNavbarMenus('main', 'navbar_bt4', function($item) {
-            return Request::is($item['link']) || str_is($item['route_name'], get_route_name());
+            return Request::is($item['link']) || in_array(get_route_name(), $item->route_name);
             // dd(get_route_name());
             // dd($item);
         });
@@ -75,6 +77,23 @@ class HomeServices
                 'image' => ['src' => vnn_asset('storage/images/' . $item->advertise_image), 'lazyload' => false, 'height' => 280]
             ];
         })->all();
+    }
+
+    public function getPostPopulars()
+    {
+        return PostsModel::orderBy('post_date', 'desc')->limit(10)->get([
+            'post_title as title',
+            'post_link as link',
+            'post_image as image'
+         ])->transform(function($item) {
+            $item->link = route('page.show-detail', $item->link);
+            return $item;
+         });
+    }
+
+    public function getAllSetting()
+    {
+        dd(Setting::all());
     }
 
     public function calculatorCounterAccessTime()

@@ -15,13 +15,13 @@ class MenuSeeder extends BaseSeeder
      */
     public function run()
     {
-        $sections = config('menu');
-        DB::transaction(function () use($sections) {
-            $this->outputWithProgressBar(count(array_flatten($sections)), function($progress) use($sections) {
-                $this->runMenus($progress, $sections);
-            });
-        });
-        $this->command->newLine();
+        // $sections = config('menu');
+        // DB::transaction(function () use($sections) {
+        //     $this->outputWithProgressBar(count(array_flatten($sections)), function($progress) use($sections) {
+        //         $this->runMenus($progress, $sections);
+        //     });
+        // });
+        // $this->command->newLine();
     }
 
     private function runMenus($progress, $sections, $parent = null)

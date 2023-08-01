@@ -20,24 +20,27 @@ class PromotionFormular
         $price = data_get($product, 'price');
         $promotion_value = data_get($promotion, 'promotion_value');
         $newValue = ($price * $promotion_value) / 100;
-        data_set($product, 'promotion_price', ($price - $newValue));
-        data_set($product, 'promotion_value', data_get($promotion, 'promotion_name'));
+        data_set($product, 'original_price', $price);
+        data_set($product, 'price', ($price - $newValue));
+        data_set($product, 'promotion_name', data_get($promotion, 'promotion_name'));
     }
 
     protected function calcalulatorAmount(&$product, $promotion)
     {
         $price = data_get($product, 'price');
         $promotion_value = data_get($promotion, 'promotion_value');
-        data_set($product, 'promotion_price', ($price - $promotion_value));
+        data_set($product, 'original_price', $price);
+        data_set($product, 'price', ($price - $promotion_value));
+        data_set($product, 'promotion_name', data_get($promotion, 'promotion_name'));
     }
 
     protected function calcalulatorAbsolute(&$product, $promotion)
     {
         $promotionText = data_get($product, 'promotion_text');
         if (!$promotionText) {
-            $promotionText = data_get($promotion, 'promotion_name');
+            $promotionText = [data_get($promotion, 'promotion_name')];
         } else {
-            $promotionText .= ','.data_get($promotion, 'promotion_name');
+            array_push($promotionText, data_get($promotion, 'promotion_name'));
         }
         data_set($product, 'promotion_text', $promotionText);
     }

@@ -30,7 +30,6 @@ class PagesRepository extends BasePostsRepository
         $attributes['post_date'] = now();
         if (blank($attributes['post_link']))
             $attributes['post_link'] = str_slug($attributes['post_title']);
-        $attributes['post_status'] = 1;
         $attributes['author_id'] = user_get('id');
 
         return parent::create($attributes);

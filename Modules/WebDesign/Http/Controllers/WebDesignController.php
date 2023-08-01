@@ -70,11 +70,4 @@ class WebDesignController extends HomeCoreController
 
         return $this->response->data($request, ['result' => $base], "webdesign::$viewName");
     }
-
-    public function preview(Request $request, $id)
-    {
-        $info = $this->repository->findProduct($id);
-        $folder = data_get($info->attributes->first(), 'pivot.value');
-        return $this->response->data($request, ['result' => $folder], module_view_name('preview'));
-    }
 }

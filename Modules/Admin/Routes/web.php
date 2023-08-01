@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('admin/storage-link', 'AdminController@storageLink');
 Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], function() {
     Route::get('/', 'AdminController@index')->name('admin.index');
 
@@ -20,14 +19,18 @@ Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], fu
     Route::resource('products', 'Products\ProductsController');
     Route::resource('brands', 'Brands\BrandsController');
     Route::resource('tags', 'Tags\TagsController');
-    Route::resource('uoms', 'Uoms\UomsController');
+    Route::resource('uoms', 'Masters\UomsController');
+    Route::resource('currencies', 'Masters\CurrenciesController');
+    Route::resource('promotions', 'Masters\PromotionsController');
+    Route::resource('variants', 'Masters\VariantsController');
     Route::group(['prefix' => 'categories'], function() {
         Route::get('/post', 'Categories\CategoriesController@viewPost')->name('categories.post.index');
         Route::get('/news', 'Categories\CategoriesController@viewNews')->name('categories.news.index');
         Route::get('/product', 'Categories\CategoriesController@viewProduct')->name('categories.products.index');
-        Route::get('/create/{type}', 'Categories\CategoriesController@create')->name('categories.create');
+        Route::get('/{type}/create', 'Categories\CategoriesController@create')->name('categories.create');
+        Route::get('/{type}/{id}/edit', 'Categories\CategoriesController@viewEdit')->name('categories.edit');
     });
-    Route::resource('categories', 'Categories\CategoriesController', ['except' => ['create']]);
+    Route::resource('categories', 'Categories\CategoriesController', ['except' => ['create', 'edit']]);
 
     Route::resource('menus', 'Menus\MenusController', ['except' => ['index', 'create', 'edit']]);
 
@@ -55,4 +58,8 @@ Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], fu
     Route::resource('users', 'Users\UsersController');
 
     Route::resource('contacts', 'Contacts\ContactsController')->names('contact');
+});
+
+Route::group(['prefix' => 'storage-link', 'middleware' => 'global-admin'], function() {
+    Route::get('/', 'AdminController@storageLink')->name('storage.link');
 });

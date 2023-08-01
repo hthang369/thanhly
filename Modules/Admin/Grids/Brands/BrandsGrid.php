@@ -25,17 +25,22 @@ class BrandsGrid extends BaseGrid
         return [
             [
                 'key' => 'brand_name',
-                'label' => trans('admin::adverties.brand_name'),
+                'label' => trans('admin::brands.brand_name'),
             ],
             [
                 'key' => 'brand_link',
-                'label' => trans('admin::adverties.brand_link'),
+                'label' => trans('admin::brands.brand_link'),
             ],
             [
                 'key' => 'brand_image',
-                'label' => trans('admin::adverties.brand_image'),
+                'label' => trans('admin::brands.brand_image'),
                 'dataType' => DataType::IMAGE
             ],
         ];
+    }
+
+    protected function formatterImageDisplay($cellValue, $columnName, $rowData)
+    {
+        return parent::formatterImageDisplay(join(DIRECTORY_SEPARATOR, ['brands', $cellValue]), $columnName, $rowData);
     }
 }
