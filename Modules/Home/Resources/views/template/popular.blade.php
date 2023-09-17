@@ -5,7 +5,7 @@
             <x-card>
                 <x-slot name="image">
                     <a class="d-flex" href="{{ $item['link'] }}">
-                        <x-image :src="image_asset($item['image'])" :alt="$item['image']" fluid />
+                        <x-image :src="image_asset($item['image'])" lazyload :alt="$item['image']" fluid />
                     </a>
                 </x-slot>
 

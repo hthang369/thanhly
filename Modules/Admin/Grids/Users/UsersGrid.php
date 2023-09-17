@@ -37,9 +37,9 @@ class UsersGrid extends BaseGrid
             [
                 'key' => 'roles',
                 'label' => trans('roles'),
-                'cell' => function($itemData) {
-                    return collect($itemData['role_list'])->map(function($item) {
-                        return '<span class="badge badge-primary">'.$item.'</span>';
+                'formatter' => function($value, $key, $item) {
+                    return collect($item[$key])->map(function($row) {
+                        return '<span class="badge badge-primary">'.$row->name.'</span>';
                     })->join(' ');
                 }
             ],

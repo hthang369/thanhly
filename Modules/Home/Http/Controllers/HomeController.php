@@ -33,7 +33,7 @@ class HomeController extends HomeCoreController
     public function index(Request $request)
     {
         $data = $this->repository->show('/');
-        $this->sharePageTitle(module_trans('common.page_title.home'));
+        // $this->sharePageTitle(module_trans('common.page_title.home'));
         return $this->response->data(request(), ['result' => $data], 'home::index');
     }
 

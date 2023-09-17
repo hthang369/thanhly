@@ -7,7 +7,7 @@
     @foreach ($info->brands as $item)
         <x-list-group-item class="p-0">
             <x-link :to="['page.show-brand', ['title' => $info->category_link, 'brand' => $item->brand_link]]">
-                <x-image :src="image_asset('brands'.DIRECTORY_SEPARATOR.data_get($item, 'brand_image'))" />
+                <x-image :src="image_asset('brands'.DIRECTORY_SEPARATOR.data_get($item, 'brand_image'))" lazyload />
             </x-link>
         </x-list-group-item>
     @endforeach

@@ -5,11 +5,11 @@
     <x-col :md="7" :lg="8">
         <x-card no-body class="featured-hot border-0">
             <x-link :to="['page.show-detail', optional($firstData)->post_link]">
-                <img src="{{image_asset(optional($firstData)->post_image)}}" class="card-img img-fluid" alt="...">
+                <x-image src="{{image_asset(optional($firstData)->post_image)}}" lazyload class="card-img img-fluid" alt="..." />
             </x-link>
             <div class="card-body">
                 <x-link :to="['page.show-detail', optional($firstData)->post_link]">
-                    <h5 class="card-title">{{optional($firstData)->post_title}}</h5>
+                    <h5 class="card-title text-uppercase">{{optional($firstData)->post_title}}</h5>
                 </x-link>
                 <p class="card-text">{{optional($firstData)->post_excerpt}}</p>
             </div>
@@ -21,13 +21,13 @@
         <x-row class="g-2">
             <x-col cols="4">
                 <x-link :to="['page.show-detail', $item->post_link]">
-                    <img src="{{image_asset($item->post_image)}}" class="card-img img-fluid" alt="...">
+                    <x-image src="{{image_asset($item->post_image)}}" lazyload class="card-img img-fluid" alt="..." />
                 </x-link>
             </x-col>
             <x-col cols="8">
                 <div class="card-body p-0">
                     <x-link :to="['page.show-detail', $item->post_link]">
-                        <h5 class="card-title text-truncate">{{$item->post_title}}</h5>
+                        <h5 class="card-title text-truncate text-uppercase">{{$item->post_title}}</h5>
                     </x-link>
                     <p class="card-text text-truncate-3 mb-2">{{$item->post_excerpt}}</p>
                 </div>

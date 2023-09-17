@@ -32,7 +32,7 @@ class ComposerServiceProvider extends ServiceProvider
                     $view->with('infoSettings', $allSetting->only(['info']));
                     $view->with('footerMenu', $service->getFooterOurMenus());
                 });
-                View::composer('home::contact', function ($view) use($allSetting) {
+                View::composer(['home::contact', 'home::layouts.master'], function ($view) use($allSetting) {
                     $view->with('infoSettings', $allSetting->only(['info']));
                 });
                 View::composer('home::partial.left', function ($view) use($service) {
@@ -40,6 +40,9 @@ class ComposerServiceProvider extends ServiceProvider
                 });
                 View::composer('home::partial.menuside', function ($view) use($service) {
                     $view->with('slides', $service->getSiderMenus());
+                });
+                View::composer('home::partial.seo-meta', function ($view) use($allSetting) {
+                    $view->with('infoSettings', $allSetting->only(['home', 'info']));
                 });
                 View::composer('home::partial.counter', function ($view) use($service) {
                     // $view->with('visitOnline', $service->calculatorCounterAccessTime());

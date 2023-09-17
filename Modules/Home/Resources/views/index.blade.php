@@ -19,7 +19,7 @@
         <x-col class="mb-3">
           <x-card no-body class="item-product">
             <x-link :to="['page.show-product', $product->link]">
-              <x-image src="{{image_asset($product->image)}}" height="200" class="card-img-top" alt="..." />
+              <x-image src="{{image_asset($product->image)}}" lazyload height="200" class="card-img-top" alt="..." />
             </x-link>
             <div class="card-body">
               <x-link :to="['page.show-product', $product->link]">

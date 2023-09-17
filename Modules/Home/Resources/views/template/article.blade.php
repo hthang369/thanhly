@@ -5,7 +5,7 @@
                 <x-row class="g-0">
                     <x-col cols="4">
                         <x-link :to="['page.show-detail', $item->post_link]">
-                            <img src="{{image_asset($item->post_image)}}" class="img-fluid rounded-start" alt="...">
+                            <x-image src="{{image_asset($item->post_image)}}" lazyload class="img-fluid rounded-start" alt="..." />
                         </x-link>
                     </x-col>
                     <x-col cols="8">
@@ -26,7 +26,7 @@
                 <x-row class="g-0">
                     <x-col cols="4">
                         <x-link :to="['page.show-detail', $item->post_link]">
-                            <img src="{{image_asset($item->post_image)}}" class="img-fluid rounded-start" alt="...">
+                            <x-image src="{{image_asset($item->post_image)}}" lazyload class="img-fluid rounded-start" alt="..." />
                         </x-link>
                     </x-col>
                     <x-col cols="8">

@@ -9,7 +9,7 @@
             <x-media tag="li" class="mb-3">
                 <x-slot name="object">
                     @php($post_image = $post['post_image'])
-                    <x-image :src='asset("storage/images/$post_image")' :alt="$post_image" width="200" class="mr-3" />
+                    <x-image :src='asset("storage/images/$post_image")' lazyload :alt="$post_image" width="200" class="mr-3" />
                 </x-slot>
 
                 <h5><a href="{{ route('page.show-detail', $post['post_link']) }}">{{ $post['post_title'] }}</a></h5>

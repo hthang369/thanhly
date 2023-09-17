@@ -40,7 +40,7 @@ class PortfolioSupport
         return [
             'title' => [
                 'text' => data_get($item, 'post_title'),
-                'class' => 'text-truncate'
+                'class' => 'text-truncate text-uppercase'
             ],
             'link' => route('page.show-detail', data_get($item, 'post_link')),
             'excerpt' => [

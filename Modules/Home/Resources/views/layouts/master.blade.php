@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        @include('home::partial.google')
-        <title>{{$pageTitle}}</title>
+        {{-- @include('home::partial.google') --}}
+        <title>{{$pageTitle ?: data_get($infoSettings, 'info.web_name')}}</title>
         @include('home::partial.seo-meta')
         @include('home::partial.link')
         @stack('styles')

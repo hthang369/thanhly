@@ -8,7 +8,7 @@
 @endphp
 <x-row class="g-2">
     <x-col cols="5">
-        <x-image :src="image_asset(data_get($info, 'image'))" class="img-fluid" />
+        <x-image :src="image_asset(data_get($info, 'image'))" lazyload class="img-fluid" />
     </x-col>
     <x-col>
         <x-row>

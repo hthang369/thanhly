@@ -2,8 +2,8 @@
     <div id="iHeader" class="row">
         <div class="col">
             <div id="ilogo" class="d-flex justify-content-between py-2">
-                <a href="/"><img src="{{ image_asset(data_get($infoSettings, 'home.web_logo')) }}" class="img-fluid" height="110"></a>
-                <a href="/"><img src="{{ image_asset(data_get($infoSettings, 'home.web_banner')) }}" class="img-fluid" height="110"></a>
+                <a href="/"><x-image src="{{ image_asset(data_get($infoSettings, 'home.web_logo')) }}" fluid lazyload height="110" /></a>
+                <a href="/"><x-image src="{{ image_asset(data_get($infoSettings, 'home.web_banner')) }}" fluid lazyload height="110" /></a>
             </div>
         </div>
     </div>
