@@ -2,16 +2,19 @@
 
 namespace Modules\Home\Repositories;
 
+use Exception;
 use Modules\Admin\Enums\CategoryType;
 use Modules\Admin\Repositories\Contacts\ContactsRepository;
 use Modules\Core\Entities\Categories\CategoriesModel;
 use Modules\Core\Entities\Menus\MenusModel;
+use Modules\Core\Entities\Pages\PagesModel;
 use Modules\Core\Entities\Posts\PostsModel;
 use Modules\Core\Entities\Products\ProductsModel;
 use Modules\Core\Facades\PromotionFormular;
 use Modules\Core\Repositories\HomeCoreRepository;
 use Modules\Home\Entities\HomeModel;
 use Modules\Home\Entities\ServiceCategoryModel;
+use Modules\Home\Jobs\SendMail;
 
 class HomeRepository extends HomeCoreRepository
 {
@@ -22,61 +25,38 @@ class HomeRepository extends HomeCoreRepository
      */
     public function model()
     {
-        return HomeModel::class;
+        return PagesModel::class;
     }
 
-    public function showExternal($id, $viewName)
+    public function showPage($id, $viewName)
     {
-        return $this->getDataHome();
-    }
-    // public function show($id, $columns = [])
-    // {
-    //     $menu = MenusModel::where('menu_link', $id)->first();
-    //     $results = $menu;
-    //     switch(data_get($menu, 'partial_table')) {
-    //         case 'page':
-    //             $data = PostsModel::find(data_get($menu, 'partial_id'));
-    //             $data['header_title'] = $data->post_title;
-    //             $results = $data;
-    //             break;
-    //         case 'category':
-    //             $results = CategoriesModel::find(data_get($menu, 'partial_id'));
-    //             $results['header_title'] = $results->category_name;
-    //             $method = str_is($results->category_type, CategoryType::PRODUCT) ? 'products' : 'posts';
-    //             $results->setRelation('pagination_'.$method, $results->{$method}()->paginate(15));
-    //             $results['children'] = CategoriesModel::whereIsAfter(data_get($menu, 'partial_id'))->defaultOrder()->with($method)->get()->toTree();
-    //             break;
-    //         default:
-    //             $results = $this->getDataHome();
-    //             break;
-    //     }
-    //     return [
-    //         'view_name' => data_get($menu, 'menu_view'),
-    //         'data' => $results
-    //     ];
-    // }
-
-    public function showCategory($id)
-    {
-        
+        return $this->getDataHome($id);
     }
 
     public function sendMail($attributes)
     {
-        return resolve(ContactsRepository::class)->create($attributes);
+        try {
+            $data = resolve(ContactsRepository::class)->create($attributes);
+            SendMail::dispatch($attributes);
+            return $data;
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 
-    public function getDataHome()
+    public function getDataHome($id)
     {
-        $data = ServiceCategoryModel::withIsHot()->defaultOrder()->with('posts')->get();
-        $dataPost = PostsModel::whereIsPost()->limit(4)->get();
-        $dataProduct = ProductsModel::with(['currency', 'promotions'])->limit(12)->get()->transform(function($item) {
+        $data = $this->find($id);
+        $dataCategory = ServiceCategoryModel::withIsHot()->defaultOrder()->with(['posts' => function($query) {
+            return $query->limit(8);
+        }])->get();
+        $dataProduct = ProductsModel::with(['currency', 'promotions'])->limit(8)->get()->transform(function($item) {
             return PromotionFormular::calcalulator($item);
         });
-        
+        // dd($dataCategory);
         return [
-            'list_post' => $dataPost,
-            'list_categories' => $data,
+            'info' => $data,
+            'list_categories' => $dataCategory,
             'list_products' => $dataProduct
         ];
     }

@@ -12,6 +12,7 @@ return [
         'adminlte' => \Nwidart\Menus\Presenters\Admin\AdminltePresenter::class,
         'zurbmenu' => \Nwidart\Menus\Presenters\Foundation\ZurbMenuPresenter::class,
 
+        'navbarmenu' => \Laka\Core\Presenters\NavbarMenuPresenter::class,
         'navbar_bt4' => \Modules\Home\Presenters\NavbarBootstrap4Presenter::class,
         'navmenu_bt4' => \Modules\Home\Presenters\NavMenuBootstrap4Presenter::class,
         'slidebar_bt4' => \Modules\Admin\Presenters\SlideBarBootstrap4Presenter::class,

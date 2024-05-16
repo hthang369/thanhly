@@ -5,8 +5,8 @@ return [
     ],
     'slidebar_right' => [
         'header' => 'Danh mục',
-        'popular_header' => 'Bài viết nổi bật',
-        'popular_product' => 'Sản phẩm nổi bật'
+        'popular_header' => 'Bài viết liên quan',
+        'popular_product' => 'Sản phẩm liên quan'
     ],
     'footer' => [
         'link_web' => 'Website cùng hệ thống'

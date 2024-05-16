@@ -1,20 +1,9 @@
 @import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
+@import "../vnnit-coreui/scss/variables";
 // Body
 $body-bg: #f8fafc;
 $body-color: #606266 !default;
 $font-base: 16 !default;
-$font-family-sans-serif: "Roboto" !default;
-$enable-responsive-font-sizes:                true !default;
-
-$gutters: (
-  0: 0,
-  1: $spacer * .25,
-  2: $spacer * .5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
-);
 
 $text-truncate: (
   2: 2,

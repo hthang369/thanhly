@@ -7,7 +7,7 @@ trait HomeTrait
 {
     public function shareDataView($shareKey = null, $shareValue = null, $viewName = null)
     {
-        View::composer(module_view_name($viewName ?? 'partial.right'), function($view) use($shareKey, $shareValue) {
+        View::composer(module_view($viewName ?? 'template.related'), function($view) use($shareKey, $shareValue) {
             if (is_string($shareKey) && !blank($shareKey) && !blank($shareValue)) {
                 $view->with($shareKey, $shareValue);
             } else if (is_array($shareKey)) {

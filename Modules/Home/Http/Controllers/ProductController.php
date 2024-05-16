@@ -21,8 +21,8 @@ class ProductController extends HomeCoreController
     {
         parent::shareDataToView($data);
         $this->shareDataView([
-            'sidebarHeader' => module_trans('common.slidebar_right.popular_product'),
-            'listPopular' => $this->repository->getPopularProducts(data_get($data, 'data.id'))
+            'relatedTitle' => module_trans('common.slidebar_right.popular_product'),
+            'listRelated' => $this->repository->getPopularProducts(data_get($data, 'data.id'))
         ]);
     }
 }

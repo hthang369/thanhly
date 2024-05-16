@@ -4,7 +4,7 @@ namespace Modules\Core\Entities\Posts;
 
 use Modules\Core\Entities\Categories\CategoriesModel;
 use Modules\Core\Enums\PostType;
-use Modules\Setting\Entities\AttributeModel;
+use Modules\Setting\Entities\Attributes\AttributesModel;
 
 class PostsModel extends BasePostsModel
 {
@@ -26,7 +26,7 @@ class PostsModel extends BasePostsModel
 
     public function attributes()
     {
-        return $this->belongsToMany(AttributeModel::class, 'post_attributes', 'post_id', 'attribute_id')
+        return $this->belongsToMany(AttributesModel::class, 'post_attributes', 'post_id', 'attribute_id')
             ->select(['attributes.key', 'attributes.language', 'post_attributes.value as pivot_value']);
     }
 }

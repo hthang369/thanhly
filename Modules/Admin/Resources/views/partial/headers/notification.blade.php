@@ -1,7 +1,7 @@
 <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
-      <i class="fa fa-bell"></i>
-      <span class="badge badge-warning navbar-badge">15</span>
+      <i class="bi bi-bell-fill"></i>
+      <span class="badge text-bg-warning navbar-badge">15</span>
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
       <span class="dropdown-item dropdown-header">15 Notifications</span>

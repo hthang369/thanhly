@@ -30,7 +30,8 @@ class ContactsController extends BaseController
 
             return $this->response->data($data);
         } catch (\Exception $e) {
-            return $this->responseErrorAction($request, $e);
+            $errors = method_exists($e, 'getMessageBag') ? $e->getMessageBag()->getMessages() : [];
+            return $this->responseAction($request, $e, 'error', '', null, $errors);
         }
     }
 }

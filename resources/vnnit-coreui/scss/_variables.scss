@@ -1,0 +1,65 @@
+@import 'bootstrap/scss/variables';
+
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+$link-decoration:                         null !default;
+
+$gray-base: #3c4b64 !default;
+$high-emphasis:            rgba(shift-color($gray-base, +26%), .95) !default;
+$medium-emphasis:          rgba(shift-color($gray-base, +26%), .681) !default;
+$disabled:                 rgba(shift-color($gray-base, +26%), .38) !default;
+$text-disabled:                 $disabled !default;
+
+// Options
+$enable-elevations:           true !default;
+$enable-ltr:                  true !default;
+$enable-rtl:                  false !default;
+
+$high-emphasis-inverse:    rgba($white, .87) !default;
+$medium-emphasis-inverse:  rgba($white, .6) !default;
+$disabled-inverse:         rgba($white, .38) !default;
+
+$zindex-sidebar-backdrop:           1030 !default;
+
+// Set mobile breakpoint
+$mobile-breakpoint:           md !default;
+
+// Elevation
+@import "variables/elevation-variables";
+
+// Icons
+$icon-size-base:  1rem !default;
+$icon-size-sm:    $icon-size-base * .875 !default;
+$icon-size-lg:    $icon-size-base * 1.25 !default;
+$icon-size-xl:    $icon-size-base * 1.5 !default;
+$icon-size-xxl:   $icon-size-base * 2 !default;
+
+// Avatars
+@import 'variables/avatar-variables';
+
+// Sidebar
+@import 'variables/sidebar-variables';
+
+// Header
+@import 'variables/header-variables';
+
+// Subheader
+@import 'variables/subheader-variables';
+
+// Footer
+@import 'variables/footer-variables';
+
+// Callouts
+@import 'variables/callout-variables';
+
+// Calendar
+@import 'variables/calendar-variables';
+
+// Date & Time & Picker
+@import 'variables/picker-variables';

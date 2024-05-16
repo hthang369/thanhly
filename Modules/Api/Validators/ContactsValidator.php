@@ -23,6 +23,7 @@ class ContactsValidator extends BaseValidator
             'email'  => 'required|email',
             'subject'  => 'required',
             'message'  => 'required',
+            'phone' => 'numeric'
         ],
         ValidatorInterface::RULE_UPDATE => [
         ],

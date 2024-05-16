@@ -1,24 +1,16 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
-    <img src="{{vnn_asset('images/logo/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">AdminLTE 3</span>
-  </a>
+  <div class="sidebar-brand">
+    <a href="{{ route('admin.index') }}" class="brand-link">
+        <img src="{{vnn_asset('images/logo/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image opacity-80 shadow img-circle elevation-3">
+        <span class="brand-text fw-light">AdminLTE 4</span>
+    </a>
+  </div>
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-      <div class="image">
-        <img src="{{vnn_asset('images/logo/avatar_placeholder.png')}}" class="img-circle elevation-2" alt="User Image">
-      </div>
-      <div class="info">
-        <a href="#" class="d-block">@auth {{Auth::user()->name}} @endauth</a>
-      </div>
-    </div>
-
+  <div class="sidebar-wrapper">
     <!-- SidebarSearch Form -->
-    <div class="form-inline">
+    <div class="form-inline d-none">
       <div class="input-group" data-widget="sidebar-search">
         <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
@@ -40,7 +32,7 @@
     </div>
 
     <!-- Sidebar Menu -->
-    <nav class="mt-2">
+    <nav class="mt-2 nav-indent" data-pjax>
         {!! $slidebar !!}
     </nav>
     <!-- /.sidebar-menu -->

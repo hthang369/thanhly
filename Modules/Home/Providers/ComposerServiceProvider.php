@@ -24,21 +24,21 @@ class ComposerServiceProvider extends ServiceProvider
             if (!in_array($moduleName, ['admin', 'login', 'register'])) {
                 $service = resolve(HomeServices::class);
                 $allSetting = Setting::getAllSetting();
-                View::composer('home::partial.header', function ($view) use($service, $allSetting) {
+                View::composer(module_view('partial.header', 'home'), function ($view) use($service, $allSetting) {
                     $view->with('infoSettings', $allSetting->only(['home', 'info']));
                     $view->with('menus', $service->getHeaderMenus());
                 });
-                View::composer('home::partial.footer', function ($view) use($service, $allSetting) {
+                View::composer(module_view('partial.footer', 'home'), function ($view) use($service, $allSetting) {
                     $view->with('infoSettings', $allSetting->only(['info']));
                     $view->with('footerMenu', $service->getFooterOurMenus());
                 });
-                View::composer(['home::contact', 'home::layouts.master'], function ($view) use($allSetting) {
-                    $view->with('infoSettings', $allSetting->only(['info']));
+                View::composer([module_view('contact', 'home'), module_view('layouts.master', 'home')], function ($view) use($allSetting) {
+                    $view->with('infoSettings', $allSetting->only(['info', 'map']));
                 });
                 View::composer('home::partial.left', function ($view) use($service) {
                     $view->with('categoriesMenus', $service->getCategoriesMenus());
                 });
-                View::composer('home::partial.menuside', function ($view) use($service) {
+                View::composer(module_view('partial.menuside', 'home'), function ($view) use($service) {
                     $view->with('slides', $service->getSiderMenus());
                 });
                 View::composer('home::partial.seo-meta', function ($view) use($allSetting) {

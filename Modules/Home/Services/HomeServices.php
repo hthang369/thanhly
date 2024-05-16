@@ -17,7 +17,7 @@ class HomeServices
 {
     public function getHeaderMenus()
     {
-        return $this->getNavbarMenus('main', 'navbar_bt4', function($item) {
+        return $this->getNavbarMenus('main', 'navbarmenu', function($item) {
             return Request::is($item['link']) || in_array(get_route_name(), $item->route_name);
             // dd(get_route_name());
             // dd($item);
@@ -36,7 +36,7 @@ class HomeServices
         return Common::renderMenus($dataTree, 'navbar', '', true, function ($item) {
             return [
                 'class' => 'text-uppercase',
-                'link' => route('page.show', $item['link'])
+                'link' => route('page.show-service', $item['link'])
             ];
         });
     }
@@ -46,7 +46,7 @@ class HomeServices
         $dataTree = resolve(MenusRepository::class)->getDataByType($type);
         return Common::renderMenus($dataTree, 'navbar', $menu_style, true, function ($item) use($callback) {
             return [
-                'class' => 'text-uppercase nav-link',
+                'class' => 'text-uppercase nav-link py-xl-0',
                 'active' => function() use($item, $callback) {
                     if (!blank($callback) && is_callable($callback)) {
                         return with($item, $callback);
@@ -74,7 +74,7 @@ class HomeServices
         $results = resolve(SlidesRepository::class)->all();
         return $results->map(function ($item) {
             return [
-                'image' => ['src' => vnn_asset('storage/images/' . $item->advertise_image), 'lazyload' => false, 'height' => 280]
+                'image' => ['src' => vnn_asset('storage/images/' . $item->advertise_image), 'lazyload' => false, 'height' => 400]
             ];
         })->all();
     }

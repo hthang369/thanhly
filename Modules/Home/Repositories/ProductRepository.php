@@ -23,7 +23,7 @@ class ProductRepository extends HomeCoreRepository
     public function getPopularProducts($id)
     {
         $listInfo = $this->model->with(['promotions', 'currency'])->whereKeyNot($id)
-            ->limit(10)->get(['id', 'name as title', 'link', 'currency_id', 'image']);
+            ->limit(8)->get(['id', 'name as title', 'link', 'currency_id', 'image', 'excerpt']);
 
         return $listInfo->transform(function($item) {
             $item->link = route('page.show-product', $item->link);

@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->roles()->min('role_rank');
     }
+
+    public function getisSuperAdminAttribute()
+    {
+        return true;
+    }   
 }

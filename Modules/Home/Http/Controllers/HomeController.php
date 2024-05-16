@@ -34,7 +34,7 @@ class HomeController extends HomeCoreController
     {
         $data = $this->repository->show('/');
         // $this->sharePageTitle(module_trans('common.page_title.home'));
-        return $this->response->data(request(), ['result' => $data], 'home::index');
+        return $this->response->data(request(), ['result' => $data], module_view('index'));
     }
 
     public function sendMail(Request $request)
@@ -51,16 +51,16 @@ class HomeController extends HomeCoreController
         $viewName = 'category';
         $this->data['mapInfo'] = data_get($this->allSetting, 'map.web_map');
 
-        return view("home::$viewName", array_merge($this->data, $base));
+        return view(module_view($viewName), array_merge($this->data, $base));
     }
 
     public function showPostDetail(Request $request, $id)
     {
         list($postInfo, $popularPost) = $this->repository->findPost($id);
-        
+
         $viewName = 'show';
 
-        return $this->response->data($request, compact('postInfo', 'popularPost'), "home::$viewName");
+        return $this->response->data($request, compact('postInfo', 'popularPost'), module_view($viewName));
     }
 
     public function test(Request $request)

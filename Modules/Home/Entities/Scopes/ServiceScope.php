@@ -12,11 +12,12 @@ class ServiceScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        $builder->whereExists(function($query) use($model) {
-            $query->selectRaw(1)
-                ->from($model->getTable(), 'c')
-                ->where('c.category_link', $this->type)
-                ->whereColumn($model->qualifyColumn('parent_id'), '=', 'c.id');
-        });
+        // $builder->whereExists(function($query) use($model) {
+        //     $query->selectRaw(1)
+        //         ->from($model->getTable(), 'c')
+        //         ->where('c.category_link', $this->type)
+        //         ->whereColumn($model->qualifyColumn('parent_id'), '=', 'c.id');
+        // });
+        $builder->where('category_link', $this->type);
     }
 }

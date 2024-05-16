@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Facades\Common;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -12,8 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
 use InvalidArgumentException;
+use Laka\Core\Facades\Common;
 use Laka\Core\Http\Response\WebResponse;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Symfony\Component\ErrorHandler\Error\FatalError;
@@ -59,6 +58,43 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        // Set default value for message,statusCode,menuLeft
+        $message = "";
+        $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+        switch(get_class($e)) {
+            case ValidatorException::class:
+                $message = $e->getMessageBag();
+                $code = Response::HTTP_NOT_ACCEPTABLE;
+                return $this->response($code, $message, Route::has(Common::getSectionCode() . '.index'));
+            break;
+            case NotFoundHttpException::class:
+                $$code = $e->getStatusCode();
+                $message = $e->getMessage();
+                return $this->response($code, $message);
+            break;
+            case FatalError::class:
+            case ConnectionException::class:
+            case InvalidArgumentException::class:
+            case ModelNotFoundException::class:
+                $message = $e->getMessage();
+                return $this->response($code, $message);
+            break;
+            case AuthorizationException::class:
+                $code = Response::HTTP_UNAUTHORIZED;
+                $message = $e->getMessage();
+                return Auth::check()
+                    ? $this->response($code, $message)
+                    : parent::render($request, $e);
+            break;
+            case TokenMismatchException::class:
+                if (!Auth::check()) {
+                    return WebResponse::exception(route('login'));
+                }
+            break;
+            case HttpException::class:
+                return $this->response($e->getStatusCode(), $e->getMessage());
+            break;
+        }
         return parent::render($request, $e);
     }
 
@@ -66,7 +102,7 @@ class Handler extends ExceptionHandler
     {
         return $this->shouldReturnJson($request, $exception)
                     ? response()->json([
-                        'message' => $exception->getMessage(), 
+                        'message' => $exception->getMessage(),
                         'redirect' => $exception->redirectTo() ?? route('login', [], false)], 401)
                     : redirect()->guest($exception->redirectTo() ?? route('login'));
     }

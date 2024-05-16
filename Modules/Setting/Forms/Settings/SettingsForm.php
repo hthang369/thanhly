@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Setting\Forms;
+namespace Modules\Setting\Forms\Settings;
 
 use Laka\Core\Forms\Field;
 use Laka\Core\Forms\Form;

@@ -23,10 +23,10 @@ abstract class HomeCoreController extends BaseCoreController
     {
         $base = $this->repository->show($id);
         $this->shareDataToView($base);
-        
+
         $viewName = $base['view_name'];
         if (blank($viewName)) $viewName = 'show';
 
-        return $this->response->data($request, ['data' => $base['data']], module_view_name($viewName));
+        return $this->response->data($request, ['data' => $base['data']], module_view($viewName));
     }
 }

@@ -45,7 +45,7 @@ class PortfolioSupport
             'link' => route('page.show-detail', data_get($item, 'post_link')),
             'excerpt' => [
                 'text' => data_get($item, 'post_excerpt'),
-                'class' => 'text-truncate-3'
+                'class' => 'text-truncate-2'
             ],
             'images' => [
                 'name' => data_get($item, 'post_title'),

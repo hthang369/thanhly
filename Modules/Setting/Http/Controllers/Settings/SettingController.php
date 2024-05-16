@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Setting\Http\Controllers;
+namespace Modules\Setting\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use Modules\Core\Http\Controllers\CoreController;
-use Modules\Setting\Repositories\SettingRepository;
+use Modules\Setting\Repositories\Settings\SettingRepository;
 use Modules\Setting\Responses\SettingResponse;
-use Modules\Setting\Validators\SettingValidator;
+use Modules\Setting\Validators\Settings\SettingValidator;
 
 class SettingController extends CoreController
 {

@@ -5,9 +5,9 @@ namespace Modules\Setting\Repositories\Settings;
 
 use Modules\Admin\Facades\Menus;
 use Modules\Setting\Entities\Settings\SettingModel;
-use Modules\Setting\Forms\SettingsForm;
-use Modules\Setting\Forms\SettingsHomeForm;
-use Modules\Setting\Forms\SettingsMapForm;
+use Modules\Setting\Forms\Settings\SettingsForm;
+use Modules\Setting\Forms\Settings\SettingsHomeForm;
+use Modules\Setting\Forms\Settings\SettingsMapForm;
 
 /**
  * Class SettingRepository

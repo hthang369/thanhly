@@ -1,20 +1,22 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-dark bg-dark sticky-top">
-    <!-- Left navbar links -->
-    @include('admin::partial.headers.menu')
+<nav class="app-header navbar navbar-expand navbar-white navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+        <!-- Left navbar links -->
+        @include('admin::partial.headers.menu')
 
-    <!-- SEARCH FORM -->
-    @include('admin::partial.headers.search')
+        <!-- SEARCH FORM -->
+        @include('admin::partial.headers.search')
 
-    <!-- Right navbar links -->
+        <!-- Right navbar links -->
 
-    <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      @include('admin::partial.headers.message')
-      <!-- Notifications Dropdown Menu -->
-      @include('admin::partial.headers.notification')
-      <!-- Zoom Menu -->
-      @include('admin::partial.headers.zoom')
-      <!-- Account info Menu -->
-      @include('admin::partial.headers.account-info')
-    </ul>
+        <ul class="navbar-nav ms-auto">
+        <!-- Messages Dropdown Menu -->
+        @includeWhen(false, 'admin::partial.headers.message')
+        <!-- Notifications Dropdown Menu -->
+        @include('admin::partial.headers.notification')
+        <!-- Zoom Menu -->
+        @include('admin::partial.headers.zoom')
+        <!-- Account info Menu -->
+        @include('admin::partial.headers.account-info')
+        </ul>
+    </div>
   </nav>

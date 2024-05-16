@@ -1,0 +1,3 @@
+@props(['title'])
+<div>
+</div>

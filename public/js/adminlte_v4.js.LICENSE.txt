@@ -1,0 +1,47 @@
+/**
+ * --------------------------------------------
+ * @file AdminLTE card-widget.ts
+ * @description Card widget for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */
+
+/**
+ * --------------------------------------------
+ * @file AdminLTE direct-chat.ts
+ * @description Direct chat for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */
+
+/**
+ * --------------------------------------------
+ * @file AdminLTE fullscreen.ts
+ * @description Fullscreen plugin for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */
+
+/**
+ * --------------------------------------------
+ * @file AdminLTE layout.ts
+ * @description Layout for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */
+
+/**
+ * --------------------------------------------
+ * @file AdminLTE push-menu.ts
+ * @description Push menu for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */
+
+/**
+ * --------------------------------------------
+ * @file AdminLTE treeview.ts
+ * @description Treeview plugin for AdminLTE.
+ * @license MIT
+ * --------------------------------------------
+ */

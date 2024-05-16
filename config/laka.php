@@ -2,7 +2,7 @@
 
 return [
     'page_name' => 'VNNIT COMPUTER',
-    'bootstrap' => 4,
+    'framework' => 'bs-',
     'pagination' => [
         'onEachPage' => 1, // Số trang hiển thị 2 bên trang hiện tại
         'numberFirstPage' => 1, // Số trang đầu tiên cân hiển thị,
@@ -11,7 +11,7 @@ return [
     ],
     'pager' => [
         'allowedPageSizes' => [10, 15, 20, 30, 50, 100],
-        'showPageSizeSelector' => true,
+        'showPageSizeSelector' => false,
         'showInfo' => true,
         'infoText' => 'table.show_result'
     ],

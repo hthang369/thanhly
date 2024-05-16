@@ -40,7 +40,7 @@
 @push('scripts')
 <script>
     (function($) {
-        _grids.modal.init({});
+        DataModal.init({});
     })(jQuery);
 </script>
 @endpush

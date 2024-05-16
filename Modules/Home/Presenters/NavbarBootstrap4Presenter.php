@@ -20,11 +20,12 @@ class NavbarBootstrap4Presenter extends Presenter
         return PHP_EOL .
             link_to('/', config('laka.page_name'), ['class' => 'navbar-brand d-block d-lg-none']).
             FormFacade::button('<span class="navbar-toggler-icon"></span>', ['class' => 'navbar-toggler',
-                'data-toggle' => 'collapse', 'data-target' => '#navbarContent',
+                data_attr_bootstrap('toggle') => 'collapse',
+                data_attr_bootstrap('target') => '#navbarContent',
                 'aria-controls' => 'navbarContent',
                 'aria-expanded' => 'false', 'aria-label' => 'Toggle navigation']) .
-            '<div class="collapse navbar-collapse" id="navbarContent">' .
-            '<ul class="navbar-nav mr-auto">' .
+            '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' .
+            '<ul class="navbar-nav">' .
              PHP_EOL;
     }
 

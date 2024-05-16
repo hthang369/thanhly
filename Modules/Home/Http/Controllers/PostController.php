@@ -12,7 +12,7 @@ use Modules\Home\Traits\HomeTrait;
 class PostController extends HomeCoreController
 {
     use HomeTrait;
-    
+
     protected $permissionActions = [
         'index' => 'public',
         'show' => 'public'
@@ -21,5 +21,14 @@ class PostController extends HomeCoreController
     public function __construct(PostRepository $repository, PostValidator $validator, BaseResponse $response)
     {
         parent::__construct($repository, $validator, $response);
+    }
+
+    public function shareDataToView($data)
+    {
+        parent::shareDataToView($data);
+        $this->shareDataView([
+            'relatedTitle' => module_trans('common.slidebar_right.popular_header'),
+            'listRelated' => $data['listPopular']
+        ]);
     }
 }

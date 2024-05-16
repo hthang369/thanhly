@@ -13,10 +13,10 @@
 
 Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], function() {
     Route::group(['prefix' => 'setting'], function() {
-        Route::get('{id}', 'SettingController@view')->name('setting.view');
-        Route::get('view/sort', 'SettingController@sort')->name('setting.sort');
+        Route::get('{id}', 'Settings\SettingController@view')->name('setting.view');
+        Route::get('view/sort', 'Settings\SettingController@sort')->name('setting.sort');
     });
-    Route::resource('setting', 'SettingController');
+    Route::resource('setting', 'Settings\SettingController');
     Route::group(['prefix' => 'attributes'], function() {
         Route::get('sort', 'Attributes\AttributesController@sort')->name('attributes.sort');
         Route::put('sort', 'Attributes\AttributesController@updateSort')->name('attributes.update-sort');

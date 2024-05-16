@@ -17,7 +17,7 @@ class SlideBarBootstrap4Presenter extends Presenter
      */
     public function getOpenTagWrapper()
     {
-        return '<ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">';
+        return '<ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">';
     }
 
     /**
@@ -81,12 +81,12 @@ class SlideBarBootstrap4Presenter extends Presenter
      */
     public function getMenuWithDropDownWrapper($item)
     {
-        return '<li class="nav-item dropdown' . $this->getActiveStateOnChild($item, ' active') . '">
-		          <a href="#'.$item->attributes['id'].'" class="nav-link dropdown-toggle" data-toggle="collapse">
+        return '<li class="nav-item' . $this->getActiveStateOnChild($item, ' active') . '">
+		          <a href="#'.$item->attributes['id'].'" class="nav-link">
 					' . $item->getIcon() . ' <p class="d-inline">' . $item->title . '</p>
-			      	<b class="caret"></b>
+                    <i class="nav-arrow bi bi-chevron-right"></i>
 			      </a>
-			      <ul class="collapse list-unstyled pl-3" id="'.$item->attributes['id'].'">
+			      <ul class="nav nav-treeview" id="'.$item->attributes['id'].'">
 			      	' . $this->getChildMenuItems($item) . '
 			      </ul>
 		      	</li>'

@@ -2,12 +2,13 @@
 
 namespace Modules\Core\Entities\Menus;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\CoreModel;
 use Modules\Core\Traits\NestedSetMenuTrait;
 
 class MenusModel extends CoreModel
 {
-    use NestedSetMenuTrait;
+    use NestedSetMenuTrait, SoftDeletes;
 
     protected $table = 'menus';
 

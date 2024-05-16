@@ -19,8 +19,8 @@
                 @endif
                 <form method="POST" action="{{ route('login') }}" class="login-form">
                     @csrf
-                    <div class="form-group row">
-                        <div class="col">
+                    <div class="row g-3">
+                        <div class="col-12">
                             <input id="email" type="text"
                                 class="form-control @error('email') is-invalid @enderror"
                                 name="email" value="{{ old('email') }}"
@@ -33,37 +33,31 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col">
-                            <input id="password" type="password"
-                                class="form-control @error('password') is-invalid @enderror"
-                                name="password" autocomplete="current-password"
-                                placeholder="{{ __('Password') }}">
+                        <div class="col-12">
+                          <input id="password" type="password"
+                              class="form-control @error('password') is-invalid @enderror"
+                              name="password" autocomplete="current-password"
+                              placeholder="{{ __('Password') }}">
 
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                          @error('password')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                          @enderror
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col">
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block">
                                 {{ __('Login') }}
                             </button>
                         </div>
-                    </div>
 
-                    <div class="form-group row mb-0">
-                        <div class="col">
+                        <div class="col-12">
                             <div class="d-flex justify-content-between">
-                                <div class="custom-control custom-checkbox d-flex align-items-center">
-                                    <input type="checkbox" class="custom-control-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="remember">{{ __('Remember Me') }}</label>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember">{{ __('Remember Me') }}</label>
                                 </div>
 
                                 @if (Route::has('password.request'))

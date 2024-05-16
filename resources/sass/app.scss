@@ -1,13 +1,8 @@
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Quicksand:700");
-@import url("https://fonts.googleapis.com/css?family=Roboto");
-
-// Variables
-@import "variables";
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Bootstrap
-@import "~bootstrap/scss/bootstrap";
+@import '../vnnit-coreui/scss/bootstrap.scss';
 
-// Mixins
-@import "mixins";
-@import "grid";
+// Bootstrap-icons
+@import '~bootstrap-icons/font/bootstrap-icons';
