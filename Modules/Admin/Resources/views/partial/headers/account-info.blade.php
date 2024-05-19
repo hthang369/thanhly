@@ -1,5 +1,5 @@
 <li class="nav-item dropdown pr-4">
-    <a class="nav-link position-relative" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="width: 35px;height: 35px;">
+    <a class="nav-link position-relative dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="width: 35px;height: 35px;">
       <img class="img-avatar img-circle position-absolute" src="{{ avatar_url(user_get()) }}" alt="{{ user_get('name') }}" onerror="this.style.display='none'" style="margin: 0;position: absolute;left: 0; top:0; z-index: 1;">
       <span class="img-circle text-light d-flex align-items-center justify-content-center position-absolute" style="top:0; left:0; width:35px; background-color: #00a65a; height: 35px;">
         {{user_get('name') ? mb_substr(user_get('name'), 0, 1, 'UTF-8') : 'A'}}

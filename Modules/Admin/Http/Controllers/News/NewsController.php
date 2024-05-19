@@ -3,13 +3,18 @@
 namespace Modules\Admin\Http\Controllers\News;
 
 use Laka\Core\Http\Controllers\CoreController;
-use Laka\Core\Responses\BaseResponse;
 use Modules\Admin\Repositories\News\NewsRepository;
 use Modules\Admin\Validators\News\NewsValidator;
+use Modules\Core\Responses\PostResponse;
 
 class NewsController extends CoreController
 {
-    public function __construct(NewsRepository $repository, NewsValidator $validator, BaseResponse $response)
+    protected $listViewName = [
+        'create' => 'admin::posts.post_modal',
+        'show' => 'admin::posts.post_modal',
+        'edit' => 'admin::posts.post_modal',
+    ];
+    public function __construct(NewsRepository $repository, NewsValidator $validator, PostResponse $response)
     {
         parent::__construct($repository, $validator, $response);
         // $this->setDefaultView('admin::news');

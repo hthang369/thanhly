@@ -3,8 +3,8 @@
 namespace Modules\Admin\Repositories\Posts;
 
 use Laka\Core\Enums\ActionStatus;
-use Modules\Core\Entities\Categories\CategoriesModel;
 use Modules\Admin\Repositories\AdminBaseRepository;
+use Modules\Admin\Repositories\Categories\CategoriesRepository;
 use Modules\Core\Entities\Posts\PostCategoriesModel;
 
 abstract class BasePostsRepository extends AdminBaseRepository
@@ -18,7 +18,7 @@ abstract class BasePostsRepository extends AdminBaseRepository
 
     public function getDataTreeCategories()
     {
-        return resolve(CategoriesModel::class)->getDataByType($this->type);
+        return resolve(CategoriesRepository::class)->getDataByType($this->type);
     }
 
     protected function upsertWithCategories(array $attributes, $id = null)

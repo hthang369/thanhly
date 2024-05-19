@@ -1,2 +1,2 @@
-@includeWhen(Request::is('/'), vnnit_module_view('home', 'partial.main_content'))
-@includeWhen(!Request::is('/'), vnnit_module_view('home', 'partial.full_content'))
+@includeWhen(Request::is('/'), module_view('partial.main_content'))
+@includeWhen(!Request::is('/'), module_view('partial.full_content'))

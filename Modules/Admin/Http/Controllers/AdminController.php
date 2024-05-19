@@ -33,4 +33,11 @@ class AdminController extends BaseController
         $this->repository->getDirectories();
         return $this->responseView(request(), [], 'admin::storage-link');
     }
+
+    public function clearCache(Request $request)
+    {
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+        Artisan::call('config:clear');
+    }
 }

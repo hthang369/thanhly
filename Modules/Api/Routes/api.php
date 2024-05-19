@@ -23,4 +23,5 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::post('send-mail', 'ContactsController@sendMail')->name('page.send-mail');
     Route::post('domain-search', 'DomainController@search')->name('page.domain-search');
+    Route::post('upload-file', 'NewsController@uploadFile')->name('page.upload-file');
 });

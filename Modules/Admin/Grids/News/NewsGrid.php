@@ -2,12 +2,11 @@
 
 namespace Modules\Admin\Grids\News;
 
-use Modules\Admin\Facades\StatusType;
+use Modules\Admin\Grids\BasePageGrid;
 use Modules\Core\Entities\Categories\CategoriesModel;
 use Modules\Core\Enums\DataType;
-use Modules\Core\Grids\BaseGrid;
 
-class NewsGrid extends BaseGrid
+class NewsGrid extends BasePageGrid
 {
     /**
      * The name of the grid

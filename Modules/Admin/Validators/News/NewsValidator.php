@@ -19,11 +19,14 @@ class NewsValidator extends BaseValidator
      */
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
-            'name' => 'required',
-            'age'  => 'required|numeric'
+            'post_title' => 'required',
+            'post_link' => 'nullable|string|alpha_dash',
+            'post_image' => 'nullable|image|mimes:jpg,bmp,png|mimetypes:image/png,image/jpeg,image/bmp'
         ],
         ValidatorInterface::RULE_UPDATE => [
-            'name' => 'required'
+            'post_title' => 'required',
+            'post_link' => 'nullable|string|alpha_dash',
+            'post_image' => 'nullable|image|mimes:jpg,bmp,png|mimetypes:image/png,image/jpeg,image/bmp'
         ],
     ];
 }

@@ -17,14 +17,15 @@ class PostsForm extends CoreForm
             ->add('post_excerpt', Field::TEXT)
             ->add('post_link', Field::TEXT)
             ->add('category_id[]', Field::MULTI_SELECT, [
+                'label' => module_trans('posts.category_id'),
                 'choices' => resolve(PostsRepository::class)->getDataTreeCategories(),
                 'selected' => data_get($this->getModel(), 'category_id'),
             ])
-            ->add('tag_id[]', Field::MULTI_SELECT)
+            // ->add('tag_id[]', Field::MULTI_SELECT)
             ->add('post_image', Field::FILE)
-            ->add('attribute_preview', Field::TEXT, [
-                'value' => data_get(data_get($this->getModel(), 'attributes')->first(), 'pivot.value')
-            ])
+            // ->add('attribute_preview', Field::TEXT, [
+            //     'value' => data_get(data_get($this->getModel(), 'attributes')->first(), 'pivot.value')
+            // ])
             ->add('post_content', Field::TEXTAREA)
             ->add('ob_title', Field::TEXT)
             ->add('ob_desception', Field::TEXT)

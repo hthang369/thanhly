@@ -111,4 +111,23 @@ class Handler extends ExceptionHandler
     {
         return $request->expectsJson() || $request->ajax();
     }
+
+    private function response($code, $message, $redirect = false)
+    {
+        if ($redirect)
+            return $this->redirect($message);
+
+        $data = [
+            'status' => [
+                'code' => $code,
+                'name' => __("common.errors.http_{$code}")
+            ]
+        ];
+        return WebResponse::success($data, $message, 'errors.common');
+    }
+
+    private function redirect($message)
+    {
+        return WebResponse::exception([], $message, route(Common::getSectionCode() . '.index'));
+    }
 }

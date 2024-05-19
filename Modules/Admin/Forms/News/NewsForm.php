@@ -8,6 +8,8 @@ use Modules\Core\Forms\CoreForm;
 
 class NewsForm extends CoreForm
 {
+    protected $groupLangKey = 'news';
+
     public function buildForm()
     {
         $this
@@ -15,7 +17,7 @@ class NewsForm extends CoreForm
             ->add('post_excerpt', Field::TEXT)
             ->add('post_link', Field::TEXT)
             ->add('category_id', Field::SELECT, [
-                'choices' => CategoriesModel::pluck('category_name', 'id')->toArray(),
+                'choices' => CategoriesModel::where('category_type', 'news')->pluck('category_name', 'id')->toArray(),
                 'selected' => data_get($this->getModel(), 'category_id'),
                 'empty_value' => '=== Select category ==='
             ])

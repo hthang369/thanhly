@@ -9,6 +9,7 @@ return [
     'btn_sort_order' => 'Sắp xếp menu',
     'btn_save' => 'Lưu',
     'loading' => 'Đang tải',
+    'back' => 'Trở về',
     'wather' => [
         'location' => [
             'TPHCM' => 'TP Hồ Chí Minh',
@@ -28,7 +29,11 @@ return [
         'products' => [
             'create' => 'Tạo mới sản phẩm',
             'update' => 'Cập nhật sản phẩm'
+        ],
+        'advertises' => [
+            'create' => 'Tạo mới slide',
+            'update' => 'Cập nhật slide',
         ]
     ]
-    
+
 ];

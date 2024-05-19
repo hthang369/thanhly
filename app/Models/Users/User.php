@@ -21,6 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
@@ -68,8 +69,8 @@ class User extends Authenticatable
         return $this->roles()->min('role_rank');
     }
 
-    public function getisSuperAdminAttribute()
+    public function getIsSuperAdminAttribute()
     {
-        return true;
-    }   
+        return $this->roles->where('level', 'L1')->isNotEmpty();
+    }
 }

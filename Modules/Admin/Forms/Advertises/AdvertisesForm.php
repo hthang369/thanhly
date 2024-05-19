@@ -7,6 +7,8 @@ use Modules\Core\Forms\CoreForm;
 
 class AdvertisesForm extends CoreForm
 {
+    protected $groupLangKey = 'advertises';
+
     public function buildForm()
     {
         $this

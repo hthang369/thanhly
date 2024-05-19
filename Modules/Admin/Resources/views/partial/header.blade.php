@@ -4,7 +4,7 @@
         @include('admin::partial.headers.menu')
 
         <!-- SEARCH FORM -->
-        @include('admin::partial.headers.search')
+        @includeWhen(false, 'admin::partial.headers.search')
 
         <!-- Right navbar links -->
 

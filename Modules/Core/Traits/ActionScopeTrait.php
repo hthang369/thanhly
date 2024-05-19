@@ -8,13 +8,15 @@ use Modules\Core\Enums\ActionHot;
 use Modules\Core\Enums\PostType;
 use Modules\Core\Traits\Scopes\ActionStatusScope;
 
-trait ActionScopeTrait 
+trait ActionScopeTrait
 {
     public static function bootActionScopeTrait()
     {
         static::addGlobalScope(new ActionStatusScope);
         static::saving(function(Model $model) {
-            $model->setAttribute($model->getQualifiedIsStatusColumn(), ActionStatus::ACTIVE);
+            if (blank($model->getAttribute($model->getIsStatusColumn()))) {
+                $model->setAttribute($model->getIsStatusColumn(), ActionStatus::ACTIVE);
+            }
         });
     }
 

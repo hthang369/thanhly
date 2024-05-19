@@ -58,8 +58,12 @@ Route::group(['middleware' => ['auth:web', 'info-web'], 'prefix' => 'admin'], fu
     Route::resource('users', 'Users\UsersController');
 
     Route::resource('contacts', 'Contacts\ContactsController')->names('contact');
+
+    Route::get('media', 'Media\MediaController@index')->name('media.index');
+    Route::get('media/show', 'Media\MediaController@show')->name('media.show');
 });
 
-Route::group(['prefix' => 'storage-link', 'middleware' => 'global-admin'], function() {
-    Route::get('/', 'AdminController@storageLink')->name('storage.link');
+Route::group(['middleware' => 'global-admin'], function() {
+    Route::get('storage-link', 'AdminController@storageLink')->name('storage.link');
+    Route::get('clear-cache', 'AdminController@clearCache')->name('clear.cache');
 });

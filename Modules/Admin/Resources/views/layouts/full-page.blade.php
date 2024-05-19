@@ -21,24 +21,19 @@
         <script defer src="{{ vnn_asset('js/tinymce/tinymce.min.js') }}"></script>
         <script defer src="{{ vnn_asset('js/data-grid.js') }}"></script>
     </head>
-    <body class="sidebar-mini sidebar-expand-lg layout-fixed bg-body-tertiary dark-mode" data-bs-theme="dark">
-        @include('admin::partial.loading')
-
-        <div class="toast-container fixed-top w-25 mt-3" id="popupToast"></div>
+    <body class="sidebar-mini layout-fixed bg-body-tertiary dark-mode" data-bs-theme="dark">
+        {{-- @include('admin::partial.loading') --}}
 
         <section class="app-wrapper" id="pjax-content-container">
             @include('admin::partial.header')
 
-            @include('admin::partial.sidebar')
-
-            @include('admin::partial.content')
+            <div class="app-main content-wrapper">
+                <div class="app-content">
+                    @yield('content')
+                </div>
+            </div>
 
             @include('admin::partial.footer')
-
-            @stack('scripts')
-            @yield('scripts_content')
         </section>
-
-        @include(modal_view_template())
     </body>
 </html>

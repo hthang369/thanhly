@@ -13,6 +13,7 @@ abstract class BaseGrid extends BaseGridPresenter
     protected $castFormatter = [
         DataType::STATUS => 'formatterStatusDisplay'
     ];
+    protected $showModals = [];
     /**
     * Configure rendered buttons, or add your own
     *
@@ -21,7 +22,7 @@ abstract class BaseGrid extends BaseGridPresenter
     protected function configureButtons()
     {
         parent::configureButtons();
-        $modalAttrs = null;
+        $modalAttrs = [];
         if (!blank($this->modalSize)) {
             $modalAttrs = [
                 'dataAttributes' => [
@@ -29,16 +30,43 @@ abstract class BaseGrid extends BaseGridPresenter
                     'loading' => translate('table.loading_text')
                 ]
             ];
-            $this->editToolbarButton('create', $modalAttrs);
-            $this->editRowButton('edit', $modalAttrs);    
         }
-        $this->editRowButton('edit', [
-            'renderCustom' => '',
-            'mergeClass' => ['grid-row-button', 'show_modal_form'],
-        ]);
-        $this->editRowButton('detail', [
-            'mergeClass' => ['grid-row-button', 'show_modal_form']
-        ]);
+        $this->editCreateButton($modalAttrs);
+        $modalAttrs['mergeClass'] = ['grid-row-button'];
+        $this->editEditButton($modalAttrs);
+    }
+
+    private function setShowModal($name, &$options)
+    {
+        if (array_has($this->showModals, $name)) {
+            data_set($options, 'showModal', $this->showModals[$name]);
+        }
+        return $options;
+    }
+    protected function editCreateButton($options)
+    {
+        $this->setShowModal('create', $options);
+        $this->editToolbarButton('create', $options);
+    }
+    protected function editEditButton($options)
+    {
+        $this->setShowModal('edit', $options);
+        $this->editRowButton('edit', $options);
+    }
+    protected function editDeleteButton($options)
+    {
+        $this->setShowModal('destroy', $options);
+        $this->editRowButton('destroy', $options);
+    }
+    protected function editRefreshButton($options)
+    {
+        $this->setShowModal('refresh', $options);
+        $this->editToolbarButton('refresh', $options);
+    }
+    protected function editDetailButton($options)
+    {
+        $this->setShowModal('show', $options);
+        $this->editRowButton('show', $options);
     }
 
     protected function visibleDetail($item)

@@ -236,7 +236,7 @@ return [
         'menu_link' => 'users.index',
         'menu_icon' => 'nav-icon fa fa-users',
         'actived' => '',
-        'section' => 'employee',
+        'section' => 'users',
         'visiable' => false,
         'children' => []
     ],

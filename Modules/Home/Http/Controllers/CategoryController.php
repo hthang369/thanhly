@@ -14,7 +14,7 @@ use Modules\Home\Validators\CategoryValidator;
 class CategoryController extends HomeCoreController
 {
     use HomeTrait;
-    
+
     public function __construct(CategoryRepository $repository, CategoryValidator $validator, BaseResponse $response)
     {
         parent::__construct($repository, $validator, $response);
@@ -25,6 +25,6 @@ class CategoryController extends HomeCoreController
         $base = $this->repository->showCategoryBrand($title, $brand);
         $this->shareDataToView($base);
         $viewName = $base['view_name'];
-        return $this->response->data($request, ['data' => $base['data']], module_view_name($viewName));
+        return $this->response->data($request, ['data' => $base['data']], module_view($viewName));
     }
 }

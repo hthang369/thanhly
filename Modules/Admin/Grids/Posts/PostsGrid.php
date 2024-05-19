@@ -2,10 +2,10 @@
 
 namespace Modules\Admin\Grids\Posts;
 
+use Modules\Admin\Grids\BasePageGrid;
 use Modules\Core\Enums\DataType;
-use Modules\Core\Grids\BaseGrid;
 
-class PostsGrid extends BaseGrid
+class PostsGrid extends BasePageGrid
 {
     /**
      * The name of the grid

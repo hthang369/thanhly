@@ -2,6 +2,7 @@
 
 namespace Modules\Api\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Modules\Api\Repositories\NewsRepository;
 use Modules\Api\Responses\NewsResponse;
 use Modules\Api\Validators\NewsValidator;
@@ -27,5 +28,10 @@ class NewsController extends BaseController
     public function showNews($id)
     {
         return parent::show($id);
+    }
+
+    public function uploadFile(Request $request)
+    {
+        return $this->repository->uploadFile($request->file);
     }
 }

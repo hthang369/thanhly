@@ -52,9 +52,9 @@ class PermissionRoleGrid extends BaseGrid
 
     private function getTemplateAction($name, $value, $key)
     {
-        return '<div class="custom-control custom-checkbox custom-control-inline">' .
-            Form::checkbox($name, null, $value, ['id' => $name, 'class' => 'custom-control-input']) .
-            Form::label($name, $key, ['class' => 'custom-control-label'])
+        return '<div class="form-check form-check-inline">' .
+            Form::checkbox($name, null, $value, ['id' => $name, 'class' => 'form-check-input']) .
+            Form::label($name, $key, ['class' => 'form-check-label'])
             . '</div>';
     }
 

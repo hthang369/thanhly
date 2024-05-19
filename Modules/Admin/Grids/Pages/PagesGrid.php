@@ -2,11 +2,10 @@
 
 namespace Modules\Admin\Grids\Pages;
 
-use Modules\Admin\Facades\StatusType;
+use Modules\Admin\Grids\BasePageGrid;
 use Modules\Core\Enums\DataType;
-use Modules\Core\Grids\BaseGrid;
 
-class PagesGrid extends BaseGrid
+class PagesGrid extends BasePageGrid
 {
     /**
      * The name of the grid

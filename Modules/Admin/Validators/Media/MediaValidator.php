@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Validators;
+namespace Modules\Admin\Validators\Media;
 
 use Laka\Core\Validators\BaseValidator;
 use Prettus\Validator\Contracts\ValidatorInterface;
