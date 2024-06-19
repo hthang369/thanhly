@@ -3,7 +3,7 @@
 
 // scss-docs-start import-stack
 // Configuration
-@import "bootstrap/scss/functions";
+@import "functions";
 @import "variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
@@ -18,7 +18,7 @@
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/tables";
-@import "bootstrap/scss/forms";
+@import "forms";
 @import "bootstrap/scss/buttons";
 @import "loading-button";
 @import "bootstrap/scss/transitions";
@@ -47,7 +47,7 @@
 @import "avatar";
 @import "calendar";
 @import "callout";
-@import "picker";
+@import "rating";
 @import "date-picker";
 @import "time-picker";
 @import "footer";

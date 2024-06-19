@@ -58,7 +58,8 @@ class CloseButton extends Config {
 
   render() {
     const btnClose = document.createElement('button');
-    btnClose.classList.add(...this._config.className);
+    const lstClassName = this._config.className.filter(name => name !== '')
+    btnClose.classList.add(...lstClassName);
     btnClose.setAttribute('type', 'button');
     btnClose.setAttribute('aria-label', 'Close');
     if (!isNil(this._config.name)) {

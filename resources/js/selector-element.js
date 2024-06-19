@@ -1,4 +1,4 @@
-import {has, set, isNil, isString, forEach, get, isPlainObject, zipObject, isElement} from 'lodash';
+import {has, set, isNil, isString, forEach, get, isPlainObject, zipObject, isElement, isFunction} from 'lodash';
 import EventHandler from '@coreui/coreui-pro/js/src/dom/event-handler';
 import SelectorEngine from '@coreui/coreui-pro/js/src/dom/selector-engine';
 
@@ -18,7 +18,7 @@ const SelectorElement = {
     return this;
   },
   addClass: function () {
-    this.classList.add([...arguments]);
+    this.classList.add(...arguments);
     return this;
   },
   removeClass: function (name) {
@@ -105,6 +105,21 @@ const SelectorElement = {
   },
   next: function () {
     return this.nextElementSibling;
+  },
+  load: function(url, callback) {
+    fetch(url).then(response => {
+      if (response.ok) {
+        return response.text()
+      }
+    }).then(body => {
+      this.html(body)
+      if (isFunction(callback)) {
+        callback()
+      }
+    })
+  },
+  modal: function(options) {
+    return new bootstrap.default.Modal(this, options)
   }
 };
 HTMLFormElement.prototype.serializeObject = function () {

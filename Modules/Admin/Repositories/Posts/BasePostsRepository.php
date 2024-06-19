@@ -25,8 +25,8 @@ abstract class BasePostsRepository extends AdminBaseRepository
     {
         $listCategories = $attributes['category_id'];
         return $this->upsert($attributes, $id, function($result) use($listCategories, $attributes) {
-            $this->upsertForenignCategories(PostCategoriesModel::class, $listCategories, $result->id);
-            $this->upsertAttributes($this->attributeRelationClass, $attributes, $result->id);
+            $this->upsertForenignCategories(PostCategoriesModel::class, $listCategories, $result->category_id, $result->id);
+            // $this->upsertAttributes($this->attributeRelationClass, $attributes, $result->id);
         });
     }
 

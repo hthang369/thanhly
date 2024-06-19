@@ -12,7 +12,7 @@ import {
 
 import BaseComponent from 'bootstrap/js/src/base-component'
 
-// import { OverlayScrollbars } from 'overlayscrollbars'
+import { OverlayScrollbars } from 'overlayscrollbars'
 
 /**
  * ------------------------------------------------------------------------
@@ -200,16 +200,16 @@ onDOMContentLoaded(() => {
     })
   })
 
-  // const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER)
-  // if (sidebarWrapper && OverlayScrollbars) {
-  //   OverlayScrollbars(sidebarWrapper, {
-  //     scrollbars: {
-  //         theme: Default.scrollbarTheme,
-  //         autoHide: Default.scrollbarAutoHide,
-  //         clickScroll: Default.scrollbarClickScroll,
-  //     }
-  //   })
-  // }
+  const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER)
+  if (sidebarWrapper && OverlayScrollbars) {
+    OverlayScrollbars(sidebarWrapper, {
+      scrollbars: {
+        theme: Default.scrollbarTheme,
+        autoHide: Default.scrollbarAutoHide,
+        clickScroll: Default.scrollbarClickScroll,
+      }
+    })
+  }
 })
 
 export default PushMenu

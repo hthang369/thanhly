@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * CoreUI sidebar.js
+ * VNNIT-CoreUI sidebar.js
  * Licensed under MIT (https://github.com/coreui/coreui/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -10,7 +10,7 @@ import EventHandler from 'bootstrap/js/src/dom/event-handler.js'
 import Manipulator from 'bootstrap/js/src/dom/manipulator.js'
 import { defineJQueryPlugin } from 'bootstrap/js/src/util/index.js'
 import Backdrop from 'bootstrap/js/src/util/backdrop.js'
-import ScrollBarHelper from 'bootstrap/js/src/util/scrollbar.js'
+import ScrollBarHelper from 'bootstrap/js/src/util/scrollbar'
 
 /**
  * ------------------------------------------------------------------------
@@ -90,6 +90,10 @@ class Sidebar extends BaseComponent {
       this._element.classList.remove(CLASS_NAME_HIDE)
     }
 
+    if (this._overlaid) {
+      this._element.classList.add(CLASS_NAME_SHOW)
+    }
+
     if (this._isMobile()) {
       this._element.classList.add(CLASS_NAME_SHOW)
       this._backdrop.show()
@@ -120,7 +124,9 @@ class Sidebar extends BaseComponent {
     if (this._isMobile()) {
       this._backdrop.hide()
       new ScrollBarHelper().reset()
-    } else {
+    }
+
+    if (!this._isMobile() && !this._overlaid) {
       this._element.classList.add(CLASS_NAME_HIDE)
     }
 
@@ -194,16 +200,6 @@ class Sidebar extends BaseComponent {
   }
 
   // Private
-
-  _getConfig(config) {
-    config = {
-      ...Default,
-      ...Manipulator.getDataAttributes(this._element),
-      ...(typeof config === 'object' ? config : {})
-    }
-
-    return config
-  }
 
   _initializeBackDrop() {
     return new Backdrop({

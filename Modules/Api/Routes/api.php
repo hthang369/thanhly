@@ -24,4 +24,11 @@ Route::group(['prefix' => 'v1'], function() {
     Route::post('send-mail', 'ContactsController@sendMail')->name('page.send-mail');
     Route::post('domain-search', 'DomainController@search')->name('page.domain-search');
     Route::post('upload-file', 'NewsController@uploadFile')->name('page.upload-file');
+
+    Route::get('tree-folder', 'MediaController@treeFolders')->name('media.tree-folder');
+    Route::post('folder/content', 'MediaController@folderContent')->name('media.folder-detail');
+    Route::post('folder/create', 'MediaController@folderCreate')->name('media.folder-create');
+    Route::post('folder/delete', 'MediaController@folderDelete')->name('media.folder-delete');
+    Route::post('file/upload', 'MediaController@fileUpload')->name('media.file-upload');
+    Route::delete('file/delete/{folder}', 'MediaController@fileDelete')->name('media.file-delete');
 });

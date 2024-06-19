@@ -25,10 +25,23 @@ $high-emphasis-inverse:    rgba($white, .87) !default;
 $medium-emphasis-inverse:  rgba($white, .6) !default;
 $disabled-inverse:         rgba($white, .38) !default;
 
-$zindex-sidebar-backdrop:           1030 !default;
+$zindex-sidebar-backdrop:           1034 !default;
+$zindex-sidebar:                    1035 !default;
 
 // Set mobile breakpoint
 $mobile-breakpoint:           md !default;
+
+// Utilities
+$gap-number: .25rem;
+$gap-default: (
+  0: 0px,
+  px: 1px,
+);
+$gap-list: (
+  1, 2, 3, 4, 5, 6, 7, 8, 9,
+  10, 11, 12, 14, 16, 20, 24, 28, 32, 36,
+  40, 44, 48, 52, 56, 60, 64, 72, 80, 96
+);
 
 // Elevation
 @import "variables/elevation-variables";
@@ -62,4 +75,11 @@ $icon-size-xxl:   $icon-size-base * 2 !default;
 @import 'variables/calendar-variables';
 
 // Date & Time & Picker
-@import 'variables/picker-variables';
+@import 'variables/date-picker-variables';
+@import 'variables/time-picker-variables';
+
+// Rating
+@import 'variables/rating-variables';
+
+// Multi select
+@import 'variables/multi-select';

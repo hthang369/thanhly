@@ -10,11 +10,11 @@ import SelectorEngine from 'bootstrap/js/src/dom/selector-engine';
 import EventHandler from 'bootstrap/js/src/dom/event-handler';
 import ScrollPage from '../vnnit-coreui/js/scroll-page';
 import CloseButton from '../vnnit-coreui/js/close-button';
-import SelectorElement from './selector-element';
+import './selector-element';
 import pjax from './pjax';
 import {has, isNil, isEmpty, get, forEach, merge, isFunction} from 'lodash';
 import axios from 'axios';
-
+import { Toastr, Api, UtilBase } from './utils';
 
 function downloadFilePath(filePath) {
   if (isNil(filePath) || isEmpty(filePath)) {
@@ -30,47 +30,7 @@ function downloadFilePath(filePath) {
 }
 
 const FormUtils = {
-  showAlert: function (message) {
-    if (typeof Toastr !== 'undefined') {
-      Toastr.showSuccess('Message', message);
-    }
-  },
-  /**
-   * Return html that can be used to render a bootstrap alert on the form
-   *
-   * @param type
-   * @param response
-   * @returns {string}
-   */
-  renderAlert: function (type, response) {
-    var validTypes = {
-      'success': 'success',
-      'error': 'danger',
-      'notice': 'warning'
-    };
-    const alertType = get(validTypes, type, 'success');
-    const htmlWrapper = document.createElement('div');
-    htmlWrapper.addClass('alert', `alert-${alertType}`, 'alert-dismissible');
 
-    const btnClose = new CloseButton({name: 'alert'});
-    htmlWrapper.append(btnClose);
-
-    const content = document.createElement('strong');
-    if (type === 'error') {
-      if (has(response, 'serverError')) {
-        content.html(get(response, 'serverError.message', 'A server error occurred.'));
-        htmlWrapper.append(content);
-      } else {
-        var errs = this.genarateValidationErrors(response);
-        content.html(get(response, 'message', 'Please fix the following errors') + errs);
-        htmlWrapper.append(content);
-      }
-    } else {
-      content.html(response.message);
-      htmlWrapper.append(content);
-    }
-    return htmlWrapper.html();
-  },
   /**
    * Form submission from a modal dialog
    *
@@ -138,11 +98,15 @@ const FormUtils = {
         }
       },
       onError: function (data) {
+        console.log(data)
         var msg = void 0;
         // error handling
         switch (data.status) {
           case 500:
             msg = _this.renderAlert('error', { serverError: { message: "An error occurred on the server." } });
+            break;
+          case 422:
+            msg = UtilBase.genarateValidationErrors(data)
             break;
           default:
             msg = _this.renderAlert('error', data);
@@ -422,13 +386,18 @@ const Util = {
     // load the modal into the container put on the html
     const url = btn.attr('href') || btn.data('href');
     const modalContent = getElement('.modal-content');
-    modalContent.load(url, function (data) {
+    fetch(url).then(response => {
+      if (response.ok) {
+        return response.text()
+      }
+    }).then(body => {
       // show the modal
-      modalDialog.modal({show: true});
+      modalDialog.modal().show()
       if (modalSize) {
         modalContent.parent().addClass(modalSize);
       }
-    }, btnTarget);
+      modalContent.html(body)
+    })
 
     // revert button to original content, once the modal is shown
     modalDialog.on('shown.bs.modal', function (e) {
@@ -618,7 +587,7 @@ const DataModal = {
 const DataGrid = {
   initGrid: function (opts) {
     var grid = new Grid(opts);
-    grid.bindPjax();
+    // grid.bindPjax();
     grid.search();
     grid.filter();
     grid.pager();
@@ -631,35 +600,34 @@ const DataGrid = {
   }
 };
 
-const ServiceInstance = {
-  initEvent: function(target, eventName, callback = null) {
-    Util.handleAjaxRequest(getElement(target), 'click');
-  },
-  init: function () {
-    ServiceInstance.initEvent('.btn-start', 'click');
-    ServiceInstance.initEvent('.btn-stop', 'click');
-    ServiceInstance.initEvent('.btn-restart', 'click');
-  }
-};
+// const ServiceInstance = {
+//   initEvent: function(target, eventName, callback = null) {
+//     Util.handleAjaxRequest(getElement(target), 'click');
+//   },
+//   init: function () {
+//     ServiceInstance.initEvent('.btn-start', 'click');
+//     ServiceInstance.initEvent('.btn-stop', 'click');
+//     ServiceInstance.initEvent('.btn-restart', 'click');
+//   }
+// };
 
 onDOMContentLoaded(() => {
-  const btModal = document.querySelector('#bootstrap_modal');
-  EventHandler.on(btModal, 'click', '#modal_form button[type="submit"]', function(e) {
-    e.preventDefault();
-    // process forms on the modal
-    FormUtils.handleFormSubmission('modal_form', btModal);
-  });
+  // const btModal = document.querySelector('#bootstrap_modal');
+  // EventHandler.on(btModal, 'click', '#modal_form button[type="submit"]', function(e) {
+  //   e.preventDefault();
+  //   // process forms on the modal
+  //   FormUtils.handleFormSubmission('modal_form', btModal);
+  // });
 
-  setTimeout(() => {
-    if (axios) {
-      axios.defaults.headers.common['X-CSRF-TOKEN'] = getElement('meta[name="csrf-token"]').getAttribute('content');
-    }
-  }, 1000);
+  // setTimeout(() => {
+  //   if (axios) {
+  //     axios.defaults.headers.common['X-CSRF-TOKEN'] = getElement('meta[name="csrf-token"]').getAttribute('content');
+  //   }
+  // }, 1000);
 
-  new ScrollPage();
+  ScrollPage.render()
 });
 
-window.SelectorElement = SelectorElement;
 window.Toastr = Toastr;
 window.Util = Util;
 window.FormUtils = FormUtils;
@@ -669,7 +637,7 @@ window.Grid = Grid;
 window.MyModal = MyModal;
 window.DataModal = DataModal;
 window.DataGrid = DataGrid;
-window.ServiceInstance = ServiceInstance;
+// window.ServiceInstance = ServiceInstance;
 
 //   $(document).on('ajaxSend', function() {
 //     Util.showLoading();

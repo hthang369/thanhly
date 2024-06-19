@@ -1,140 +1,196 @@
 /**
  * --------------------------------------------------------------------------
- * CoreUI PRO date-range-picker.js
+ * VNNIT-COREUI date-range-picker.js
  * License (https://coreui.io/pro/license/)
  * --------------------------------------------------------------------------
  */
 
-import { format as dateFormat, parseISO } from 'date-fns'
-
-import { defineJQueryPlugin } from 'bootstrap/js/src/util/index.js'
+import * as Popper from '@popperjs/core'
+import BaseComponent from 'bootstrap/js/src/base-component.js'
+import Calendar from './calendar.js'
+import TimePicker from './time-picker.js'
 import EventHandler from 'bootstrap/js/src/dom/event-handler.js'
 import Manipulator from 'bootstrap/js/src/dom/manipulator.js'
 import SelectorEngine from 'bootstrap/js/src/dom/selector-engine.js'
+import { defineJQueryPlugin, isRTL } from 'bootstrap/js/src/util/index.js'
 import { getLocalDateFromString } from './util/calendar.js'
-import Calendar from './calendar.js'
-import Picker from './picker.js'
-import TimePicker from './time-picker.js'
 
 /**
-* ------------------------------------------------------------------------
-* Constants
-* ------------------------------------------------------------------------
-*/
+ * Constants
+ */
 
 const NAME = 'date-range-picker'
 const DATA_KEY = 'bs.date-range-picker'
 const EVENT_KEY = `.${DATA_KEY}`
 const DATA_API_KEY = '.data-api'
 
+const TAB_KEY = 'Tab'
+const RIGHT_MOUSE_BUTTON = 2
+
+const EVENT_CLICK = `click${EVENT_KEY}`
 const EVENT_END_DATE_CHANGE = `endDateChange${EVENT_KEY}`
+const EVENT_HIDE = `hide${EVENT_KEY}`
+const EVENT_HIDDEN = `hidden${EVENT_KEY}`
+const EVENT_INPUT = 'input'
+const EVENT_RESIZE = 'resize'
+const EVENT_SHOW = `show${EVENT_KEY}`
+const EVENT_SHOWN = `shown${EVENT_KEY}`
+const EVENT_SUBMIT = 'submit'
 const EVENT_START_DATE_CHANGE = `startDateChange${EVENT_KEY}`
+const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`
+const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY}${DATA_API_KEY}`
 const EVENT_LOAD_DATA_API = `load${EVENT_KEY}${DATA_API_KEY}`
 
-const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="date-range-picker"]'
+const CLASS_NAME_BODY = 'date-picker-body'
+const CLASS_NAME_CALENDAR = 'date-picker-calendar'
+const CLASS_NAME_CALENDARS = 'date-picker-calendars'
+const CLASS_NAME_CLEANER = 'date-picker-cleaner'
+const CLASS_NAME_DATE_PICKER = 'date-picker'
+const CLASS_NAME_DATE_RANGE_PICKER = 'date-range-picker'
+const CLASS_NAME_DISABLED = 'disabled'
+const CLASS_NAME_DROPDOWN = 'date-picker-dropdown'
+const CLASS_NAME_INDICATOR = 'date-picker-indicator'
+const CLASS_NAME_INPUT = 'date-picker-input'
+const CLASS_NAME_INPUT_GROUP = 'date-picker-input-group'
+const CLASS_NAME_IS_INVALID = 'is-invalid'
+const CLASS_NAME_IS_VALID = 'is-valid'
+const CLASS_NAME_FOOTER = 'date-picker-footer'
+const CLASS_NAME_RANGES = 'date-picker-ranges'
+const CLASS_NAME_SEPARATOR = 'date-picker-separator'
+const CLASS_NAME_SHOW = 'show'
+const CLASS_NAME_TIME_PICKER = 'time-picker'
+const CLASS_NAME_TIME_PICKERS = 'date-picker-timepickers'
+const CLASS_NAME_WAS_VALIDATED = 'was-validated'
+
+const SELECTOR_CALENDAR = '.calendar'
+const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="date-range-picker"]:not(.disabled):not(:disabled)'
+const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE}.${CLASS_NAME_SHOW}`
+const SELECTOR_INPUT = '.date-picker-input'
+const SELECTOR_WAS_VALIDATED = 'form.was-validated'
 
 const Default = {
-  ...Picker.Default,
   calendars: 2,
+  cancelButton: 'Cancel',
+  cancelButtonClasses: ['btn', 'btn-sm', 'btn-ghost-primary'],
+  confirmButton: 'OK',
+  confirmButtonClasses: ['btn', 'btn-sm', 'btn-primary'],
   cleaner: true,
   calendarDate: null,
   date: null,
   disabled: false,
   disabledDates: null,
   endDate: null,
+  endName: null,
   firstDayOfWeek: 1,
-  format: null,
+  footer: false,
+  inputDateFormat: null,
+  inputDateParse: null,
   invalid: false,
   indicator: true,
   locale: 'default',
   maxDate: null,
   minDate: null,
+  name: null,
   placeholder: ['Start date', 'End date'],
   range: true,
   ranges: {},
   rangesButtonsClasses: ['btn', 'btn-ghost-secondary'],
+  required: true,
   separator: true,
   size: null,
   startDate: null,
+  startName: null,
   selectAdjacementDays: false,
   selectEndDate: false,
+  selectionType: 'day',
   showAdjacementDays: true,
+  showWeekNumber: false,
   timepicker: false,
   todayButton: 'Today',
   todayButtonClasses: ['btn', 'btn-sm', 'btn-primary', 'me-auto'],
-  valid: false
+  valid: false,
+  weekNumbersLabel: null
 }
 
 const DefaultType = {
-  ...Picker.DefaultType,
   calendars: 'number',
+  cancelButton: '(boolean|string)',
+  cancelButtonClasses: '(array|string)',
+  confirmButton: '(boolean|string)',
+  confirmButtonClasses: '(array|string)',
   cleaner: 'boolean',
-  calendarDate: '(date|string|null)',
-  date: '(date|string|null)',
+  calendarDate: '(date|number|string|null)',
+  date: '(date|number|string|null)',
   disabledDates: '(array|null)',
   disabled: 'boolean',
-  endDate: '(date|string|null)',
+  endDate: '(date|number|string|null)',
+  endName: '(string|null)',
   firstDayOfWeek: 'number',
-  format: '(string|null)',
+  footer: 'boolean',
   indicator: 'boolean',
+  inputDateFormat: '(function|null)',
+  inputDateParse: '(function|null)',
   invalid: 'boolean',
   locale: 'string',
-  maxDate: '(date|string|null)',
-  minDate: '(date|string|null)',
+  maxDate: '(date|number|string|null)',
+  minDate: '(date|number|string|null)',
+  name: '(string|null)',
   placeholder: '(array|string)',
   range: 'boolean',
   ranges: 'object',
   rangesButtonsClasses: '(array|string)',
+  required: 'boolean',
   separator: 'boolean',
   size: '(string|null)',
-  startDate: '(date|string|null)',
+  startDate: '(date|number|string|null)',
+  startName: '(string|null)',
   selectAdjacementDays: 'boolean',
   selectEndDate: 'boolean',
+  selectionType: 'string',
   showAdjacementDays: 'boolean',
+  showWeekNumber: 'boolean',
   timepicker: 'boolean',
   todayButton: '(boolean|string)',
   todayButtonClasses: '(array|string)',
-  valid: 'boolean'
+  valid: 'boolean',
+  weekNumbersLabel: '(string|null)'
 }
 
 /**
-* ------------------------------------------------------------------------
-* Class Definition
-* ------------------------------------------------------------------------
-*/
+ * Class definition
+ */
 
-class DateRangePicker extends Picker {
+class DateRangePicker extends BaseComponent {
   constructor(element, config) {
     super(element)
 
     this._config = this._getConfig(config)
-    this._calendarDate = this._convertStringToDate(this._config.calendarDate || this._config.date || this._config.startDate || new Date())
-    this._startDate = this._convertStringToDate(this._config.date || this._config.startDate)
-    this._endDate = this._convertStringToDate(this._config.endDate)
+    this._calendarDate = this._config.calendarDate
+    this._startDate = this._config.date || this._config.startDate
+    this._endDate = this._config.endDate
     this._initialStartDate = null
     this._initialEndDate = null
     this._mobile = window.innerWidth < 768
+    this._popper = null
     this._selectEndDate = this._config.selectEndDate
 
-    // nodes
+    this._calendar = null
     this._calendars = null
-    this._calendarStart = null
-    this._calendarEnd = null
-    this._dateRangePicker = null
     this._endInput = null
+    this._menu = null
     this._startInput = null
     this._timepickers = null
     this._timePickerEnd = null
     this._timePickerStart = null
+    this._togglerElement = null
 
     this._createDateRangePicker()
-    this._createCalendars()
+    this._createDateRangePickerCalendars()
     this._addEventListeners()
     this._addCalendarEventListeners()
   }
 
   // Getters
-
   static get Default() {
     return Default
   }
@@ -148,216 +204,324 @@ class DateRangePicker extends Picker {
   }
 
   // Public
+  toggle() {
+    return this._isShown() ? this.hide() : this.show()
+  }
 
-  cancel() {
-    this._endDate = this._initialEndDate
-    this._endInput.value = this._setInputValue(this._initialEndDate)
-    this._startDate = this._initialStartDate
-    this._startInput.value = this._setInputValue(this._initialStartDate)
-    this._calendars.innerHTML = ''
-    if (this._config.timepicker) {
-      this._timepickers.innerHTML = ''
+  show() {
+    if (this._config.disabled || this._isShown()) {
+      return
     }
 
-    this._createCalendars()
-    this._addCalendarEventListeners()
+    EventHandler.trigger(this._element, EVENT_SHOW)
+    this._element.classList.add(CLASS_NAME_SHOW)
+    this._element.setAttribute('aria-expanded', true)
+    EventHandler.trigger(this._element, EVENT_SHOWN)
+
+    this._createPopper()
+  }
+
+  hide() {
+    EventHandler.trigger(this._element, EVENT_HIDE)
+
+    if (this._popper) {
+      this._popper.destroy()
+    }
+
+    this._element.classList.remove(CLASS_NAME_SHOW)
+    this._element.setAttribute('aria-expanded', 'false')
+    EventHandler.trigger(this._element, EVENT_HIDDEN)
+  }
+
+  dispose() {
+    if (this._popper) {
+      this._popper.destroy()
+    }
+
+    super.dispose()
+  }
+
+  cancel() {
+    this._startDate = this._initialStartDate
+    this._startInput.value = this._setInputValue(this._initialStartDate)
+    this._startInput.dispatchEvent(new Event('change'))
+
+    if (this._config.range) {
+      this._endDate = this._initialEndDate
+      this._endInput.value = this._setInputValue(this._initialEndDate)
+      this._endInput.dispatchEvent(new Event('change'))
+    }
+
+    this.hide()
+
+    this._calendar.update(this._getCalendarConfig)
+
+    if (this._timePickerStart) {
+      this._timePickerStart.update(this._getTimePickerConfig(true))
+    }
+
+    if (this._timePickerEnd) {
+      this._timePickerEnd.update(this._getTimePickerConfig(false))
+    }
   }
 
   clear() {
     this._endDate = null
     this._endInput.value = ''
+    this._endInput.dispatchEvent(new Event('change'))
     this._startDate = null
     this._startInput.value = ''
-    this._calendars.innerHTML = ''
-    if (this._config.timepicker) {
-      this._timepickers.innerHTML = ''
+    this._startInput.dispatchEvent(new Event('change'))
+
+    this._calendar.update(this._getCalendarConfig())
+
+    if (this._timePickerStart) {
+      this._timePickerStart.update(this._getTimePickerConfig(true))
     }
 
-    this._createCalendars()
-    this._addCalendarEventListeners()
+    if (this._timePickerEnd) {
+      this._timePickerEnd.update(this._getTimePickerConfig(false))
+    }
   }
 
   reset() {
     this._endDate = this._config.endDate
     this._endInput.value = this._setInputValue(this._config.endDate)
+    this._endInput.dispatchEvent(new Event('change'))
     this._startDate = this._config.startDate
     this._startInput.value = this._setInputValue(this._config.startDate)
-    this._calendars.innerHTML = ''
-    if (this._config.timepicker) {
-      this._timepickers.innerHTML = ''
+    this._startInput.dispatchEvent(new Event('change'))
+
+    this._calendar.update(this._getCalendarConfig())
+
+    if (this._timePickerStart) {
+      this._timePickerStart.update(this._getTimePickerConfig(true))
     }
 
-    this._createCalendars()
-    this._addCalendarEventListeners()
+    if (this._timePickerEnd) {
+      this._timePickerEnd.update(this._getTimePickerConfig(false))
+    }
   }
 
   update(config) {
     this._config = this._getConfig(config)
-    this._calendarDate = this._convertStringToDate(this._config.calendarDate || this._config.date || this._config.startDate || new Date())
-    this._startDate = this._convertStringToDate(this._config.date || this._config.startDate)
-    this._endDate = this._convertStringToDate(this._config.endDate)
+    this._calendarDate = this._config.calendarDate
+    this._startDate = this._config.date || this._config.startDate
+    this._endDate = this._config.endDate
     this._selectEndDate = this._config.selectEndDate
 
-    this._dropdownToggleEl.innerHTML = ''
-    this._dropdownMenuEl.innerHTML = ''
-
+    this._element.innerHTML = ''
     this._createDateRangePicker()
-    this._createCalendars()
+    this._createDateRangePickerCalendars()
     this._addEventListeners()
     this._addCalendarEventListeners()
   }
 
   // Private
   _addEventListeners() {
-    EventHandler.on(this._element, 'shown.bs.dropdown', () => {
-      this._initialStartDate = new Date(this._startDate)
-      this._initialEndDate = new Date(this._endDate)
+    EventHandler.on(this._togglerElement, EVENT_CLICK, () => {
+      if (!this._config.disabled) {
+        this.show()
+        this._initialStartDate = new Date(this._startDate)
+        this._initialEndDate = new Date(this._endDate)
+      }
     })
 
-    EventHandler.on(this._startInput, 'click', () => {
-      this._dropdown.show()
+    EventHandler.on(this._startInput, EVENT_CLICK, () => {
       this._selectEndDate = false
-      this._updateCalendars()
+      this._calendar.update(this._getCalendarConfig())
     })
 
-    EventHandler.on(this._startInput, 'input', event => {
-      const date = this._config.format ?
-        parseISO(event.target.value) :
+    EventHandler.on(this._startInput, EVENT_INPUT, event => {
+      const date = this._config.inputDateParse ?
+        this._config.inputDateParse(event.target.value) :
         getLocalDateFromString(event.target.value, this._config.locale, this._config.timepicker)
 
       if (date instanceof Date && date.getTime()) {
         this._startDate = date
         this._calendarDate = date
-        this._updateCalendars()
+        this._calendar.update(this._getCalendarConfig())
       }
     })
 
-    EventHandler.on(this._endInput, 'click', () => {
-      this._dropdown.show()
-      this._selectEndDate = true
-      this._updateCalendars()
+    EventHandler.on(this._startInput.form, EVENT_SUBMIT, () => {
+      if (this._startInput.form.classList.contains(CLASS_NAME_WAS_VALIDATED)) {
+        if (this._config.range && (Number.isNaN(Date.parse(this._startInput.value)) || Number.isNaN(Date.parse(this._endInput.value)))) {
+          return this._element.classList.add(CLASS_NAME_IS_INVALID)
+        }
+
+        if (this._config.range && this._startDate instanceof Date && this._endDate instanceof Date) {
+          return this._element.classList.add(CLASS_NAME_IS_VALID)
+        }
+
+        if (!this._config.range && Number.isNaN(Date.parse(this._startInput.value))) {
+          return this._element.classList.add(CLASS_NAME_IS_INVALID)
+        }
+
+        if (!this._config.range && this._startDate instanceof Date) {
+          return this._element.classList.add(CLASS_NAME_IS_VALID)
+        }
+
+        this._element.classList.add(CLASS_NAME_IS_INVALID)
+      }
     })
 
-    EventHandler.on(this._endInput, 'input', event => {
-      const date = this._config.format ?
-        parseISO(event.target.value) :
+    EventHandler.on(this._endInput, EVENT_CLICK, () => {
+      this._selectEndDate = true
+      this._calendar.update(this._getCalendarConfig())
+    })
+
+    EventHandler.on(this._endInput, EVENT_INPUT, event => {
+      const date = this._config.inputDateParse ?
+        this._config.inputDateParse(event.target.value) :
         getLocalDateFromString(event.target.value, this._config.locale, this._config.timepicker)
       if (date instanceof Date && date.getTime()) {
         this._endDate = date
         this._calendarDate = date
-        this._updateCalendars()
+        this._calendar.update(this._getCalendarConfig())
       }
     })
 
-    EventHandler.on(this._element, 'click', '.picker-input-group-cleaner', event => {
-      event.stopPropagation()
-      this.clear()
-    })
-
-    EventHandler.on(this._element, 'onCancelClick.bs.picker', () => {
-      this.cancel()
-    })
-
-    EventHandler.on(window, 'resize', () => {
+    EventHandler.on(window, EVENT_RESIZE, () => {
       this._mobile = window.innerWidth < 768
     })
   }
 
   _addCalendarEventListeners() {
-    for (const calendar of SelectorEngine.find('.calendar', this._element)) {
+    for (const calendar of SelectorEngine.find(SELECTOR_CALENDAR, this._element)) {
       EventHandler.on(calendar, 'startDateChange.bs.calendar', event => {
         this._startDate = event.date
-        this._selectEndDate = event.selectEndDate
         this._startInput.value = this._setInputValue(event.date)
-        this._updateCalendars()
+        this._startInput.dispatchEvent(new Event('change'))
+
+        if (this._timePickerStart) {
+          this._timePickerStart.update(this._getTimePickerConfig(true))
+        }
 
         if (!this._config.range && (!this._config.footer && !this._config.timepicker)) {
-          this._dropdown.hide()
+          this.hide()
         }
 
         EventHandler.trigger(this._element, EVENT_START_DATE_CHANGE, {
-          date: event.date,
-          formatedDate: event.date ? this._formatDate(event.date) : undefined
+          date: event.date
         })
       })
 
       EventHandler.on(calendar, 'endDateChange.bs.calendar', event => {
         this._endDate = event.date
-        this._selectEndDate = event.selectEndDate
         this._endInput.value = this._setInputValue(event.date)
-        this._updateCalendars()
+        this._startInput.dispatchEvent(new Event('change'))
+
+        if (this._timePickerEnd) {
+          this._timePickerEnd.update(this._getTimePickerConfig(false))
+        }
 
         if (this._startDate && (!this._config.footer && !this._config.timepicker)) {
-          this._dropdown.hide()
+          this.hide()
         }
 
         EventHandler.trigger(this._element, EVENT_END_DATE_CHANGE, {
-          date: event.date,
-          formatedDate: event.date ? this._formatDate(event.date) : undefined
+          date: event.date
         })
       })
 
       EventHandler.on(calendar, 'cellHover.bs.calendar', event => {
         if (this._selectEndDate) {
-          this._endInput.value = event.date ? this._formatDate(event.date) : ''
+          this._endInput.value = event.date ? this._setInputValue(event.date) : this._setInputValue(this._endDate)
           return
         }
 
-        this._startInput.value = event.date ? this._formatDate(event.date) : ''
+        this._startInput.value = event.date ? this._setInputValue(event.date) : this._setInputValue(this._startDate)
+      })
+
+      EventHandler.on(calendar, 'selectEndChange.bs.calendar', event => {
+        this._selectEndDate = event.value
       })
     }
   }
 
-  _convertStringToDate(date) {
-    return date ? (date instanceof Date ? date : new Date(date)) : null
-  }
-
-  _createInput(name, placeholder, value) {
-    const inputEl = document.createElement('input')
-    inputEl.classList.add('form-control')
-    inputEl.disabled = this._config.disabled
-    inputEl.placeholder = placeholder
-    inputEl.readOnly = this._config.inputReadOnly || typeof this._config.format === 'string'
-    inputEl.type = 'text'
-    inputEl.value = value
-
-    if (this._element.id) {
-      inputEl.name = `${name}-${this._element.id}`
+  _getCalendarConfig() {
+    return {
+      calendarDate: this._calendarDate,
+      calendars: this._config.calendars,
+      disabledDates: this._config.disabledDates,
+      endDate: this._endDate,
+      firstDayOfWeek: this._config.firstDayOfWeek,
+      locale: this._config.locale,
+      maxDate: this._config.maxDate,
+      minDate: this._config.minDate,
+      range: this._config.range,
+      selectAdjacementDays: this._config.selectAdjacementDays,
+      selectEndDate: this._selectEndDate,
+      selectionType: this._config.selectionType,
+      showAdjacementDays: this._config.showAdjacementDays,
+      showWeekNumber: this._config.showWeekNumber,
+      startDate: this._startDate,
+      weekNumbersLabel: this._config.weekNumbersLabel
     }
-
-    return inputEl
   }
 
-  _createInputGroup() {
-    const inputGroupEl = document.createElement('div')
-    inputGroupEl.classList.add('input-group', 'picker-input-group')
+  _getTimePickerConfig(start) {
+    return {
+      container: 'inline',
+      disabled: start ? !this._startDate : !this._endDate,
+      locale: this._config.locale,
+      time: start ? this._startDate && new Date(this._startDate) : this._endDate && new Date(this._endDate),
+      variant: 'select'
+    }
+  }
+
+  _createDateRangePicker() {
+    this._element.classList.add(CLASS_NAME_DATE_PICKER)
+
+    Manipulator.setDataAttribute(this._element, 'toggle', this._config.range ? CLASS_NAME_DATE_RANGE_PICKER : CLASS_NAME_DATE_PICKER)
 
     if (this._config.size) {
-      inputGroupEl.classList.add(`input-group-${this._config.size}`)
+      this._element.classList.add(`date-picker-${this._config.size}`)
     }
 
-    const startInputEl = this._createInput(this._config.range ? 'date-range-picker-start-date' : 'date-picker', this._getPlaceholder()[0], this._setInputValue(this._startDate))
-    const endInputEl = this._createInput('date-range-picker-end-date', this._getPlaceholder()[1], this._setInputValue(this._endDate))
-
-    const inputGroupTextSeparatorEl = document.createElement('span')
-    inputGroupTextSeparatorEl.classList.add('input-group-text')
-    inputGroupTextSeparatorEl.innerHTML = '<span class="picker-input-group-icon date-picker-arrow-icon"></span>'
-
-    const inputGroupTextEl = document.createElement('span')
-    inputGroupTextEl.classList.add('input-group-text')
-    if (this._config.indicator) {
-      inputGroupTextEl.innerHTML = `
-        <span class="picker-input-group-indicator">
-          <span class="picker-input-group-icon date-picker-input-icon"></span>
-        </span>`
+    if (this._config.disabled) {
+      this._element.classList.add(CLASS_NAME_DISABLED)
     }
 
-    if (this._config.cleaner) {
-      inputGroupTextEl.innerHTML += `
-        <span class="picker-input-group-cleaner" role="button">
-          <span class="picker-input-group-icon date-picker-cleaner-icon"></span>
-        </span>`
+    this._element.classList.toggle(CLASS_NAME_IS_INVALID, this._config.invalid)
+    this._element.classList.toggle(CLASS_NAME_IS_VALID, this._config.valid)
+    this._element.append(this._createDateRangePickerInputGroup())
+
+    const dropdownEl = document.createElement('div')
+    dropdownEl.classList.add(CLASS_NAME_DROPDOWN)
+
+    dropdownEl.append(this._createDateRangePickerBody())
+    if (this._config.footer || this._config.timepicker) {
+      dropdownEl.append(this._createDateRangeFooter())
     }
+
+    this._element.append(dropdownEl)
+    this._menu = dropdownEl
+  }
+
+  _createDateRangePickerInputGroup() {
+    const inputGroupEl = document.createElement('div')
+    inputGroupEl.classList.add(CLASS_NAME_INPUT_GROUP)
+
+    let startInputName = null
+
+    if (this._config.name || this._config.startName || this._element.id) {
+      startInputName = this._config.name || this._config.startName || (this._config.range ? `date-range-picker-start-date-${this._element.id}` : `date-picker-${this._element.id}`)
+    }
+
+    const startInputEl = this._createInput(startInputName, this._getPlaceholder()[0], this._setInputValue(this._startDate))
+
+    let endInputName = null
+
+    if (this._config.endName || this._element.id) {
+      endInputName = this._config.endName || `date-range-picker-end-date-${this._element.id}`
+    }
+
+    const endInputEl = this._createInput(endInputName, this._getPlaceholder()[1], this._setInputValue(this._endDate))
+
+    const inputGroupTextSeparatorEl = document.createElement('div')
+    inputGroupTextSeparatorEl.classList.add(CLASS_NAME_SEPARATOR)
 
     this._startInput = startInputEl
     this._endInput = endInputEl
@@ -372,146 +536,35 @@ class DateRangePicker extends Picker {
       inputGroupEl.append(endInputEl)
     }
 
-    if (this._config.indicator || this._config.cleaner) {
-      inputGroupEl.append(inputGroupTextEl)
+    if (this._config.indicator) {
+      const inputGroupIndicatorEl = document.createElement('div')
+      inputGroupIndicatorEl.classList.add(CLASS_NAME_INDICATOR)
+      inputGroupEl.append(inputGroupIndicatorEl)
     }
+
+    if (this._config.cleaner) {
+      const inputGroupCleanerEl = document.createElement('div')
+      inputGroupCleanerEl.classList.add(CLASS_NAME_CLEANER)
+      inputGroupCleanerEl.addEventListener('click', event => {
+        event.stopPropagation()
+        this.clear()
+      })
+
+      inputGroupEl.append(inputGroupCleanerEl)
+    }
+
+    this._togglerElement = inputGroupEl
 
     return inputGroupEl
   }
 
-  _createCalendars() {
-    const calendarEl = document.createElement('div')
-    calendarEl.classList.add('date-picker-calendar')
-
-    this._calendars.append(calendarEl)
-
-    // eslint-disable-next-line no-new
-    new Calendar(calendarEl, {
-      calendarDate: new Date(
-        this._calendarDate.getFullYear(),
-        this._calendarDate.getMonth(),
-        1
-      ),
-      calendars: this._config.calendars,
-      disabledDates: this._config.disabledDates,
-      endDate: this._endDate,
-      firstDayOfWeek: this._config.firstDayOfWeek,
-      locale: this._config.locale,
-      maxDate: this._config.maxDate,
-      minDate: this._config.minDate,
-      range: this._config.range,
-      selectAdjacementDays: this._config.selectAdjacementDays,
-      selectEndDate: this._selectEndDate,
-      showAdjacementDays: this._config.showAdjacementDays,
-      startDate: this._startDate
-    })
-
-    EventHandler.one(calendarEl, 'calendarDateChange.bs.calendar', event => {
-      this._calendarDate = new Date(
-        event.date.getFullYear(),
-        event.date.getMonth(),
-        1
-      )
-      this._updateCalendars()
-    })
-
-    EventHandler.on(calendarEl, 'calendarMouseleave.bs.calendar', () => {
-      if (this._startDate) {
-        this._startInput.value = this._setInputValue(this._startDate)
-      }
-
-      if (this._endDate) {
-        this._endInput.value = this._setInputValue(this._endDate)
-      }
-    })
-
-    if (this._config.timepicker) {
-      if (this._mobile || (this._range && this._config.calendars === 1)) {
-        const timePickerStartEl = document.createElement('div')
-        timePickerStartEl.classList.add('time-picker')
-
-        // eslint-disable-next-line no-new
-        new TimePicker(timePickerStartEl, {
-          container: 'inline',
-          disabled: !this._startDate,
-          locale: this._config.locale,
-          time: this._startDate,
-          variant: 'select'
-        })
-        calendarEl.append(timePickerStartEl)
-
-        EventHandler.one(timePickerStartEl, 'timeChange.bs.time-picker', event => {
-          this._startDate = event.date
-          this._startInput.value = this._setInputValue(this._startDate)
-          this._updateCalendars()
-        })
-
-        const timePickerEndEl = document.createElement('div')
-        timePickerEndEl.classList.add('time-picker')
-
-        // eslint-disable-next-line no-new
-        new TimePicker(timePickerEndEl, {
-          container: 'inline',
-          disabled: !this._endDate,
-          locale: this._config.locale,
-          time: this._endDate,
-          variant: 'select'
-        })
-        this._timepickers.append(timePickerEndEl)
-
-        EventHandler.one(timePickerEndEl, 'timeChange.bs.time-picker', event => {
-          this._endDate = event.date
-          this._endInput.value = this._setInputValue(this._endDate)
-          this._updateCalendars()
-        })
-      } else {
-        // eslint-disable-next-line no-unused-vars
-        for (const [index, _] of Array.from({ length: this._config.calendars }).entries()) {
-          const timePickerEl = document.createElement('div')
-          timePickerEl.classList.add('time-picker')
-
-          // eslint-disable-next-line no-new
-          new TimePicker(timePickerEl, {
-            container: 'inline',
-            disabled: index === 0 ? !this._startDate : !this._endDate,
-            locale: this._config.locale,
-            time: index === 0 ? this._startDate : this._endDate,
-            variant: 'select'
-          })
-
-          this._timepickers.append(timePickerEl)
-
-          EventHandler.one(timePickerEl, 'timeChange.bs.time-picker', event => {
-            if (index === 0) {
-              this._startDate = event.date
-              this._startInput.value = this._setInputValue(this._startDate)
-            } else {
-              this._endDate = event.date
-              this._endInput.value = this._setInputValue(this._endDate)
-            }
-
-            this._updateCalendars()
-          })
-        }
-      }
-    }
-  }
-
-  _createDateRangePicker() {
-    this._element.classList.add('date-picker')
-    this._element.classList.toggle('is-invalid', this._config.invalid)
-    this._element.classList.toggle('is-valid', this._config.valid)
-    this._dropdownToggleEl.append(this._createInputGroup())
-    this._dropdownMenuEl.prepend(this._createDateRangePickerBody())
-  }
-
   _createDateRangePickerBody() {
     const dateRangePickerBodyEl = document.createElement('div')
-    dateRangePickerBodyEl.classList.add('date-picker-body')
+    dateRangePickerBodyEl.classList.add(CLASS_NAME_BODY)
 
     if (Object.keys(this._config.ranges).length) {
       const dateRangePickerRangesEl = document.createElement('div')
-      dateRangePickerRangesEl.classList.add('date-picker-ranges')
+      dateRangePickerRangesEl.classList.add(CLASS_NAME_RANGES)
 
       for (const key of Object.keys(this._config.ranges)) {
         const buttonEl = document.createElement('button')
@@ -521,8 +574,11 @@ class DateRangePicker extends Picker {
           this._startDate = this._config.ranges[key][0]
           this._endDate = this._config.ranges[key][1]
           this._startInput.value = this._setInputValue(this._startDate)
+          this._startInput.dispatchEvent(new Event('change'))
           this._endInput.value = this._setInputValue(this._endDate)
-          this._updateCalendars()
+          this._endInput.dispatchEvent(new Event('change'))
+
+          this._calendar.update(this._getCalendarConfig())
 
           EventHandler.trigger(this._element, EVENT_START_DATE_CHANGE, {
             date: this._startDate,
@@ -543,7 +599,7 @@ class DateRangePicker extends Picker {
     }
 
     const calendarsEl = document.createElement('div')
-    calendarsEl.classList.add('date-picker-calendars')
+    calendarsEl.classList.add(CLASS_NAME_CALENDARS)
 
     this._calendars = calendarsEl
 
@@ -551,7 +607,7 @@ class DateRangePicker extends Picker {
 
     if (this._config.timepicker) {
       const timepickersEl = document.createElement('div')
-      timepickersEl.classList.add('date-picker-timepickers')
+      timepickersEl.classList.add(CLASS_NAME_TIME_PICKERS)
 
       this._timepickers = timepickersEl
       dateRangePickerBodyEl.append(timepickersEl)
@@ -560,7 +616,88 @@ class DateRangePicker extends Picker {
     return dateRangePickerBodyEl
   }
 
-  _createFooterContent() {
+  _createDateRangePickerCalendars() {
+    const calendarEl = document.createElement('div')
+    calendarEl.classList.add(CLASS_NAME_CALENDAR)
+
+    this._calendars.append(calendarEl)
+
+    this._calendar = new Calendar(calendarEl, this._getCalendarConfig())
+
+    EventHandler.one(calendarEl, 'calendarDateChange.bs.calendar', event => {
+      this._calendarDate = event.date
+    })
+
+    EventHandler.on(calendarEl, 'calendarMouseleave.bs.calendar', () => {
+      if (this._startDate) {
+        this._startInput.value = this._setInputValue(this._startDate)
+      }
+
+      if (this._endDate) {
+        this._endInput.value = this._setInputValue(this._endDate)
+      }
+    })
+
+    if (this._config.timepicker) {
+      if (this._mobile || (this._range && this._config.calendars === 1)) {
+        const timePickerStartEl = document.createElement('div')
+        timePickerStartEl.classList.add(CLASS_NAME_TIME_PICKER)
+        this._timePickerStart = new TimePicker(timePickerStartEl, this._getTimePickerConfig(true))
+
+        calendarEl.append(timePickerStartEl)
+
+        EventHandler.one(timePickerStartEl, 'timeChange.bs.time-picker', event => {
+          this._startDate = event.date
+          this._startInput.value = this._setInputValue(this._startDate)
+          this._calendar.update(this._getCalendarConfig())
+        })
+
+        const timePickerEndEl = document.createElement('div')
+        timePickerEndEl.classList.add(CLASS_NAME_TIME_PICKER)
+        this._timePickerEnd = new TimePicker(timePickerEndEl, this._getTimePickerConfig(false))
+
+        this._timepickers.append(timePickerEndEl)
+
+        EventHandler.one(timePickerEndEl, 'timeChange.bs.time-picker', event => {
+          this._endDate = event.date
+          this._endInput.value = this._setInputValue(this._endDate)
+          this._calendar.update(this._getCalendarConfig())
+        })
+      } else {
+        for (const [index, _] of Array.from({ length: this._config.calendars }).entries()) {
+          const timePickerEl = document.createElement('div')
+          timePickerEl.classList.add(CLASS_NAME_TIME_PICKER)
+
+          const _timepicker = new TimePicker(timePickerEl, this._getTimePickerConfig(index === 0))
+
+          if (index === 0) {
+            this._timePickerStart = _timepicker
+          } else {
+            this._timePickerEnd = _timepicker
+          }
+
+          this._timepickers.append(timePickerEl)
+
+          EventHandler.one(timePickerEl, 'timeChange.bs.time-picker', event => {
+            if (index === 0) {
+              this._startDate = event.date
+              this._startInput.value = this._setInputValue(this._startDate)
+            } else {
+              this._endDate = event.date
+              this._endInput.value = this._setInputValue(this._endDate)
+            }
+
+            this._calendar.update(this._getCalendarConfig())
+          })
+        }
+      }
+    }
+  }
+
+  _createDateRangeFooter() {
+    const footerEl = document.createElement('div')
+    footerEl.classList.add(CLASS_NAME_FOOTER)
+
     if (this._config.todayButton) {
       const todayButtonEl = document.createElement('button')
       todayButtonEl.classList.add(...this._getButtonClasses(this._config.todayButtonClasses))
@@ -570,54 +707,143 @@ class DateRangePicker extends Picker {
         const date = new Date()
         this._calendarDate = date
         this._startDate = date
-        this._endDate = date
-        this._endInput.value = this._setInputValue(date)
         this._startInput.value = this._setInputValue(date)
-        this._updateCalendars()
+        this._startInput.dispatchEvent(new Event('change'))
+
+        if (this._config.range) {
+          this._endDate = date
+          this._endInput.value = this._setInputValue(date)
+          this._endInput.dispatchEvent(new Event('change'))
+        }
+
+        this._calendar.update(this._getCalendarConfig())
       })
 
-      return todayButtonEl
+      footerEl.append(todayButtonEl)
     }
+
+    if (this._config.cancelButton) {
+      const cancelButtonEl = document.createElement('button')
+      cancelButtonEl.classList.add(...this._getButtonClasses(this._config.cancelButtonClasses))
+      cancelButtonEl.type = 'button'
+      cancelButtonEl.innerHTML = this._config.cancelButton
+      cancelButtonEl.addEventListener('click', () => {
+        this.cancel()
+      })
+
+      footerEl.append(cancelButtonEl)
+    }
+
+    if (this._config.confirmButton) {
+      const confirmButtonEl = document.createElement('button')
+      confirmButtonEl.classList.add(...this._getButtonClasses(this._config.confirmButtonClasses))
+      confirmButtonEl.type = 'button'
+      confirmButtonEl.innerHTML = this._config.confirmButton
+      confirmButtonEl.addEventListener('click', () => {
+        this.hide()
+      })
+
+      footerEl.append(confirmButtonEl)
+    }
+
+    return footerEl
+  }
+
+  _createInput(name, placeholder, value) {
+    const inputEl = document.createElement('input')
+    inputEl.classList.add(CLASS_NAME_INPUT)
+    inputEl.autocomplete = 'off'
+    inputEl.disabled = this._config.disabled
+    inputEl.placeholder = placeholder
+    inputEl.readOnly = this._config.inputReadOnly
+    inputEl.required = this._config.required
+    inputEl.type = 'text'
+    inputEl.value = value
+
+    if (name) {
+      inputEl.name = name
+    }
+
+    const events = ['change', 'keyup', 'paste']
+
+    for (const event of events) {
+      inputEl.addEventListener(event, ({ target }) => {
+        if (target.closest(SELECTOR_WAS_VALIDATED)) {
+          const inputs = SelectorEngine.find(SELECTOR_INPUT, this._element)
+
+          for (const input of inputs) {
+            if (Number.isNaN(Date.parse(input.value))) {
+              this._element.classList.add(CLASS_NAME_IS_INVALID)
+              this._element.classList.remove(CLASS_NAME_IS_VALID)
+              return
+            }
+          }
+
+          if (this._config.range && this._startDate instanceof Date && this._endDate instanceof Date) {
+            this._element.classList.add(CLASS_NAME_IS_VALID)
+            this._element.classList.remove(CLASS_NAME_IS_INVALID)
+            return
+          }
+
+          if (!this._config.range && this._startDate instanceof Date) {
+            this._element.classList.add(CLASS_NAME_IS_VALID)
+            this._element.classList.remove(CLASS_NAME_IS_INVALID)
+            return
+          }
+
+          this._element.classList.add(CLASS_NAME_IS_INVALID)
+          this._element.classList.remove(CLASS_NAME_IS_VALID)
+        }
+      })
+    }
+
+    return inputEl
+  }
+
+  _createPopper() {
+    if (typeof Popper === 'undefined') {
+      throw new TypeError('bs\'s date picker require Popper (https://popper.js.org)')
+    }
+
+    const popperConfig = {
+      modifiers: [{
+        name: 'preventOverflow',
+        options: {
+          boundary: 'clippingParents'
+        }
+      },
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 2]
+        }
+      }],
+      placement: isRTL() ? 'bottom-end' : 'bottom-start'
+    }
+
+    this._popper = Popper.createPopper(this._togglerElement, this._menu, popperConfig)
   }
 
   _formatDate(date) {
-    if (this._config.format) {
-      return dateFormat(date, this._config.format)
+    if (this._config.selectionType !== 'day') {
+      return date
     }
 
-    if (this._config.timepicker) {
-      return date.toLocaleString(this._config.locale)
-    }
+    const _date = new Date(date)
 
-    return date.toLocaleDateString(this._config.locale)
+    return this._config.inputDateFormat ?
+      this._config.inputDateFormat(_date) :
+      (this._config.timepicker ?
+        _date.toLocaleString(this._config.locale) :
+        _date.toLocaleDateString(this._config.locale))
   }
 
-  _setInputValue(date) {
-    if (date) {
-      return this._formatDate(date)
+  _getButtonClasses(classes) {
+    if (typeof classes === 'string') {
+      return classes.split(' ')
     }
 
-    return ''
-  }
-
-  _updateCalendars() {
-    this._calendars.innerHTML = ''
-    if (this._config.timepicker) {
-      this._timepickers.innerHTML = ''
-    }
-
-    this._createCalendars()
-    this._addCalendarEventListeners()
-  }
-
-  _getConfig(config) {
-    config = {
-      ...this.constructor.Default,
-      ...Manipulator.getDataAttributes(this._element),
-      ...(typeof config === 'object' ? config : {})
-    }
-
-    return config
+    return classes
   }
 
   _getPlaceholder() {
@@ -628,6 +854,18 @@ class DateRangePicker extends Picker {
     }
 
     return placeholder
+  }
+
+  _isShown() {
+    return this._element.classList.contains(CLASS_NAME_SHOW)
+  }
+
+  _setInputValue(date) {
+    if (date) {
+      return this._formatDate(date)
+    }
+
+    return ''
   }
 
   // Static
@@ -659,13 +897,43 @@ class DateRangePicker extends Picker {
       data[config](this)
     })
   }
+
+  static clearMenus(event) {
+    if (event.button === RIGHT_MOUSE_BUTTON || (event.type === 'keyup' && event.key !== TAB_KEY)) {
+      return
+    }
+
+    const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN)
+
+    for (const toggle of openToggles) {
+      const context = DateRangePicker.getInstance(toggle)
+
+      if (!context) {
+        continue
+      }
+
+      const composedPath = event.composedPath()
+
+      if (
+        composedPath.includes(context._element)
+      ) {
+        continue
+      }
+
+      const relatedTarget = { relatedTarget: context._element }
+
+      if (event.type === 'click') {
+        relatedTarget.clickEvent = event
+      }
+
+      context.hide()
+    }
+  }
 }
 
 /**
-* ------------------------------------------------------------------------
-* Data Api implementation
-* ------------------------------------------------------------------------
-*/
+ * Data API implementation
+ */
 
 EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
   const dateRangePickers = SelectorEngine.find(SELECTOR_DATA_TOGGLE)
@@ -673,13 +941,12 @@ EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
     DateRangePicker.dateRangePickerInterface(dateRangePickers[i])
   }
 })
+EventHandler.on(document, EVENT_CLICK_DATA_API, DateRangePicker.clearMenus)
+EventHandler.on(document, EVENT_KEYUP_DATA_API, DateRangePicker.clearMenus)
 
 /**
-* ------------------------------------------------------------------------
-* jQuery
-* ------------------------------------------------------------------------
-* add .DateRangePicker to jQuery only if jQuery is present
-*/
+ * jQuery
+ */
 
 defineJQueryPlugin(DateRangePicker)
 

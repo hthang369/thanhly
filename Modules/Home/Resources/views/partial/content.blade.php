@@ -1,1 +1,1 @@
-@include(vnnit_module_view('home', 'partial.content'))
+@include(module_view('partial.content'))

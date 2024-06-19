@@ -67,11 +67,11 @@ const Toastr = {
     return toast;
   },
   showSuccess: function (title, content) {
-    const toast = new bootstrap.Toast(this.render(title, content, 'success', 'bi-check-circle-fill'));
+    const toast = new bootstrap.default.Toast(this.render(title, content, 'success', 'bi-check-circle-fill'));
     return toast.show();
   },
   showError: function (title, content) {
-    const toast = new bootstrap.Toast(this.render(title, content, 'success', 'bi-x-circle-fill'));
+    const toast = new bootstrap.default.Toast(this.render(title, content, 'success', 'bi-x-circle-fill'));
     return toast.show();
   }
 };
@@ -113,7 +113,7 @@ const UtilBase = {
   showFormValidationErrors: function (response) {
     this.clearFormValidationErrors();
     forEach(response, function (value, key) {
-      const elementSelector = getElement('[name="' + key + '"]');
+      const elementSelector = document.querySelector('[name="' + key + '"]');
       if (elementSelector) {
         const form = get(elementSelector.parents('form'), 0);
         if (form) {
@@ -141,7 +141,53 @@ const UtilBase = {
           item.setCustomValidity('')
       });
     }
-  }
+  },
+  showAlert: function (message) {
+    if (typeof Toastr !== 'undefined') {
+      Toastr.showSuccess('Message', message);
+    }
+  },
+  showErrorAlert: function (message) {
+    if (typeof Toastr !== 'undefined') {
+      Toastr.showError('Message', message);
+    }
+  },
+  /**
+   * Return html that can be used to render a bootstrap alert on the form
+   *
+   * @param type
+   * @param response
+   * @returns {string}
+   */
+  renderAlert: function (type, response) {
+    var validTypes = {
+      'success': 'success',
+      'error': 'danger',
+      'notice': 'warning'
+    };
+    const alertType = get(validTypes, type, 'success');
+    const htmlWrapper = document.createElement('div');
+    htmlWrapper.addClass('alert', `alert-${alertType}`, 'alert-dismissible');
+
+    const btnClose = new CloseButton({name: 'alert'});
+    htmlWrapper.append(btnClose.getElement());
+
+    const content = document.createElement('strong');
+    if (type === 'error') {
+      if (has(response, 'serverError')) {
+        content.html(get(response, 'serverError.message', 'A server error occurred.'));
+        htmlWrapper.append(content);
+      } else {
+        var errs = this.genarateValidationErrors(response);
+        content.html(get(response, 'message', 'Please fix the following errors') + errs);
+        htmlWrapper.append(content);
+      }
+    } else {
+      content.html(response.message);
+      htmlWrapper.append(content);
+    }
+    return htmlWrapper.outerHTML;
+  },
 };
 
 const Api = {

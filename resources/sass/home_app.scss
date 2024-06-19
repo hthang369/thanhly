@@ -48,11 +48,6 @@ a {
   height: 40px;
 }
 
-@include media-breakpoint-up('xl') {
-  .container-xl {
-    max-width: calc(80% + 30px);
-  }
-}
 @include media-breakpoint-up('lg') {
   .topmenu {
     img {
@@ -104,20 +99,8 @@ a {
 * --------------------------------------------------------------
 */
 /*! Desktop Navigation */
-.topmenu {
-  .navbar,
-  .offcanvas {
-    .navbar-nav {
-      .nav-item {
-        .nav-link {
-          &.active {
-            color: $blue;
-            font-weight: bold !important;
-          }
-        }
-      }
-    }
-  }
+.navbar-topmenu {
+  background-color: #515151;
 }
 
 /*!
@@ -558,6 +541,43 @@ a {
           width: 70%;
         }
       }
+    }
+  }
+}
+.widget-box {
+  .widget-item {
+    padding: 10px;
+    border: 2px solid #022f61;
+    text-align: center;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+    &:not(:last-child) {
+      border-right: 0;
+      &::before {
+        position: absolute;
+        content: '';
+        height: calc(50% - 20px);
+        width: 2px;
+        background-color: #022f61;
+        top: 0;
+        right: 0;
+      }
+      &::after {
+        position: absolute;
+        content: '';
+        height: 50%;
+        width: 2px;
+        background-color: #022f61;
+        bottom: 0;
+        right: 0;
+      }
+    }
+    .box-item {
+      background-color: #f3f3f3;
+      padding: 15px;
+    }
+    .arrow {
+      background-color: #022f61;
     }
   }
 }

@@ -18,7 +18,7 @@ import Modal from 'bootstrap/js/src/modal.js'
 import MultiSelect from './multi-select'
 import Navigation from './navigation'
 import Offcanvas from 'bootstrap/js/src/offcanvas.js'
-import Picker from './picker'
+import Rating from './rating'
 import Popover from 'bootstrap/js/src/popover.js'
 import ScrollSpy from 'bootstrap/js/src/scrollspy.js'
 import Sidebar from './sidebar'
@@ -27,7 +27,7 @@ import TimePicker from './time-picker'
 import Toast from 'bootstrap/js/src/toast.js'
 import Tooltip from 'bootstrap/js/src/tooltip.js'
 
-export default {
+export {
   Alert,
   Button,
   Calendar,
@@ -41,7 +41,7 @@ export default {
   MultiSelect,
   Navigation,
   Offcanvas,
-  Picker,
+  Rating,
   Popover,
   ScrollSpy,
   Sidebar,

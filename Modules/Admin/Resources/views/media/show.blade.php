@@ -10,6 +10,7 @@
         <title>@yield('title', config('app.name', '@Master Layout'))</title>
 
         <link rel="stylesheet" href="{{ vnn_asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ vnn_asset('css/media.css') }}">
         @stack('styles')
         <script async src="{{ vnn_asset('js/app.js') }}"></script>
         <script defer src="{{ vnn_asset('js/admin.js') }}"></script>
@@ -18,7 +19,40 @@
         <section class="wrapper d-flex">
             <div class="sidebar sidebar-fixed">Sidebar</div>
             <div class="main flex-grow-1">
-                <div class="header">Header</div>
+                <div class="header">
+                    <ul class="header-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-upload"></i>
+                                Upload
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-folder-fill"></i>
+                                New folder
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-grid-fill"></i>
+                                Thumbnails
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-list-ul"></i>
+                                List
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-sort-up-alt"></i>
+                                Sort
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="container">Main</div>
             </div>
         </section>

@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * CoreUI navigation.js
+ * VNNIT-CoreUI navigation.js
  * Licensed under MIT (https://github.com/coreui/coreui/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -8,7 +8,6 @@
 import BaseComponent from 'bootstrap/js/src/base-component.js'
 import Data from 'bootstrap/js/src/dom/data.js'
 import EventHandler from 'bootstrap/js/src/dom/event-handler.js'
-import Manipulator from 'bootstrap/js/src/dom/manipulator.js'
 import SelectorEngine from 'bootstrap/js/src/dom/selector-engine.js'
 import { defineJQueryPlugin } from 'bootstrap/js/src/util/index.js'
 
@@ -82,16 +81,6 @@ class Navigation extends BaseComponent {
   }
 
   // Private
-
-  _getConfig(config) {
-    config = {
-      ...Default,
-      ...Manipulator.getDataAttributes(this._element),
-      ...(typeof config === 'object' ? config : {})
-    }
-
-    return config
-  }
 
   _setActiveLink() {
     for (const element of Array.from(this._element.querySelectorAll(SELECTOR_NAV_LINK))) {

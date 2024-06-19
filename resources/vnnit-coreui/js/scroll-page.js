@@ -1,7 +1,6 @@
 import EventHandler from "bootstrap/js/src/dom/event-handler";
 import SelectorEngine from "bootstrap/js/src/dom/selector-engine";
 import Config from "bootstrap/js/src/util/config";
-import {uniq} from 'lodash';
 
 const NAME = 'scroll-page';
 const EVENT_KEY = 'click';
@@ -64,7 +63,7 @@ class ScrollPage extends Config {
         if (!Array.isArray(className)) {
           className = className.split(' ');
         }
-        this._config.classList.push(...uniq(className));
+        this._config.classList.push(...new Set(className));
       }
       let lstClassName = this._config.classList.filter(item => {
         return item.length > 0;

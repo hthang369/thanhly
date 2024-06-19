@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'buttons' => 
+  'buttons' =>
   array (
     'confirm' => 'Xác nhận',
     'cancel' => 'Hủy bỏ',
@@ -19,5 +19,6 @@ return array (
   'support' => [
     'title' => 'Hỗ trợ online',
     'sub_title' => 'Hổ trợ kỹ thuật'
-  ]
+  ],
+  'go_to_home' => 'Trở về trang chủ'
 );

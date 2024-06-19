@@ -32,10 +32,10 @@
     </div>
 
     <x-row>
-        <x-col>
+        <x-col :cols="[12, 'md-6']">
             <x-form-base />
         </x-col>
-        <x-col>{!! data_get($infoSettings, 'map.web_map') !!}</x-col>
+        <x-col :cols="[12, 'md-6']">{!! data_get($infoSettings, 'map.web_map') !!}</x-col>
     </x-row>
 </div>
 @endsection

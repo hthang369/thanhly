@@ -11,9 +11,9 @@ if (!function_exists('timezone_offset_string')) {
 }
 
 if (!function_exists('format_bytes')) {
-    function format_bytes($bytes, $precision = 2, $format = null) 
+    function format_bytes($bytes, $precision = 2, $format = null)
     {
-        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
         $exp = floor(log($bytes, 1024)) | 0;
         if (!is_null($format)) {
             $exp = array_search($format, $units);
@@ -32,8 +32,11 @@ if (!function_exists('rand_string')) {
 }
 
 if (!function_exists('image_asset')) {
-    function image_asset($path) 
+    function image_asset($path)
     {
+        if (blank($path)) {
+            return "https://placehold.co/310x200";
+        }
         return vnn_asset("storage/images/{$path}");
     }
 }

@@ -7,7 +7,7 @@
 
 // Bootstrap Configuration
 // ---------------------------------------------------
-@import "bootstrap/scss/functions";
+@import "../../vnnit-coreui/scss/functions";
 
 // AdminLTE Configuration
 // ---------------------------------------------------
@@ -15,10 +15,10 @@
 
 // Bootstrap Configuration
 // ---------------------------------------------------
-@import "bootstrap/scss/variables";
+@import "../../vnnit-coreui/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
+@import "../../vnnit-coreui/scss/mixins";
 @import "../../vnnit-coreui/scss/utilities";
 
 // Bootstrap Layout & components
@@ -29,7 +29,7 @@
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/tables";
-@import "bootstrap/scss/forms";
+@import "../../vnnit-coreui/scss/forms";
 @import "bootstrap/scss/buttons";
 @import "bootstrap/scss/transitions";
 @import "bootstrap/scss/dropdown";
@@ -77,6 +77,6 @@
 @import "../../vnnit-coreui/scss/avatar";
 @import "../../vnnit-coreui/scss/sidebar";
 @import "../../vnnit-coreui/scss/calendar";
-@import "../../vnnit-coreui/scss/picker";
+@import "../../vnnit-coreui/scss/rating";
 @import "../../vnnit-coreui/scss/date-picker";
 @import "../../vnnit-coreui/scss/time-picker";

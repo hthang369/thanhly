@@ -1,10 +1,8 @@
 <template>
-    <div class="">
+    <div class="">{{ message }}
     </div>
 </template>
 
-<script>
-    export default {
-        
-    }
+<script setup>
+const message = computed(() => "hello word")
 </script>

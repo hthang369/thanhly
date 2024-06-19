@@ -27,5 +27,10 @@ $utilities: map-merge(
       class: pl,
       values: map-merge($spacers, (auto: auto)),
     ),
+    "gap": (
+      property: gap,
+      responsive: true,
+      values: map-merge($gap-default, map-loop($gap-list, multiply, "$key", $gap-number))
+    )
   )
 );
